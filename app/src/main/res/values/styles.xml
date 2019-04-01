@@ -6,7 +6,6 @@
         <item name="colorPrimaryDark">#FFC81E</item>
         <item name="colorPrimary">#FFB400</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">#FFC81E</item>
     </style>
 
     <style name="SplashTheme" parent="android:Theme.Light.NoTitleBar">

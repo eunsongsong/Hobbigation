@@ -1,25 +1,30 @@
 package com.example.hobbigation;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
 
-    private Button back_btn;
+    EditText idInput, passwordInput;
+    CheckBox autoLogin;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        back_btn = (Button) findViewById(R.id.button2);
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
+
+        idInput = (EditText) findViewById(R.id.emailInput);
+        passwordInput = (EditText) findViewById(R.id.passwordInput);
+        autoLogin = (CheckBox) findViewById(R.id.checkBox);
+
+
     }
 }
