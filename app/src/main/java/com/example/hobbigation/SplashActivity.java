@@ -11,14 +11,12 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         try{
-            Thread.sleep(1000);
-            Intent mainIntent = new Intent(this, MainActivity.class);
+            Thread.sleep(2000);
+            Intent mainIntent = new Intent(this, GuideActivity.class);
             startActivity(mainIntent);
             finish();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 }
