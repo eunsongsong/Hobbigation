@@ -1,55 +1,59 @@
 package com.example.hobbigation;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 public class GuideActivity extends AppCompatActivity {
-
-    int MAX_PAGE=3;
-    Fragment cur_fragment=new Fragment();
+    ViewPager vp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
-        ViewPager viewPager=(ViewPager)findViewById(R.id.view_pager);
-        viewPager.setAdapter(new adapter(getSupportFragmentManager()));
+
+
+        vp = (ViewPager)findViewById(R.id.vp);
+        vp.setAdapter(new pagerAdapter(getSupportFragmentManager()));
+        vp.setCurrentItem(0);
     }
-    public void login(View v) {
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-        startActivity(intent);
-    }
-    private class adapter extends FragmentPagerAdapter {
-        public adapter(FragmentManager fm) {
+
+    View.OnClickListener movePageListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            int tag = (int) v.getTag();
+            vp.setCurrentItem(tag);
+        }
+    };
+
+    private class pagerAdapter extends FragmentStatePagerAdapter
+    {
+        public pagerAdapter(android.support.v4.app.FragmentManager fm)
+        {
             super(fm);
         }
-
         @Override
-        public Fragment getItem(int position) {
-            if(position<0 || MAX_PAGE<=position)
-                return null;
-            switch (position){
+        public android.support.v4.app.Fragment getItem(int position)
+        {
+            switch(position)
+            {
                 case 0:
-                    cur_fragment=new page_1();
-                    break;
+                    return new FirstFragment();
                 case 1:
-                    cur_fragment=new page_2();
-                    break;
-                case 2:
-                    cur_fragment=new page_3();
-                    break;
+                    return new SecondFragment();
+                default:
+                    return null;
             }
-            return cur_fragment;
         }
         @Override
-        public int getCount() {
-            return MAX_PAGE;
+        public int getCount()
+        {
+            return 2;
         }
     }
+
 }
