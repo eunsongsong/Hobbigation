@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 
 public class FirstFragment extends Fragment
 {
-
     public FirstFragment()
     {
     }
@@ -26,5 +25,6 @@ public class FirstFragment extends Fragment
 
         return layout;
     }
+
 }
 

@@ -6,18 +6,18 @@
     android:orientation="vertical"
     android:background="@drawable/sec_guide"
     >
+
     <Button
-        android:id="@+id/start_btn2"
-        android:layout_width="160dp"
+        android:id="@+id/start2"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="125dp"
-        android:layout_marginLeft="125dp"
-        android:layout_marginTop="631dp"
-        android:layout_marginEnd="131dp"
-        android:layout_marginRight="131dp"
-        android:layout_marginBottom="52dp"
-        android:onClick="move"
-        android:text="시작하기"
-        tools:ignore="HardcodedText" />
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="700dp"
+        android:background="#FFC81E"
+        android:onClick="login2"
+        android:text="시 작 하 기"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText,RtlHardcoded" />
 </RelativeLayout>
 
