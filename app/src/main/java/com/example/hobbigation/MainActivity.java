@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myRef.setValue("Hello, World! 2");
+        myRef.setValue("Habbigation");
 
         move_btn = (Button) findViewById(R.id.button);
         move_btn.setOnClickListener(new View.OnClickListener() {
