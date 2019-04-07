@@ -8,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.List;
+
 public class ViewPagerAdapter extends PagerAdapter {
 
     // LayoutInflater 서비스 사용을 위한 Context 참조 저장.
     private Context mContext = null ;
 
-    public ViewPagerAdapter() {
+    public ViewPagerAdapter(Context applicationContext, List<String> numberList) {
 
     }
 
@@ -35,10 +37,13 @@ public class ViewPagerAdapter extends PagerAdapter {
             if (position == 0)
             {
                 imageView1.setImageResource(R.drawable.first_guide) ;
+                imageView1.setScaleType(ImageView.ScaleType.FIT_XY);
             }
             else if (position == 1)
             {
                 imageView1.setImageResource(R.drawable.sec_guide) ;
+                //full 화면
+                imageView1.setScaleType(ImageView.ScaleType.FIT_XY);
             }
 
         }
