@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("message");
+    DatabaseReference myRef = database.getReference();
 
     private Button move_btn;
     @Override
