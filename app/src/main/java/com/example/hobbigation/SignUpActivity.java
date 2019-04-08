@@ -43,7 +43,7 @@ public class SignUpActivity extends AppCompatActivity {
         check_show = (TextView) findViewById(R.id.checkText);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = firebaseAuth.getCurrentUser();
+
         firebaseAuth.useAppLanguage();                //해당기기의 언어 설정
 
         check_pwd.addTextChangedListener(new TextWatcher() {
@@ -111,18 +111,21 @@ public class SignUpActivity extends AppCompatActivity {
     private void createUser(String email, String password) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 회원가입 성공
+                            mFirebaseUser = firebaseAuth.getCurrentUser();
                             Toast.makeText(SignUpActivity.this, R.string.success_signup, Toast.LENGTH_SHORT).show();
                             mFirebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {                         //해당 이메일에 확인메일을 보냄
-                                        Toast.makeText(SignUpActivity.this,
-                                                "Verification email sent to " + mFirebaseUser.getEmail(),
+                                    if (task.isSuccessful()) {
+                                //해당 이메일에 확인메일을 보냄
+                                        Toast.makeText(SignUpActivity.this, "Verification email sent to " + mFirebaseUser.getEmail(),
                                                 Toast.LENGTH_SHORT).show();
+                                        firebaseAuth.signOut();
                                     } else {                                             //메일 보내기 실패
                                         Toast.makeText(SignUpActivity.this,
                                                 "Failed to send verification email.",

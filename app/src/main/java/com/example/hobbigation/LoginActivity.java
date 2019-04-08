@@ -8,6 +8,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,10 +25,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private String email = "";
     private String password = "";
-
+    private TextView text;
     private Button to_sign_up_btn;
     private EditText email_login;
     private EditText pwd_login;
+    private Button sign_in_btn;
     FirebaseAuth firebaseAuth;
     FirebaseUser mFirebaseUser;
 
@@ -36,12 +38,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        text = (TextView) findViewById(R.id.textView);
+        sign_in_btn = (Button) findViewById(R.id.loginButton);
         email_login = (EditText) findViewById(R.id.sign_email);
         pwd_login = (EditText) findViewById(R.id.sign_pwd);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = firebaseAuth.getCurrentUser();
-
 
         to_sign_up_btn  = (Button) findViewById(R.id.move_sign_up);
         to_sign_up_btn.setOnClickListener(new View.OnClickListener() {
@@ -55,11 +57,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void signIn(View view) {
-        email = email_login.getText().toString();
-        password = pwd_login.getText().toString();
 
-        if(isValidEmail() && isValidPasswd() && ) {
-            loginUser(email, password);
+        if(mFirebaseUser != null){
+            sign_in_btn.setText("Sign In");
+            sign_Out();
+        }
+        else{
+            email = email_login.getText().toString();
+            password = pwd_login.getText().toString();
+
+            if(isValidEmail() && isValidPasswd() ) {
+                    loginUser(email, password);
+                    sign_in_btn.setText("Sign Out");
+            }
+            else
+            {
+                Toast.makeText(LoginActivity.this,"로그인 실패",Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -89,8 +103,19 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    public void sign_Out(){
+        FirebaseAuth.getInstance().signOut();
+        mFirebaseUser = firebaseAuth.getCurrentUser();
+        if (mFirebaseUser != null) {
+            Toast.makeText(LoginActivity.this,"로그아웃 실패",Toast.LENGTH_LONG).show();
+            }
+         else{
+            text.setText("로그아웃상태");
+        }
+
+    }
     // 로그인
-    private void loginUser(String email, String password)
+    private void loginUser(String email, final String password)
     {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -98,8 +123,18 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 로그인 성공
-
+                            mFirebaseUser = firebaseAuth.getCurrentUser();
                             Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
+
+                            if(!(mFirebaseUser.isEmailVerified())){
+                                Toast.makeText(LoginActivity.this,"인증해주세요",Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            text.setText(mFirebaseUser.getEmail()+"님 환영합니다");
+                            pwd_login.setText(null);
+                            email_login.setText(null);
+
                         } else {
                             // 로그인 실패
                             Toast.makeText(LoginActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
@@ -107,5 +142,4 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }
