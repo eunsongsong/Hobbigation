@@ -21,10 +21,6 @@
             "package_name": "com.example.habbigation",
             "certificate_hash": "7ce484ea549956032e327fbe5c1a6060bcd971e1"
           }
-        },
-        {
-          "client_id": "260348492077-pesdrh71eefein8bl87c671gqd4d4dn5.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -33,20 +29,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "260348492077-pesdrh71eefein8bl87c671gqd4d4dn5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     },
@@ -67,8 +56,20 @@
           }
         },
         {
-          "client_id": "260348492077-pesdrh71eefein8bl87c671gqd4d4dn5.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "260348492077-c5f9h0mt23o8a41qam9djkmpjbnsrjgd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hobbigation",
+            "certificate_hash": "97f956d3e17017003b371b7710d031a77599227d"
+          }
+        },
+        {
+          "client_id": "260348492077-fa0gku9cmf8qqfd2g4om5jilp2m18207.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hobbigation",
+            "certificate_hash": "aa2fc9da4156c287af373725ab705600194fe93b"
+          }
         }
       ],
       "api_key": [
@@ -77,20 +78,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "260348492077-pesdrh71eefein8bl87c671gqd4d4dn5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

@@ -7,7 +7,7 @@
     <EditText
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:id="@+id/emailInput"
+        android:id="@+id/sign_email"
         android:layout_centerHorizontal="true"
         android:hint="Email"
         android:layout_marginTop="151dp" />
@@ -15,31 +15,33 @@
     <EditText
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:id="@+id/passwordInput"
+        android:id="@+id/sign_pwd"
         android:layout_centerHorizontal="true"
         android:hint="Password"
-        android:layout_below="@+id/emailInput" />
+        android:password="true"
+        android:layout_below="@+id/sign_email" />
 
     <Button
         android:layout_width="150dp"
         android:layout_height="55dp"
         android:text="Log in"
         android:id="@+id/loginButton"
+        android:onClick="signIn"
         android:textAllCaps="false"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/passwordInput"
-        android:layout_toStartOf="@+id/signupButton"
-        android:layout_toLeftOf="@+id/signupButton" />
+        android:layout_below="@+id/sign_pwd"
+        android:layout_toStartOf="@+id/move_sign_up"
+        android:layout_toLeftOf="@+id/move_sign_up" />
 
     <Button
         android:layout_width="150dp"
         android:layout_height="55dp"
         android:text="Sign up"
-        android:id="@+id/signupButton"
+        android:id="@+id/move_sign_up"
         android:textAllCaps="false"
         android:layout_alignTop="@+id/loginButton"
-        android:layout_alignEnd="@+id/passwordInput"
-        android:layout_alignRight="@+id/passwordInput" />
+        android:layout_alignEnd="@+id/sign_pwd"
+        android:layout_alignRight="@+id/sign_pwd" />
 
     <CheckBox
         android:layout_width="wrap_content"

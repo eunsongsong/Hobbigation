@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/signView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textColor="#FFB400"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="100dp"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:id="@+id/emailInput"
+        android:layout_centerHorizontal="true"
+        android:hint="Email"
+        android:layout_marginTop="151dp" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:id="@+id/passwordInput"
+        android:layout_centerHorizontal="true"
+        android:hint="Password 4~16자리"
+        android:password="true"
+        android:layout_below="@+id/emailInput" />
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:id="@+id/passwordCheck"
+        android:layout_centerHorizontal="true"
+        android:hint="Password check"
+        android:password="true"
+        android:layout_below="@+id/passwordInput" />
+
+    <TextView
+        android:id="@+id/checkText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        android:textStyle="italic"
+        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@id/passwordInput"
+        android:layout_below="@+id/passwordCheck"
+        android:layout_marginRight="35dp" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:text="Sign up"
+        android:id="@+id/signupButton"
+        android:textAllCaps="false"
+        android:layout_below="@id/checkText"
+        android:layout_centerInParent="true"
+        android:onClick="signUp"/>
+
+
+</RelativeLayout>
