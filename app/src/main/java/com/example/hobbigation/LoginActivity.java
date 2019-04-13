@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Pattern;
 
@@ -32,6 +34,10 @@ public class LoginActivity extends AppCompatActivity {
     private Button sign_in_btn;
     FirebaseAuth firebaseAuth;
     FirebaseUser mFirebaseUser;
+
+    // Write a message to the database
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("사용자");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
 
             if(isValidEmail() && isValidPasswd() ) {
                     loginUser(email, password);
-                    sign_in_btn.setText("Sign Out");
             }
             else
             {
@@ -112,7 +117,6 @@ public class LoginActivity extends AppCompatActivity {
          else{
             text.setText("로그아웃상태");
         }
-
     }
     // 로그인
     private void loginUser(String email, final String password)
@@ -130,10 +134,13 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this,"인증해주세요",Toast.LENGTH_LONG).show();
                                 return;
                             }
-
-                            text.setText(mFirebaseUser.getEmail()+"님 환영합니다");
-                            pwd_login.setText(null);
-                            email_login.setText(null);
+                            else {
+                                sign_in_btn.setText("Sign Out");
+                              //  myRef.child(mFirebaseUser.getEmail()).child("유효여부").setValue("1");
+                                text.setText(mFirebaseUser.getEmail() + "님 환영합니다");
+                                pwd_login.setText(null);
+                                email_login.setText(null);
+                            }
 
                         } else {
                             // 로그인 실패
