@@ -1,12 +1,19 @@
 package com.example.hobbigation;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,51 +28,48 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Pattern;
 
-public class SignUpActivity extends AppCompatActivity {
-    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
+public class SignUpActivity extends AppCompatActivity  {
 
-    private EditText email_join;
-    private EditText pwd_join;
-    private EditText check_pwd;
+    public static int TIME_OUT = 1001;
+
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
+    ProgressDialog dialog;
+
+    private EditText email_join, pwd_join, check_pwd;
+    private EditText e_name , e_age, e_gender;
+
     private TextView check_show;
+    private Button sign_btn;
+
     FirebaseAuth firebaseAuth;
     FirebaseUser mFirebaseUser;
-    public String email = "";
-    public String password = "";
 
-    public String e_pwd = "";
-    public String ename =  "";
-    public String egender = "";
-    public String eage = "";
-
-    public int count = 0;
-    private EditText e_name;
-    private EditText e_age;
-    private EditText e_gender;
-
+    private String email = "";
+    private String password = "";
+    private String ename =  "";
+    private String egender = "";
+    private String eage = "";
 
     // Write a message to the database
-    public FirebaseDatabase database = FirebaseDatabase.getInstance();
-    public DatabaseReference myRef = database.getReference("사용자");
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReference("사용자");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
         email_join = (EditText) findViewById(R.id.emailInput);
         pwd_join =  (EditText)findViewById(R.id.passwordInput);
         check_pwd =  (EditText)findViewById(R.id.passwordCheck);
-        check_show = (TextView) findViewById(R.id.checkText);
-
-
         e_name = (EditText) findViewById(R.id.name1);
         e_age = (EditText)findViewById(R.id.age1);
         e_gender = (EditText)findViewById(R.id.gender1);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        check_show = (TextView) findViewById(R.id.checkText);
 
-        firebaseAuth.useAppLanguage();                //해당기기의 언어 설정
+        sign_btn = (Button) findViewById(R.id.sign_up);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         check_pwd.addTextChangedListener(new TextWatcher() {
             @Override
@@ -85,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if(comp1.equals(comp2))
                 {
                     check_show.setText("비밀번호가 일치합니다");
-
+                    sign_btn.setEnabled(true);
                 }
                 else
                 {
@@ -94,34 +98,33 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        sign_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerUser();
+
+                dialog = ProgressDialog.show(SignUpActivity.this, "회원가입이 완료되었습니다!"
+                        ,email+"으로 인증메일이 전송되었습니다.",true);
+                mHandler.sendEmptyMessageDelayed(TIME_OUT, 2500);
+                firebaseAuth.signOut();
+                startActivity(new Intent(getApplicationContext(),BeforeSignin.class));
+
+            }
+        });
     }
 
-    public void signUp(View view) {
-        email = email_join.getText().toString();
-        password = pwd_join.getText().toString();
 
-       final String e_email = email_join.getText().toString();
-
-        Toast.makeText(SignUpActivity.this,e_email,Toast.LENGTH_LONG).show();
-        e_pwd = pwd_join.getText().toString();
-        ename =  e_name.getText().toString();
-       egender = e_gender.getText().toString();
-         eage = e_age.getText().toString();
-
-
-        if(isValidEmail() && isValidPasswd()) {
-            createUser(email, password);
-            User user = new User(e_email,e_pwd,ename,egender,eage);
-            myRef.child("user"+count).setValue(user);
+    @SuppressLint("HandlerLeak")
+    Handler mHandler = new Handler()
+    {
+        public void handleMessage(Message msg)
+        {
+            if (msg.what == TIME_OUT)
+            { // 타임아웃이 발생하면
+                dialog.dismiss(); // ProgressDialog를 종료
+            }
         }
-
-    }
-    private void writeNewUser(String e_email, String e_pwd, String ename, String egender, String eage) {
-        User user = new User(e_email, e_pwd, ename,egender,eage);
-        myRef.child(e_email).setValue(user);
-    }
-
-
+    };
     private boolean isValidEmail() {
         if (email.isEmpty()) {
             // 이메일 공백
@@ -139,21 +142,17 @@ public class SignUpActivity extends AppCompatActivity {
     private void createUser(String email, String password) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 회원가입 성공
-                            mFirebaseUser = firebaseAuth.getCurrentUser();
-                            Toast.makeText(SignUpActivity.this, R.string.success_signup, Toast.LENGTH_SHORT).show();
-                            mFirebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                 mFirebaseUser = firebaseAuth.getCurrentUser();
+                                 firebaseAuth.useAppLanguage();
+                                 mFirebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                //해당 이메일에 확인메일을 보냄
-                                        Toast.makeText(SignUpActivity.this, "Verification email sent to " + mFirebaseUser.getEmail(),
-                                                Toast.LENGTH_SHORT).show();
-                                        firebaseAuth.signOut();
+                                        Toast.makeText(SignUpActivity.this, "메일보내기 성공", Toast.LENGTH_SHORT).show();
                                     } else {                                             //메일 보내기 실패
                                         Toast.makeText(SignUpActivity.this,
                                                 "Failed to send verification email.",
@@ -161,6 +160,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+
                         } else {
                             // 회원가입 실패
                             Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
@@ -169,4 +169,26 @@ public class SignUpActivity extends AppCompatActivity {
                 });
     }
 
+    public void registerUser(){
+        email = email_join.getText().toString();
+        password = pwd_join.getText().toString();
+        ename =  e_name.getText().toString();
+        egender = e_gender.getText().toString();
+        eage = e_age.getText().toString();
+
+        if(TextUtils.isEmpty(email)){
+            Toast.makeText(this, "Email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(password)){
+            Toast.makeText(this, "Password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(isValidEmail() && isValidPasswd()) {
+            createUser(email, password);
+            User user = new User(email,password,ename,egender,eage);
+            myRef.child("user").setValue(user);
+        }
+    }
 }

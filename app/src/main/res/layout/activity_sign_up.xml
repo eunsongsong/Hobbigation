@@ -79,13 +79,14 @@
         android:layout_marginRight="35dp" />
 
     <Button
+        android:id="@+id/sign_up"
         android:layout_width="150dp"
         android:layout_height="55dp"
         android:text="Sign up"
+        android:enabled="false"
         android:textAllCaps="false"
         android:layout_below="@id/checkText"
-        android:layout_centerInParent="true"
-        android:onClick="signUp"/>
+        android:layout_centerInParent="true" />
 
 
 

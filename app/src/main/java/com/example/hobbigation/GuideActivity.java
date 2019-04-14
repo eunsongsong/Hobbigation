@@ -29,10 +29,6 @@ public class GuideActivity extends AppCompatActivity {
 
     }
     public void login(View v){
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-        startActivity(intent);
+            startActivity(new Intent(getApplicationContext(),BeforeSignin.class));
     }
-
-
-
 }

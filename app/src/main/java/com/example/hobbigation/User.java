@@ -9,7 +9,6 @@ public class User {
     public String gender = "";
     public String age = "";
 
-
     public User() {
 
     }
@@ -21,6 +20,5 @@ public class User {
         this.username = username;
         this.gender = gender;
         this.age = age;
-
     }
 }

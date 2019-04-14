@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,24 +24,13 @@
     <Button
         android:layout_width="150dp"
         android:layout_height="55dp"
-        android:text="Log in"
-        android:id="@+id/loginButton"
-        android:onClick="signIn"
+        android:text="Sign in"
+        android:id="@+id/sign_btn"
+        android:onClick="sign_In"
         android:textAllCaps="false"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/sign_pwd"
-        android:layout_toStartOf="@+id/move_sign_up"
-        android:layout_toLeftOf="@+id/move_sign_up" />
-
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="55dp"
-        android:text="Sign up"
-        android:id="@+id/move_sign_up"
-        android:textAllCaps="false"
-        android:layout_alignTop="@+id/loginButton"
-        android:layout_alignEnd="@+id/sign_pwd"
-        android:layout_alignRight="@+id/sign_pwd" />
+        android:layout_centerInParent="true"/>
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -49,7 +38,7 @@
         android:text="Remember login"
         android:id="@+id/checkBox"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/loginButton"
+        android:layout_below="@+id/sign_btn"
         android:layout_centerHorizontal="true" />
 
     <TextView

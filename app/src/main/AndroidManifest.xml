@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".SignInActivity"></activity>
+        <activity android:name=".BeforeSignin" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
@@ -25,8 +26,7 @@
         <activity android:name=".GuideActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".SignUpActivity"/>
-
+        <activity android:name=".SignUpActivity" />
     </application>
 
 </manifest>

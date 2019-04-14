@@ -7,29 +7,29 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/signin"
-        android:layout_width="100dp"
+        android:id="@+id/b_signin"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_centerInParent="true"
         android:layout_marginBottom="30dp"
-        android:text="로그인"
- />
+        android:text="Sign In"
+        />
 
     <Button
-        android:id="@+id/signup"
-        android:layout_width="100dp"
+        android:id="@+id/b_signup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign Up"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/signin"/>
+        android:layout_below="@+id/b_signin"/>
 
     <TextView
-        android:id="@+id/status1"
+        android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_marginTop="100dp"
-        android:layout_below="@+id/signup"
+        android:layout_below="@+id/b_signup"
         android:layout_centerInParent="true"
-        android:textSize="30dp"/>
+        android:layout_marginTop="100dp"
+        android:text="TextView"
+        android:textSize="30dp" />
 </RelativeLayout>
