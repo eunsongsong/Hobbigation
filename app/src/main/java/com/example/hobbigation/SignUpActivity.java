@@ -77,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity  {
         sign_btn = (Button) findViewById(R.id.sign_up);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
+        firebaseAuth.useAppLanguage();
         male_check = (CheckBox) findViewById(R.id.male);
         female_check = (CheckBox) findViewById(R.id.female);
 
@@ -139,17 +139,7 @@ public class SignUpActivity extends AppCompatActivity  {
                 male_check.setChecked(false);
                 female_check.setChecked(false);
 
-                    /*    try{
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
 
-                dialog = ProgressDialog.show(SignUpActivity.this, "회원가입이 완료되었습니다!"
-                        ,email+"으로 인증메일이 전송되었습니다.",true);
-                mHandler.sendEmptyMessageDelayed(TIME_OUT, 2500);
-                firebaseAuth.signOut();
-                startActivity(new Intent(getApplicationContext(),BeforeSignin.class));
 
             }
         });
@@ -182,21 +172,28 @@ public class SignUpActivity extends AppCompatActivity  {
     }
     // 회원가입
     private void createUser(String email, String password) {
+
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 회원가입 성공
-                                 mFirebaseUser = firebaseAuth.getCurrentUser();
-                                 firebaseAuth.useAppLanguage();
+                            mFirebaseUser = firebaseAuth.getCurrentUser();
+                            if ( mFirebaseUser!= null )
                                  mFirebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(SignUpActivity.this,
-                                                "Verification email is successfully sent.",
+                                                "Verification email sent to " + mFirebaseUser.getEmail(),
                                                 Toast.LENGTH_SHORT).show();
+                                        dialog = ProgressDialog.show(SignUpActivity.this, "회원가입이 완료되었습니다!"
+                                                ,mFirebaseUser.getEmail()+"으로 인증메일이 전송되었습니다.",true);
+                                        mHandler.sendEmptyMessageDelayed(TIME_OUT, 3000);
+                                        startActivity(new Intent(SignUpActivity.this,BeforeSignin.class));
+
                                     } else {                                             //메일 보내기 실패
                                         Toast.makeText(SignUpActivity.this,
                                                 "Failed to send verification email.",
@@ -204,14 +201,12 @@ public class SignUpActivity extends AppCompatActivity  {
                                     }
                                 }
                             });
-
                         } else {
                             // 회원가입 실패
                             Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
     }
 
     public void registerUser(){
@@ -235,13 +230,13 @@ public class SignUpActivity extends AppCompatActivity  {
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for ( DataSnapshot snap : dataSnapshot.getChildren()){
+                    for ( DataSnapshot ds : dataSnapshot.getChildren()){
                         count ++;
                     }
                     User user = new User(email,password,ename,egender,eage);
-                    myRef.child("user"+(count+1)).setValue(user);
-                }
 
+                    myRef.child("user00"+(count+1)).setValue(user);
+                }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 

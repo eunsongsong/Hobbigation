@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:layout_marginTop="100dp"
-        android:layout_below="@+id/signup"
         android:layout_centerInParent="true"
         android:textSize="30dp"/>
 </RelativeLayout>
