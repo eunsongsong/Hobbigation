@@ -24,8 +24,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Pattern;
 
@@ -53,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity  {
     private String ename =  "";
     private String egender = "";
     private String eage = "";
-    String a = "";
+    long count = 0 ;
 
     // Write a message to the database
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -136,6 +139,12 @@ public class SignUpActivity extends AppCompatActivity  {
                 male_check.setChecked(false);
                 female_check.setChecked(false);
 
+                    /*    try{
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+
                 dialog = ProgressDialog.show(SignUpActivity.this, "회원가입이 완료되었습니다!"
                         ,email+"으로 인증메일이 전송되었습니다.",true);
                 mHandler.sendEmptyMessageDelayed(TIME_OUT, 2500);
@@ -202,11 +211,7 @@ public class SignUpActivity extends AppCompatActivity  {
                         }
                     }
                 });
-    /*    try{
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+
     }
 
     public void registerUser(){
@@ -227,11 +232,21 @@ public class SignUpActivity extends AppCompatActivity  {
         if(isValidEmail() && isValidPasswd()) {
             createUser(email, password);
 
-   
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for ( DataSnapshot snap : dataSnapshot.getChildren()){
+                        count ++;
+                    }
+                    User user = new User(email,password,ename,egender,eage);
+                    myRef.child("user"+(count+1)).setValue(user);
+                }
 
-            User user = new User(email,password,ename,egender,eage);
-            myRef.child("user"+a).setValue(user);
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                }
+            });
         }
     }
 }
