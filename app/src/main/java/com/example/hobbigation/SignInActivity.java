@@ -92,13 +92,15 @@ public class SignInActivity extends AppCompatActivity  {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful())
                             {
-                                Toast.makeText(SignInActivity.this,"dddddd",Toast.LENGTH_LONG).show();
                                 mFirebaseUser = firebaseAuth.getCurrentUser();
                                 if (mFirebaseUser != null) {
                                     if (!(mFirebaseUser.isEmailVerified())) { //인증되면
-                                        Toast.makeText(SignInActivity.this, "인증해주세요", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SignInActivity.this, "Email 인증을 해주세요", Toast.LENGTH_LONG).show();
                                         return;
                                     } else { //인증안되면
+                                        email_login.setText(null);
+                                        pwd_login.setText(null);
+
                                         dialog = ProgressDialog.show(SignInActivity.this, "로그인중입니다."
                                                 , "잠시만 기다려주세요");
                                         mHandler.sendEmptyMessageDelayed(TIME_OUT, 2000);
@@ -115,7 +117,7 @@ public class SignInActivity extends AppCompatActivity  {
         }
         else
         {
-            Toast.makeText(SignInActivity.this,"로그인 실패입니다11123121.",Toast.LENGTH_LONG).show();
+            Toast.makeText(SignInActivity.this,R.string.failed_login,Toast.LENGTH_LONG).show();
             return;
         }
     }

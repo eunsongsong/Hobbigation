@@ -58,14 +58,6 @@
         android:hint="Input your age"
         android:inputType="number" />
 
-    <EditText
-        android:id="@+id/gender1"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/age1"
-        android:layout_centerHorizontal="true"
-        android:hint="Input your gender : Male or Female" />
-
     <TextView
         android:id="@+id/checkText"
         android:layout_width="wrap_content"
@@ -75,7 +67,7 @@
         android:textStyle="italic"
         android:layout_centerHorizontal="true"
         android:layout_alignLeft="@id/passwordInput"
-        android:layout_below="@+id/gender1"
+        android:layout_below="@+id/male"
         android:layout_marginRight="35dp" />
 
     <Button
@@ -88,7 +80,20 @@
         android:layout_below="@id/checkText"
         android:layout_centerInParent="true" />
 
-
+    <CheckBox
+        android:id="@+id/male"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/age1"
+        android:layout_marginLeft="60dp"
+        android:text="Male" />
+    <CheckBox
+        android:id="@+id/female"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/age1"
+        android:layout_marginLeft="150dp"
+        android:text="Female" />
 
 
 </RelativeLayout>

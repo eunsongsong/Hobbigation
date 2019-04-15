@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,10 +37,13 @@ public class SignUpActivity extends AppCompatActivity  {
     ProgressDialog dialog;
 
     private EditText email_join, pwd_join, check_pwd;
-    private EditText e_name , e_age, e_gender;
+    private EditText e_name , e_age;
 
     private TextView check_show;
     private Button sign_btn;
+
+    private CheckBox male_check;
+    private CheckBox female_check;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser mFirebaseUser;
@@ -49,6 +53,7 @@ public class SignUpActivity extends AppCompatActivity  {
     private String ename =  "";
     private String egender = "";
     private String eage = "";
+    String a = "";
 
     // Write a message to the database
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -63,13 +68,33 @@ public class SignUpActivity extends AppCompatActivity  {
         check_pwd =  (EditText)findViewById(R.id.passwordCheck);
         e_name = (EditText) findViewById(R.id.name1);
         e_age = (EditText)findViewById(R.id.age1);
-        e_gender = (EditText)findViewById(R.id.gender1);
 
         check_show = (TextView) findViewById(R.id.checkText);
 
         sign_btn = (Button) findViewById(R.id.sign_up);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        male_check = (CheckBox) findViewById(R.id.male);
+        female_check = (CheckBox) findViewById(R.id.female);
+
+        male_check.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                egender = "남자";
+                female_check.setChecked(false);
+                male_check.setChecked(true);
+            }
+        });
+
+        female_check.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                egender = "여자";
+                male_check.setChecked(false);
+                female_check.setChecked(true);
+            }
+        });
 
         check_pwd.addTextChangedListener(new TextWatcher() {
             @Override
@@ -102,6 +127,14 @@ public class SignUpActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 registerUser();
+
+                email_join.setText(null);
+                pwd_join.setText(null);
+                check_pwd.setText(null);
+                e_name.setText(null);
+                e_age.setText(null);
+                male_check.setChecked(false);
+                female_check.setChecked(false);
 
                 dialog = ProgressDialog.show(SignUpActivity.this, "회원가입이 완료되었습니다!"
                         ,email+"으로 인증메일이 전송되었습니다.",true);
@@ -152,7 +185,9 @@ public class SignUpActivity extends AppCompatActivity  {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(SignUpActivity.this, "메일보내기 성공", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SignUpActivity.this,
+                                                "Verification email is successfully sent.",
+                                                Toast.LENGTH_SHORT).show();
                                     } else {                                             //메일 보내기 실패
                                         Toast.makeText(SignUpActivity.this,
                                                 "Failed to send verification email.",
@@ -167,13 +202,17 @@ public class SignUpActivity extends AppCompatActivity  {
                         }
                     }
                 });
+    /*    try{
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
     }
 
     public void registerUser(){
         email = email_join.getText().toString();
         password = pwd_join.getText().toString();
         ename =  e_name.getText().toString();
-        egender = e_gender.getText().toString();
         eage = e_age.getText().toString();
 
         if(TextUtils.isEmpty(email)){
@@ -187,8 +226,12 @@ public class SignUpActivity extends AppCompatActivity  {
 
         if(isValidEmail() && isValidPasswd()) {
             createUser(email, password);
+
+   
+
             User user = new User(email,password,ename,egender,eage);
-            myRef.child("user").setValue(user);
+            myRef.child("user"+a).setValue(user);
+
         }
     }
 }

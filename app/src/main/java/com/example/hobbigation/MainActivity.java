@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (mFirebaseUser != null) {
-            show_status.setText("반갑습니다"+mFirebaseUser.getEmail()+"님 환영합니다");
+            show_status.setText(mFirebaseUser.getEmail()+"반갑습니다");
         }
 
     }
