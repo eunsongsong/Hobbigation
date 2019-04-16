@@ -25,21 +25,11 @@ public class RecommendationActivity extends AppCompatActivity {
     DatabaseReference myRef = database.getReference("추천이미지");
     public RecyclerView recyclerView;
     List<RecommnedInfo> items=new ArrayList<>();
-    public int getCount() {
-        return count;
-    }
+    private RecyclerView.Adapter mAdapter;
 
-    public void setCount(int count) {
-        this.count = count;
-    }
+    FirebaseDatabase database1 = FirebaseDatabase.getInstance();
+        DatabaseReference myRef1 = database.getReference("추천이미지");
 
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

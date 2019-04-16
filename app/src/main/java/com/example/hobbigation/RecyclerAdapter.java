@@ -7,7 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -33,8 +34,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-         RecommnedInfo item=items.get(position);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+         final RecommnedInfo item=items.get(position);
+
+        holder.post1.setOnCheckedChangeListener(null);
+        holder.post1.setChecked(item.isSelected());
+
+        holder.post2.setOnCheckedChangeListener(null);
+        holder.post2.setChecked(item.isSelected());
+
 
         Glide.with(holder.itemView.getContext())
                 .load(item.getUrl())
@@ -44,20 +52,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 .load(item.getUrl_two())
                 .into(holder.image_post_two);
 
-        holder.image_btn1.setOnClickListener(new View.OnClickListener() {
+        holder.post1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                holder.image_btn1.setEnabled(false);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                item.setChecked(isChecked);
+
             }
         });
-        holder.image_btn1.setEnabled(true);
-        holder.image_btn2.setOnClickListener(new View.OnClickListener() {
+        holder.post2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                holder.image_btn2.setEnabled(false);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                item.setChecked(isChecked);
             }
         });
-        holder.image_btn2.setEnabled(true);
+
+
     }
 
     @Override
@@ -67,15 +76,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image_post,image_post_two;
-        Button image_btn1,image_btn2;
+;       CheckBox post1,post2;
 
         public ViewHolder(View itemView) {
             super(itemView);
             image_post=(ImageView)itemView.findViewById(R.id.post_image);
             image_post_two= (ImageView) itemView.findViewById(R.id.post_image2);
-            image_btn1 = (Button) itemView.findViewById(R.id.image_btn1);
-            image_btn2 = (Button) itemView.findViewById(R.id.image_btn2);
+            post1 =(CheckBox) itemView.findViewById(R.id.image_check);
+            post2 = ( CheckBox) itemView.findViewById(R.id.image_check2);
+
         }
+
+
     }
 
 }

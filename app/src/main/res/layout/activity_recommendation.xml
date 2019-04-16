@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="결 과 확 인"
+        android:layout_marginTop="15dp"
+        android:enabled="true"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/myrecyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints" android:layout_marginTop="65dp"/>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
