@@ -4,6 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/signinView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로 그 인"
+        android:textColor="#FFB400"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_above="@+id/textView"/>
+
     <EditText
         android:layout_width="300dp"
         android:layout_height="50dp"
