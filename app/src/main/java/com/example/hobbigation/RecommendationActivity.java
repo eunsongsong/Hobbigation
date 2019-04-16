@@ -20,7 +20,7 @@ public class RecommendationActivity extends AppCompatActivity {
 
     int count = 0 ;
     String test= "";
-    // Write a message to the database
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("추천이미지");
     public RecyclerView recyclerView;
@@ -53,6 +53,7 @@ public class RecommendationActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
          final List<RecommnedInfo> items=new ArrayList<>();
+
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

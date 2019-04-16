@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -17,6 +18,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     Context context;
     List<RecommnedInfo> items;
     int item_layout;
+
     public RecyclerAdapter(Context context, List<RecommnedInfo> items, int item_layout) {
         this.context=context;
         this.items=items;
@@ -31,7 +33,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
          RecommnedInfo item=items.get(position);
 
         Glide.with(holder.itemView.getContext())
@@ -42,6 +44,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 .load(item.getUrl_two())
                 .into(holder.image_post_two);
 
+        holder.image_btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.image_btn1.setEnabled(false);
+            }
+        });
+        holder.image_btn1.setEnabled(true);
+        holder.image_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.image_btn2.setEnabled(false);
+            }
+        });
+        holder.image_btn2.setEnabled(true);
     }
 
     @Override
@@ -51,13 +67,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image_post,image_post_two;
-
+        Button image_btn1,image_btn2;
 
         public ViewHolder(View itemView) {
             super(itemView);
             image_post=(ImageView)itemView.findViewById(R.id.post_image);
             image_post_two= (ImageView) itemView.findViewById(R.id.post_image2);
-
+            image_btn1 = (Button) itemView.findViewById(R.id.image_btn1);
+            image_btn2 = (Button) itemView.findViewById(R.id.image_btn2);
         }
     }
 
