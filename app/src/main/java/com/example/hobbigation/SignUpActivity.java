@@ -30,6 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity  {
@@ -233,7 +235,8 @@ public class SignUpActivity extends AppCompatActivity  {
                     for ( DataSnapshot ds : dataSnapshot.getChildren()){
                         count ++;
                     }
-                    User user = new User(email,password,ename,egender,eage);
+                    String passwordHashed = BCrypt.hashpw(password, BCrypt.gensalt());
+                    User user = new User(email,passwordHashed,ename,egender,eage);
 
                     myRef.child("user00"+(count+1)).setValue(user);
                 }

@@ -12,7 +12,7 @@ public class SplashActivity extends AppCompatActivity {
 
         try{
             Thread.sleep(2000);
-            Intent mainIntent = new Intent(this, BeforeSignin.class);
+            Intent mainIntent = new Intent(this, GuideActivity.class);
             startActivity(mainIntent);
             finish();
         } catch (InterruptedException e) {
