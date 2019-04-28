@@ -12,15 +12,15 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_above="@+id/recommend"
-        android:layout_marginLeft="150dp"
-        android:text="TextView"
+        android:layout_marginLeft="50dp"
+        android:text="회원이메일"
         android:textSize="30dp"/>
 
     <Button
         android:id="@+id/recommend"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="200dp"
         android:layout_centerInParent="true"
         android:background="#FFC81E"
         android:textSize="20dp"
@@ -31,9 +31,6 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/status1"
-        android:textSize="40dp"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="50dp"
-        android:text="메인화면" />
+        android:text="TextView" />
+
 </RelativeLayout>

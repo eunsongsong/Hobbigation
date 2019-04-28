@@ -24,18 +24,11 @@ public class RecommendationActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("추천이미지");
     public RecyclerView recyclerView;
-    List<RecommnedInfo> items=new ArrayList<>();
-    private RecyclerView.Adapter mAdapter;
-
-    FirebaseDatabase database1 = FirebaseDatabase.getInstance();
-        DatabaseReference myRef1 = database.getReference("추천이미지");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommendation);
-
 
         recyclerView=(RecyclerView)findViewById(R.id.myrecyclerview);
         final LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
@@ -43,7 +36,6 @@ public class RecommendationActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
          final List<RecommnedInfo> items=new ArrayList<>();
-
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
