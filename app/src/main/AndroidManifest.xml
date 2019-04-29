@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SubActivity"></activity>
+        <activity android:name=".ForgotPwActivity"></activity>
+        <activity android:name=".SubActivity" />
         <activity android:name=".TapViewActivity" />
         <activity android:name=".FavoriteActivity" />
         <activity android:name=".CategoryActivity" />

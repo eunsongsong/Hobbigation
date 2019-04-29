@@ -3,14 +3,17 @@ package com.example.hobbigation;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -34,6 +37,7 @@ public class SignInActivity extends AppCompatActivity  {
     ProgressDialog dialog;
     private EditText email_login;
     private EditText pwd_login;
+    private Button forgot_pw_btn;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser mFirebaseUser;
@@ -47,13 +51,19 @@ public class SignInActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        forgot_pw_btn = (Button) findViewById(R.id.forgotPw_btn);
 
         email_login = (EditText) findViewById(R.id.sign_email);
         pwd_login = (EditText) findViewById(R.id.sign_pwd);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-
+        forgot_pw_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignInActivity.this, ForgotPwActivity.class));
+            }
+        });
     }
 
     @SuppressLint("HandlerLeak") Handler mHandler = new Handler()
