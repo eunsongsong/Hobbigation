@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity  {
@@ -238,7 +239,8 @@ public class SignUpActivity extends AppCompatActivity  {
                     String passwordHashed = BCrypt.hashpw(password, BCrypt.gensalt());
                     User user = new User(email,passwordHashed,ename,egender,eage,"empty");
 
-                    myRef.child("user00"+(count+1)).setValue(user);
+                    StringTokenizer st =  new StringTokenizer(email, "@");
+                    myRef.child("user00"+(count+1)+ ":"+st.nextToken()).setValue(user);
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
