@@ -38,12 +38,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final CategoryInfo item=items.get(position);
 
-        holder.post1.setOnCheckedChangeListener(null);
-        holder.post1.setChecked(item.isSelected());
-
-        holder.post2.setOnCheckedChangeListener(null);
-        holder.post2.setChecked(item.isSelected());
-
         Glide.with(holder.itemView.getContext())
                 .load(item.getUrl())
                 .into(holder.img1);
@@ -55,20 +49,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.txt1.setText(item.getName1());
         holder.txt2.setText(item.getName_two());
 
-        holder.post1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                item.setChecked(isChecked);
-
-            }
-        });
-        holder.post2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                item.setChecked(isChecked);
-            }
-        });
-
     }
 
     @Override
@@ -79,7 +59,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img1,img2;
         TextView txt1,txt2;
-        CheckBox post1,post2;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -87,8 +66,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             img2= (ImageView) itemView.findViewById(R.id.categ_img2);
             txt1 = (TextView) itemView.findViewById(R.id.categ_txt1);
             txt2 = (TextView) itemView.findViewById(R.id.categ_txt2);
-            post1 =(CheckBox) itemView.findViewById(R.id.img_check);
-            post2 = (CheckBox) itemView.findViewById(R.id.img_check2);
 
         }
 
