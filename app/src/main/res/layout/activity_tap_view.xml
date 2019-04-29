@@ -12,21 +12,24 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FCFCFC"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:tabContentStart="?attr/actionBarSize"
+        app:tabGravity="center"
+        app:tabIndicatorColor="#FFC81E"
         app:tabIndicatorGravity="top"
-        android:background="#000000"
-        app:tabIndicatorColor="#CCCCCC"
-        app:tabSelectedTextColor="#FFC81E"
         app:tabIndicatorHeight="2dp"
+        app:tabMaxWidth="400dp"
         app:tabMode="fixed"
-        app:tabGravity="fill" />
+        app:tabSelectedTextColor="#FFC81E" />
+
 
 </LinearLayout>

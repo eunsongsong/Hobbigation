@@ -104,7 +104,7 @@ public class SignInActivity extends AppCompatActivity  {
                                         dialog = ProgressDialog.show(SignInActivity.this, "로그인중입니다."
                                                 , "잠시만 기다려주세요");
                                         mHandler.sendEmptyMessageDelayed(TIME_OUT, 2000);
-                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), TapViewActivity.class));
                                     }
                                 }
                             } else {

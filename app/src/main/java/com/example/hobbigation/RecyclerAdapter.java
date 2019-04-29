@@ -12,6 +12,10 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -19,6 +23,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     Context context;
     List<RecommnedInfo> items;
     int item_layout;
+    FirebaseAuth firebaseAuth;
+
+    FirebaseDatabase database_two = FirebaseDatabase.getInstance();
+    DatabaseReference myRef_two = database_two.getReference("사용자");
+
 
     public RecyclerAdapter(Context context, List<RecommnedInfo> items, int item_layout) {
         this.context=context;
@@ -37,12 +46,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
          final RecommnedInfo item=items.get(position);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
+
         holder.post1.setOnCheckedChangeListener(null);
         holder.post1.setChecked(item.isSelected());
 
         holder.post2.setOnCheckedChangeListener(null);
         holder.post2.setChecked(item.isSelected());
-
 
             Glide.with(holder.itemView.getContext())
                     .load(item.getUrl())
@@ -52,13 +63,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     .load(item.getUrl_two())
                     .into(holder.image_post_two);
 
-
-
         holder.post1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setChecked(isChecked);
-                holder.post1.setBackgroundColor(230);
             }
         });
 

@@ -236,7 +236,7 @@ public class SignUpActivity extends AppCompatActivity  {
                         count ++;
                     }
                     String passwordHashed = BCrypt.hashpw(password, BCrypt.gensalt());
-                    User user = new User(email,passwordHashed,ename,egender,eage);
+                    User user = new User(email,passwordHashed,ename,egender,eage,"empty");
 
                     myRef.child("user00"+(count+1)).setValue(user);
                 }

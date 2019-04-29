@@ -1,5 +1,6 @@
 package com.example.hobbigation;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -15,14 +16,21 @@ public class TapViewActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tap_view);
 
-        // Adding Toolbar to the activity
-       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
         // Initializing the TabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab One"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab Two"));
+
+        Drawable drawable1 = getResources().getDrawable(R.drawable.selector_click_tab);
+        Drawable drawable2 = getResources().getDrawable(R.drawable.selector_click_tab2);
+        Drawable drawable3 = getResources().getDrawable(R.drawable.selector_click_tab3);
+        Drawable drawable4 = getResources().getDrawable(R.drawable.selector_click_tab4);
+
+
+
+        tabLayout.addTab(tabLayout.newTab().setIcon(drawable1));
+        tabLayout.addTab(tabLayout.newTab().setIcon(drawable2));
+        tabLayout.addTab(tabLayout.newTab().setIcon(drawable3));
+        tabLayout.addTab(tabLayout.newTab().setIcon(drawable4));
+
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         // Initializing ViewPager
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -37,7 +45,7 @@ public class TapViewActivity extends AppCompatActivity  {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-             //   viewPager.setCurrentItem(tab.getPosition(),true);
+                viewPager.setCurrentItem(tab.getPosition(),true);
             }
 
             @Override
@@ -51,5 +59,9 @@ public class TapViewActivity extends AppCompatActivity  {
             }
         });
 
+
+
     }
+
+
 }

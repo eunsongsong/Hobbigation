@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,11 +31,10 @@ public class TabFragment1 extends Fragment {
     String temp = "";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("추천이미지");
-    public RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_tab_frament1,container,false);
+        ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_tab_fragment1,container,false);
 
         autoViewPager = (AutoScrollViewPager)rootview.findViewById(R.id.autoViewPager);
 
@@ -51,7 +49,6 @@ public class TabFragment1 extends Fragment {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
 
                 ArrayList<String> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
 
