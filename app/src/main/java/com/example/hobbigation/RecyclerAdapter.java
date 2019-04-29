@@ -44,21 +44,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.post2.setChecked(item.isSelected());
 
 
-        Glide.with(holder.itemView.getContext())
-                .load(item.getUrl())
-                .into(holder.image_post);
+            Glide.with(holder.itemView.getContext())
+                    .load(item.getUrl())
+                    .into(holder.image_post);
 
-        Glide.with(holder.itemView.getContext())
-                .load(item.getUrl_two())
-                .into(holder.image_post_two);
+            Glide.with(holder.itemView.getContext())
+                    .load(item.getUrl_two())
+                    .into(holder.image_post_two);
+
+
 
         holder.post1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setChecked(isChecked);
-
+                holder.post1.setBackgroundColor(230);
             }
         });
+
         holder.post2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
