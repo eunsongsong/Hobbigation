@@ -47,7 +47,6 @@ public class ViewPagerAdapter extends PagerAdapter {
             }
 
         }
-
         // 뷰페이저에 추가.
         container.addView(view) ;
 

@@ -37,7 +37,7 @@ public class TapViewActivity extends AppCompatActivity  {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+             //   viewPager.setCurrentItem(tab.getPosition(),true);
             }
 
             @Override
