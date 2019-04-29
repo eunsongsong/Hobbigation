@@ -8,6 +8,7 @@ public class RecommnedInfo {
 
 
     private boolean cheked = false;
+    private boolean cheked_two = false;
 
     public String getTag_two() {
         return tag_two;
@@ -25,6 +26,8 @@ public class RecommnedInfo {
         this.tag = tag;
     }
 
+
+    public void setCheked_two(boolean cheked_two) { this.cheked_two = cheked_two; }
     public void setChecked(boolean checked)
     {
         this.cheked = checked;
@@ -32,6 +35,7 @@ public class RecommnedInfo {
     public boolean isSelected(){
         return cheked;
     }
+    public boolean isSelected_two() { return cheked_two; }
 
 
     public String getUrl() {

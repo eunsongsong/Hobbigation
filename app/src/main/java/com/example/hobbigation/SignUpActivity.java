@@ -240,7 +240,7 @@ public class SignUpActivity extends AppCompatActivity  {
                     User user = new User(email,passwordHashed,ename,egender,eage,"empty");
 
                     StringTokenizer st =  new StringTokenizer(email, "@");
-                    myRef.child("user00"+(count+1)+ ":"+st.nextToken()).setValue(user);
+                    myRef.child(st.nextToken()).setValue(user);
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
