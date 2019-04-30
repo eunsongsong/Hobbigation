@@ -79,18 +79,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setChecked(isChecked);
                 tag_sum += item.getTag() + "%";
-                Log.d("TAG_SUM",tag_sum);
+
                 myRef_two.addValueEventListener(new ValueEventListener() {
+
+
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot ds: dataSnapshot.getChildren())
                         {
+
                             String target = ds.child("email").getValue().toString();
                             if (mFirebaseUser != null) {
                                 if( target.equals(mFirebaseUser.getEmail()))
                                 {
                                     StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
-                                    myRef_two.child(st.nextToken()).child("tag").setValue(tag_sum);
+                                    StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
+
+                                    myRef_two.child(st_two.nextToken()+":"+st.nextToken()).child("tag").setValue(tag_sum);
                                 }
                             }
                         }
@@ -104,6 +109,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         });
 
         holder.post2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setCheked_two(isChecked);
@@ -112,14 +119,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 myRef_two.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                         for(DataSnapshot ds: dataSnapshot.getChildren())
                         {
+
                             String target = ds.child("email").getValue().toString();
+                            Log.d("dd",target);
                             if (mFirebaseUser != null) {
                                 if( target.equals(mFirebaseUser.getEmail()))
                                 {
                                     StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
-                                    myRef_two.child(st.nextToken()).child("tag").setValue(tag_sum);
+                                    StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
+
+                                        myRef_two.child(st_two.nextToken()+":"+st.nextToken()).child("tag").setValue(tag_sum);
                                 }
                             }
                         }
