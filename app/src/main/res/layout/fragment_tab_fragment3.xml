@@ -5,28 +5,60 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".TabFragment3">
 
-<LinearLayout
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
 
-    <EditText
-        android:hint="검색어를 입력해주세요"
-        android:id="@+id/searchText"
+
+    <TextView
+        android:id="@+id/mypage_userId"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dp"
+        android:textSize="22dp"
+        android:layout_below="@id/mypage"/>
+
+    <TextView
+        android:id="@+id/mypage_userEmail"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="22dp"
+        android:layout_below="@+id/mypage_userId"/>
+
+    <TextView
+        android:id="@+id/mypage_usergender"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="22dp"
+        android:layout_below="@+id/mypage_userEmail"/>
+
+    <TextView
+        android:id="@+id/mypage_userage"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="22dp"
+        android:layout_below="@+id/mypage_usergender"/>
+
+    <TextView
+        android:id="@+id/mypage"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="20dp"
+        android:text="Mypage"
+        android:textStyle="bold"
+        android:textSize="40dp"
+        android:textColor="#FFC81E"
+        android:textAlignment="center"/>
 
     <Button
-        android:id="@+id/searchBtn"
+        android:id="@+id/modifyinfobtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFC81E"
-        android:text="검색" />
+        android:layout_height="40dp"
+        android:text="회원정보 수정"
+        android:layout_below="@id/mypage_userage"
+        android:background="#FFC81E"/>
 
-</LinearLayout>
+</RelativeLayout>
 </FrameLayout>
