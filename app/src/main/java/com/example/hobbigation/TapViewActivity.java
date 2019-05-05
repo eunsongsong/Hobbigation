@@ -6,7 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-public class TapViewActivity extends AppCompatActivity  {
+public class TapViewActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -23,8 +23,6 @@ public class TapViewActivity extends AppCompatActivity  {
         Drawable drawable2 = getResources().getDrawable(R.drawable.selector_click_tab2);
         Drawable drawable3 = getResources().getDrawable(R.drawable.selector_click_tab3);
         Drawable drawable4 = getResources().getDrawable(R.drawable.selector_click_tab4);
-
-
 
         tabLayout.addTab(tabLayout.newTab().setIcon(drawable1));
         tabLayout.addTab(tabLayout.newTab().setIcon(drawable2));
@@ -45,7 +43,7 @@ public class TapViewActivity extends AppCompatActivity  {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition(),true);
+                viewPager.setCurrentItem(tab.getPosition(), true);
             }
 
             @Override
@@ -60,8 +58,10 @@ public class TapViewActivity extends AppCompatActivity  {
         });
 
 
-
     }
+
+
+
 
 
 }
