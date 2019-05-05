@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ModifyInfoFragment"></activity>
+        <activity android:name=".ModifyInfoActivity"></activity>
+        <activity android:name=".ModifyInfoFragment" />
         <activity android:name=".ConfirmActivity" />
         <activity android:name=".ForgotPwActivity" />
         <activity android:name=".SubActivity" />

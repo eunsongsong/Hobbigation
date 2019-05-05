@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ModifyInfoActivity">
+
+    <TextView
+        android:id="@+id/explainTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="변경사항 없을시 미입력"
+        android:textAlignment="center"
+        android:layout_marginTop="40dp"
+        />
+    <EditText
+        android:id="@+id/modiname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/explainTxt"
+        android:hint="Name" />
+    <EditText
+        android:id="@+id/modiage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_below="@+id/modiname"
+        android:hint="Age" />
+    <CheckBox
+        android:id="@+id/modiTomale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/modiage"
+        android:layout_marginLeft="60dp"
+        android:text="Male" />
+    <CheckBox
+        android:id="@+id/modiTofemale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/modiage"
+        android:layout_marginLeft="150dp"
+        android:text="Female" />
+
+    <Button
+        android:id="@+id/modipwbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/modiTofemale"
+        android:text=" 비밀번호 변경 "/>
+
+    <Button
+        android:id="@+id/modi_confirm_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/modipwbtn"
+        android:text=" 저장 "/>
+
+</RelativeLayout>
