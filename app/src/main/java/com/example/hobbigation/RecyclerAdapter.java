@@ -32,7 +32,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     FirebaseAuth firebaseAuth;
 
     String tag_sum = "";
-
+    String deletestr = "";
 
 
     FirebaseDatabase database_two = FirebaseDatabase.getInstance();
@@ -74,32 +74,39 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     .load(item.getUrl_two())
                     .into(holder.image_post_two);
 
+
         holder.post1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setChecked(isChecked);
-                tag_sum += item.getTag() + "%";
-
+                final boolean OnOff1 = item.isSelected();
+                //isChecked = true 일때 태그 추가
+                if (OnOff1) {
+                    tag_sum += item.getTag() + "%";
+                }
+                //isChecked = false 일때 태그 삭제
+                else{
+                    deletestr = item.getTag()+"%";
+                    // tag_del = tag_sum.replace(delstr, "");
+                    tag_sum = tag_sum.replace(deletestr, "");
+                }
+                //DB에 업데이트
                 myRef_two.addValueEventListener(new ValueEventListener() {
-
-
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot ds: dataSnapshot.getChildren())
-                        {
-
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             String target = ds.child("email").getValue().toString();
                             if (mFirebaseUser != null) {
-                                if( target.equals(mFirebaseUser.getEmail()))
-                                {
+                                if (target.equals(mFirebaseUser.getEmail())) {
                                     StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
 
-                                    myRef_two.child(st_two.nextToken()+":"+st.nextToken()).child("tag").setValue(tag_sum);
+                                    myRef_two.child(st_two.nextToken() + ":" + st.nextToken()).child("tag").setValue(tag_sum);
                                 }
                             }
                         }
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -108,14 +115,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             }
         });
 
+
         holder.post2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setCheked_two(isChecked);
-                tag_sum += item.getTag_two() + "%";
-                Log.d("TAG_SUM",tag_sum);
+                final boolean OnOff2 = item.isSelected_two();
+                //isChecked = true 일때 태그 추가
+                if (OnOff2) {
+                    tag_sum += item.getTag_two() + "%";
+                    Log.d("TAG_SUM",tag_sum);
+                }
+                //isChecked = false 일때 태그 삭제
+                else{
+                    deletestr = item.getTag_two()+"%";
+                    // tag_del = tag_sum.replace(delstr, "");
+                    tag_sum = tag_sum.replace(deletestr, "");
+                }
+                //DB에 업데이트
                 myRef_two.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -152,7 +169,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image_post,image_post_two;
-;       CheckBox post1,post2;
+        final CheckBox post1,post2;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -161,9 +178,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             post1 =(CheckBox) itemView.findViewById(R.id.image_check);
             post2 = ( CheckBox) itemView.findViewById(R.id.image_check2);
 
+
         }
-
-
     }
-
 }
