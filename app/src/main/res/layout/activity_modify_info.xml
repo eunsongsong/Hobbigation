@@ -17,16 +17,18 @@
         />
     <EditText
         android:id="@+id/modiname"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/explainTxt"
+        android:layout_centerHorizontal="true"
         android:hint="Name" />
     <EditText
         android:id="@+id/modiage"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:layout_below="@+id/modiname"
+        android:layout_centerHorizontal="true"
         android:hint="Age" />
     <CheckBox
         android:id="@+id/modiTomale"
@@ -45,9 +47,11 @@
 
     <Button
         android:id="@+id/modipwbtn"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/modiTofemale"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
         android:text=" 비밀번호 변경 "/>
 
     <Button
@@ -56,6 +60,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/modipwbtn"
-        android:text=" 저장 "/>
+        android:layout_marginTop="30dp"
+        android:text=" 저 장 "
+        android:background="@drawable/round_rectangle"/>
 
 </RelativeLayout>

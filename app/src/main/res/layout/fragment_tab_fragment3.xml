@@ -16,6 +16,7 @@ tools:context=".TabFragment3">
         android:id="@+id/mypage_userId"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
         android:textSize="22dp"
         android:layout_below="@id/mypage"/>
 
@@ -23,6 +24,7 @@ tools:context=".TabFragment3">
         android:id="@+id/mypage_userEmail"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
         android:textSize="22dp"
         android:layout_below="@+id/mypage_userId"/>
 
@@ -30,6 +32,7 @@ tools:context=".TabFragment3">
         android:id="@+id/mypage_usergender"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
         android:textSize="22dp"
         android:layout_below="@+id/mypage_userEmail"/>
 
@@ -37,6 +40,7 @@ tools:context=".TabFragment3">
         android:id="@+id/mypage_userage"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
         android:textSize="22dp"
         android:layout_below="@+id/mypage_usergender"/>
 
@@ -54,11 +58,13 @@ tools:context=".TabFragment3">
 
     <Button
         android:id="@+id/modifyinfobtn"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:text="회원정보 수정"
         android:layout_below="@id/mypage_userage"
-        android:background="#FFC81E"/>
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/round_rectangle"/>
 
 </RelativeLayout>
 </FrameLayout>
