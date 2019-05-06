@@ -51,16 +51,17 @@ public class RecommendationActivity extends AppCompatActivity {
 
          final List<RecommnedInfo> items=new ArrayList<>();
 
+
+
+
+
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 count = (int)dataSnapshot.getChildrenCount();
                 RecommnedInfo[] item=new RecommnedInfo[count];
-
-                String[] tag = new String[count];
-                String[][] tag_arr = new String[count][10];
-
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     test += ds.child("url").getValue().toString()   + "#";
@@ -80,10 +81,23 @@ public class RecommendationActivity extends AppCompatActivity {
                         Log.d("tag_arr"+i+j, tag_arr[i][j]);
                     }
                 }*/
+                String shuffle[] = new String[count];
 
-                for ( int i = 0 ; i < count/2 ; i++)
+                for (int i = 0; i < count ; i++) {
+                    shuffle[i] = st.nextToken();
+                }
+                for(int i = 0 ; i <shuffle.length; i++)
                 {
-                  item[i] = new RecommnedInfo(st.nextToken(),st.nextToken(),st_two.nextToken(),st_two.nextToken());
+                    int a = (int)(Math.random()*shuffle.length);
+                    int b = (int)(Math.random()*shuffle.length);
+                    String temp = shuffle[a];
+                    shuffle[a] = shuffle[b];
+                    shuffle[b] = temp;
+                }
+
+                for ( int i = 0 ; i < count ; i+=2)
+                {
+                         item[i] = new RecommnedInfo(shuffle[i],shuffle[i+1],st_two.nextToken(),st_two.nextToken());
                  // Log.d("dddd",st_two.nextToken());
                     items.add(item[i]);
                 }
