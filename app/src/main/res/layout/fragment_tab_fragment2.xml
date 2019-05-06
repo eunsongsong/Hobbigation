@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TabFragment2"
-    android:id="@+id/container">
+    android:id="@+id/container123123">
 
     <RelativeLayout
         android:layout_width="match_parent"
