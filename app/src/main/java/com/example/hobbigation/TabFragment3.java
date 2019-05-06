@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +33,7 @@ public class TabFragment3 extends Fragment {
     TextView userage;
     String userid = "";  //DB에서 유저를 찾기 위한 ID 저장
     Button modify;  //비밀번호 변경 버튼
+    Switch pushsetsw;  //push 설정 스위치
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("사용자");
@@ -39,18 +42,22 @@ public class TabFragment3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_tab_fragment3, container, false);
+        final boolean sp_push_set=PreferenceUtil.getInstance(getContext()).getBooleanExtra("PushSetting");  //출력
 
         username = (TextView)rootview.findViewById(R.id.mypage_userId) ;
         userEmail = (TextView)rootview.findViewById(R.id.mypage_userEmail);
         usergender = (TextView)rootview.findViewById(R.id.mypage_usergender);
         userage = (TextView)rootview.findViewById(R.id.mypage_userage);
         modify = (Button)rootview.findViewById(R.id.modifyinfobtn);
+        pushsetsw = (Switch)rootview.findViewById(R.id.pushswitch);
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
         StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(),"@");
         userid = st.nextToken();
+
+        pushsetsw.setChecked(sp_push_set);  //유저 설정대로 푸시 스위치 유지
 
         //Current 유저 찾아서 DB에 저장된 정보 화면에 띄우기
         if (FirebaseInstanceId.getInstance().getToken() != null) {
@@ -93,6 +100,17 @@ public class TabFragment3 extends Fragment {
             }
         });
 
+        pushsetsw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    PreferenceUtil.getInstance(getContext()).putBooleanExtra("PushSetting",true);  //true 입력
+                }
+                else{
+                    PreferenceUtil.getInstance(getContext()).putBooleanExtra("PushSetting",false);  //false 입력
+                }
+            }
+        });
         return rootview;
     }
 }

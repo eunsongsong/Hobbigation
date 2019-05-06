@@ -17,17 +17,21 @@
 
     <EditText
         android:id="@+id/userEmail"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
         android:hint="Write your Email"
         android:inputType="textEmailAddress" />
 
     <Button
         android:id="@+id/btnResetPw"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="비밀번호 변경 이메일 전송"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/round_rectangle"/>
 
 </LinearLayout>
