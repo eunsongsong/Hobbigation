@@ -21,7 +21,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.StringTokenizer;
 
-
+/* Tap3 - MyPage (현재 회원정보, 수정 가능 버튼) */
 public class TabFragment3 extends Fragment {
 
     FirebaseAuth firebaseAuth;
@@ -29,8 +29,8 @@ public class TabFragment3 extends Fragment {
     TextView userEmail;
     TextView usergender;
     TextView userage;
-    String userid = "";
-    Button modify;
+    String userid = "";  //DB에서 유저를 찾기 위한 ID 저장
+    Button modify;  //비밀번호 변경 버튼
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("사용자");
@@ -52,6 +52,7 @@ public class TabFragment3 extends Fragment {
         StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(),"@");
         userid = st.nextToken();
 
+        //Current 유저 찾아서 DB에 저장된 정보 화면에 띄우기
         if (FirebaseInstanceId.getInstance().getToken() != null) {
             if (mFirebaseUser != null) {
                 myRef.addValueEventListener(new ValueEventListener() {
@@ -62,7 +63,7 @@ public class TabFragment3 extends Fragment {
                             StringTokenizer st = new StringTokenizer(ds.getKey(),":");
                             String key = "";
                             key = st.nextToken();
-                        key = st.nextToken();
+                            key = st.nextToken();
                         if(userid.equals(key))
                         {
                             String target = ds.child("username").getValue().toString();
@@ -84,6 +85,7 @@ public class TabFragment3 extends Fragment {
             }
 
         }
+        //회원정보 수정은 ModifyInfo액티비티에서 진행
         modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

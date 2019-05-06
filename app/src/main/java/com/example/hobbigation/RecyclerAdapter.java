@@ -56,7 +56,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
          final RecommnedInfo item=items.get(position);
 
-
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
@@ -74,7 +73,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     .load(item.getUrl_two())
                     .into(holder.image_post_two);
 
-
+        //왼쪽 체크박스에 대한 이벤트 처리
         holder.post1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -87,7 +86,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 //isChecked = false 일때 태그 삭제
                 else{
                     deletestr = item.getTag()+"%";
-                    // tag_del = tag_sum.replace(delstr, "");
                     tag_sum = tag_sum.replace(deletestr, "");
                 }
                 //DB에 업데이트
@@ -115,7 +113,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             }
         });
 
-
+        //오른쪽 체크박스에 대한 이벤트 처리
         holder.post2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -129,7 +127,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 //isChecked = false 일때 태그 삭제
                 else{
                     deletestr = item.getTag_two()+"%";
-                    // tag_del = tag_sum.replace(delstr, "");
                     tag_sum = tag_sum.replace(deletestr, "");
                 }
                 //DB에 업데이트
@@ -175,10 +172,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             super(itemView);
             image_post=(ImageView)itemView.findViewById(R.id.post_image);
             image_post_two= (ImageView) itemView.findViewById(R.id.post_image2);
-            post1 =(CheckBox) itemView.findViewById(R.id.image_check);
-            post2 = ( CheckBox) itemView.findViewById(R.id.image_check2);
-
-
+            post1 = (CheckBox) itemView.findViewById(R.id.image_check);
+            post2 = (CheckBox) itemView.findViewById(R.id.image_check2);
         }
     }
 }

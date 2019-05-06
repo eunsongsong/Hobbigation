@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,10 +27,10 @@ public class ModifyInfoActivity extends AppCompatActivity {
     private CheckBox male_check, female_check;
     private EditText modify_name, modify_age;
 
+    //수정된 변수 (DB에 저장할 값)
     private String egender = "";
     private String ename =  "";
     private String eage =  "";
-    private String userid = "";
 
     FirebaseAuth firebaseAuth;
     FirebaseUser mFirebaseUser;
@@ -86,6 +87,7 @@ public class ModifyInfoActivity extends AppCompatActivity {
                 modify_age.setText(null);
                 male_check.setChecked(false);
                 female_check.setChecked(false);
+                egender="";
             }
         });
     }
@@ -98,40 +100,58 @@ public class ModifyInfoActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = firebaseAuth.getCurrentUser();
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+        //변경사항이 없을 때 - 메세지만 띄우기
+        if((TextUtils.isEmpty(egender))&&(TextUtils.isEmpty(eage))&&(TextUtils.isEmpty(ename))) {
+            nulltoastMsg();
+        }
+        //변경사항이 있을 때 - DB 업데이트
+        else {
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                    String target = ds.child("email").getValue().toString();
-                    if (mFirebaseUser != null) {
-                        if (target.equals(mFirebaseUser.getEmail())) {
+                        String target = ds.child("email").getValue().toString();
+                        if (mFirebaseUser != null) {
+                            if (target.equals(mFirebaseUser.getEmail())) {
 
-                            if(!(TextUtils.isEmpty(ename))) {
-                                StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
-                                StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
-                                myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("username").setValue(ename);
-                            }
-                            if(!(TextUtils.isEmpty(eage))){
-                                StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
-                                StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
-
-                                myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("age").setValue(eage);
-                            }
-                            if(!(TextUtils.isEmpty(egender))) {
-                                StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
-                                StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
-                                myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("gender").setValue(egender);
+                                //변경사항이 있을 때 - Null 아닌 부분만 DB에 저장
+                                if (!(TextUtils.isEmpty(ename))) {
+                                    StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
+                                    StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
+                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("username").setValue(ename);
+                                }
+                                if (!(TextUtils.isEmpty(eage))) {
+                                    StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
+                                    StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
+                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("age").setValue(eage);
+                                }
+                                if (!(TextUtils.isEmpty(egender))) {
+                                    StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
+                                    StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
+                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("gender").setValue(egender);
+                                }
                             }
                         }
                     }
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
+                }
+            });
+            //변경 사항이 저장되었음을 알림
+            savetoastMsg();
+        }
     }
+
+    //변경 사항 저장 알림 토스트 메세지
+    public void savetoastMsg(){
+        Toast.makeText(this, "변경사항이 저장되었습니다.", Toast.LENGTH_SHORT).show();
+    }
+    //변경 사항 없음 토스트 메세지
+    public void nulltoastMsg(){
+        Toast.makeText(this, "변경사항이 없습니다.", Toast.LENGTH_SHORT).show();
+    }
+
 }
