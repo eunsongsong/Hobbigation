@@ -1,6 +1,7 @@
 package com.example.hobbigation;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,8 +21,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             media, rest, concert, travel, outdoor, sports;
     public ImageView art_i, book_i, collection_i, make_i, food_i, picture_i, game_i, shop_i, plant_i, music_i, study_i, volunteer_i,
             media_i, rest_i, concert_i, travel_i, outdoor_i, sports_i;
-    FragmentManager fm;
-    FragmentTransaction tran;
+
 
 
     public static TabFragment2 newInstance() {
@@ -149,7 +149,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         travel.setOnClickListener(this);
         outdoor.setOnClickListener(this);
         sports.setOnClickListener(this);
-        Log.d("망할","11111");
         return rootview;
     }
 
@@ -161,36 +160,45 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
 
         switch (view.getId()) {
             case R.id.back_img_art1:
-                setFrag(0);
+                Intent intent = new Intent(getContext(), CategoryDetailActivity.class);
+                intent.putExtra("category", "예술");
+                startActivity(intent);
                 break;
             case R.id.back_img_book2:
-                setFrag(1);
+                break;
+            case R.id.back_img_collection3:
+                break;
+            case R.id.back_img_make4:
+                break;
+            case R.id.back_img_food5:
+                break;
+            case R.id.back_img_picture6:
+                break;
+            case R.id.back_img_game7:
+                break;
+            case R.id.back_img_shop8:
+                break;
+            case R.id.back_img_plant9:
+                break;
+            case R.id.back_img_music10:
+                break;
+            case R.id.back_img_study11:
+                break;
+            case R.id.back_img_vol12:
+                break;
+            case R.id.back_img_media13:
+                break;
+            case R.id.back_img_rest14:
+                break;
+            case R.id.back_img_concert15:
+                break;
+            case R.id.back_img_travel16:
+                break;
+            case R.id.back_img_outdoor17:
+                break;
+            case R.id.back_img_sport18:
                 break;
         }
-
-           /* case R.id.btn_tow:
-                fg = ChildTowFragment.newInstance();
-                setChildFragment(fg);
-                break;
-                */
-    }
-
-
-    public void setFrag(int n) {    //프래그먼트를 교체하는 작업을 하는 메소드를 만들었습니다
-        fm = getFragmentManager();
-        tran = fm.beginTransaction();
-        switch (n) {
-            case 0:
-                tran.replace(R.id.container, new ArtDetailFragment());
-                Log.d("망할","122221111");//replace의 매개변수는 (프래그먼트를 담을 영역 id, 프래그먼트 객체) 입니다.
-                tran.commit();
-                break;
-            case 1:
-                tran.replace(R.id.container, new BookDetailFragment());  //replace의 매개변수는 (프래그먼트를 담을 영역 id, 프래그먼트 객체) 입니다.
-                tran.commit();
-                break;
-        }
-
 
     }
 }

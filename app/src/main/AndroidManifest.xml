@@ -8,11 +8,12 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo"
-        android:label="                             Hobbigation         "
+        android:label="Hobbigation"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ModifyInfoActivity"></activity>
+        <activity android:name=".CategoryDetailActivity"></activity>
+        <activity android:name=".ModifyInfoActivity" />
         <activity android:name=".ModifyInfoFragment" />
         <activity android:name=".ConfirmActivity" />
         <activity android:name=".ForgotPwActivity" />

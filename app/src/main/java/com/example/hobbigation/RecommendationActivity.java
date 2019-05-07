@@ -58,10 +58,6 @@ public class RecommendationActivity extends AppCompatActivity {
                 count = (int)dataSnapshot.getChildrenCount();
                 RecommnedInfo[] item=new RecommnedInfo[count];
 
-                String[] tag = new String[count];
-                String[][] tag_arr = new String[count][10];
-
-
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     test += ds.child("url").getValue().toString()   + "#";
                     //tag[k] = ds.child("태그").getValue().toString();
@@ -72,18 +68,30 @@ public class RecommendationActivity extends AppCompatActivity {
                 StringTokenizer st = new StringTokenizer(test, "#");
                 StringTokenizer st_two = new StringTokenizer(test_two, "%");
 
-              /*  for ( int i = 0 ; i <  count ; i++) {
-                    StringTokenizer st_tag = new StringTokenizer(tag[i], "#");
-                    int num_tag = st_tag.countTokens();
-                    for( int j = 0 ; j < num_tag ; j++) {
-                        tag_arr[i][j] = st_tag.nextToken();
-                        Log.d("tag_arr"+i+j, tag_arr[i][j]);
-                    }
-                }*/
+                String shuffle[] = new String[count];
+                String shuffle_two[] = new String[count];
 
-                for ( int i = 0 ; i < count/2 ; i++)
+                for (int i = 0; i < count ; i++) {
+                    shuffle[i] = st.nextToken();
+                    shuffle_two[i] = st_two.nextToken();
+                }
+
+                for(int i = 0 ; i <shuffle.length; i++)
                 {
-                  item[i] = new RecommnedInfo(st.nextToken(),st.nextToken(),st_two.nextToken(),st_two.nextToken());
+                    int a = (int)(Math.random()*shuffle.length);
+                    int b = (int)(Math.random()*shuffle.length);
+                    String temp = shuffle[a];
+                    shuffle[a] = shuffle[b];
+                    shuffle[b] = temp;
+
+                    String temp_two = shuffle_two[a];
+                    shuffle_two[a] = shuffle_two[b];
+                    shuffle_two[b] = temp_two;
+                }
+
+                for ( int i = 0 ; i < count ; i+=2)
+                {
+                    item[i] = new RecommnedInfo(shuffle[i],shuffle[i+1],shuffle_two[i],shuffle_two[i+1]);
                  // Log.d("dddd",st_two.nextToken());
                     items.add(item[i]);
                 }
