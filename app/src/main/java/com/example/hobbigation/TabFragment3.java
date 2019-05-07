@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.StringTokenizer;
 
@@ -105,9 +106,11 @@ public class TabFragment3 extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     PreferenceUtil.getInstance(getContext()).putBooleanExtra("PushSetting",true);  //true 입력
+                    FirebaseMessaging.getInstance().subscribeToTopic("news");
                 }
                 else{
                     PreferenceUtil.getInstance(getContext()).putBooleanExtra("PushSetting",false);  //false 입력
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("news");
                 }
             }
         });

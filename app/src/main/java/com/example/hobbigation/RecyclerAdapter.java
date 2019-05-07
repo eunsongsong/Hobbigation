@@ -90,6 +90,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 }
 
                 //가중치
+                String weight = tag_sum;
 
 
                 //DB에 업데이트

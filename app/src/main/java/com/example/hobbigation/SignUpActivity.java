@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -195,6 +196,7 @@ public class SignUpActivity extends AppCompatActivity  {
                                         dialog = ProgressDialog.show(SignUpActivity.this, "회원가입이 완료되었습니다!"
                                                 ,mFirebaseUser.getEmail()+"으로 인증메일이 전송되었습니다.",true);
                                         mHandler.sendEmptyMessageDelayed(TIME_OUT, 3000);
+                                        FirebaseMessaging.getInstance().subscribeToTopic("news");
                                         startActivity(new Intent(SignUpActivity.this,BeforeSignin.class));
 
                                     } else {                                             //메일 보내기 실패
