@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class SignInActivity extends AppCompatActivity  {
     private EditText email_login;
     private EditText pwd_login;
     private Button forgot_pw_btn;  //비밀번호 변경 버튼
+    private CheckBox remember;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser mFirebaseUser;
@@ -49,12 +51,16 @@ public class SignInActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        forgot_pw_btn = (Button) findViewById(R.id.forgotPw_btn);
+        boolean autologin = PreferenceUtil.getInstance(this).getBooleanExtra("AutoLogin");  //출력
 
+        forgot_pw_btn = (Button) findViewById(R.id.forgotPw_btn);
+        remember =(CheckBox) findViewById(R.id.rememberlogin);
         email_login = (EditText) findViewById(R.id.sign_email);
         pwd_login = (EditText) findViewById(R.id.sign_pwd);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        remember.setChecked(autologin);
 
         //비밀번호 변경은 ForgotPw 액티비티로 이동해서 진행
         forgot_pw_btn.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +69,10 @@ public class SignInActivity extends AppCompatActivity  {
                 startActivity(new Intent(SignInActivity.this, ForgotPwActivity.class));
             }
         });
+
+        if(autologin){
+            load();
+        }
     }
 
     @SuppressLint("HandlerLeak") Handler mHandler = new Handler()
@@ -103,16 +113,24 @@ public class SignInActivity extends AppCompatActivity  {
                             {
                                 mFirebaseUser = firebaseAuth.getCurrentUser();
                                 if (mFirebaseUser != null) {
-                                    if (!(mFirebaseUser.isEmailVerified())) { //인증되면
+                                    if (!(mFirebaseUser.isEmailVerified())) { //인증안되면
                                         Toast.makeText(SignInActivity.this, "Email 인증을 해주세요", Toast.LENGTH_LONG).show();
                                         return;
-                                    } else { //인증안되면
+                                    } else { //인증되면
                                         email_login.setText(null);
                                         pwd_login.setText(null);
 
                                         dialog = ProgressDialog.show(SignInActivity.this, "로그인중입니다."
                                                 , "잠시만 기다려주세요");
                                         mHandler.sendEmptyMessageDelayed(TIME_OUT, 2000);
+
+                                        if(remember.isChecked()) {
+                                            PreferenceUtil.getInstance(getApplicationContext()).putBooleanExtra("AutoLogin", true);
+                                            PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("LoginID", email);
+                                            PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("LoginPW", password);
+                                        }
+                                        else PreferenceUtil.getInstance(getApplicationContext()).putBooleanExtra("AutoLogin", false);
+
                                         startActivity(new Intent(getApplicationContext(), TapViewActivity.class));
                                     }
                                 }
@@ -129,6 +147,13 @@ public class SignInActivity extends AppCompatActivity  {
             Toast.makeText(SignInActivity.this,R.string.failed_login,Toast.LENGTH_LONG).show();
             return;
         }
+    }
+
+    private void load() {
+        String ID = PreferenceUtil.getInstance(this).getStringExtra("LoginID");
+        String PW = PreferenceUtil.getInstance(this).getStringExtra("LoginPW");
+        email_login.setText(ID);
+        pwd_login.setText(PW);
     }
 
     // 이메일 유효성 검사

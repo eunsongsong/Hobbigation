@@ -95,8 +95,8 @@ public class ModifyInfoActivity extends AppCompatActivity {
     public void ModifyUserInfo(){
         ename = modify_name.getText().toString();
         eage = modify_age.getText().toString();
-        boolean mcheck = male_check.isChecked();
-        boolean fcheck = female_check.isChecked();
+        final boolean mcheck = male_check.isChecked();
+        final boolean fcheck = female_check.isChecked();
 
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = firebaseAuth.getCurrentUser();
@@ -111,7 +111,6 @@ public class ModifyInfoActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
                         String target = ds.child("email").getValue().toString();
                         if (mFirebaseUser != null) {
                             if (target.equals(mFirebaseUser.getEmail())) {
@@ -127,7 +126,7 @@ public class ModifyInfoActivity extends AppCompatActivity {
                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
                                     myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("age").setValue(eage);
                                 }
-                                if (!(TextUtils.isEmpty(egender))) {
+                                if (mcheck||fcheck) {
                                     StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
                                     myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("gender").setValue(egender);
