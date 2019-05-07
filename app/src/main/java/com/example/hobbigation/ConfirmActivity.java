@@ -53,11 +53,51 @@ public class ConfirmActivity extends AppCompatActivity {
                         if(userID.equals(key))
                         {
                             String target = ds.child("tag").getValue().toString();
+                            Log.d("c_Target",target);
+                            // "꼬치#먹방#음식#길거리음식#맛집%헬스#런닝머신#실내#운동#달리기#걷기#건강%"
+                            //# 4개 태그 5개 % 2개 #6개 태그 7개
+                            int row = 0;
+                            target = target.replace("%","#");
+                            Log.d("r_Target",target);
+                            StringTokenizer shop = new StringTokenizer(target, "#");
+                            row = shop.countTokens();
+
+                            Log.d("row",row+"");
+                            String[][] weight = new String[row][2];
+
+                            boolean exist = false;
+                            int minus = 0;
+                            for (int i = 0 ; i < row - minus ; i++)
+                            {
+                                String insert = shop.nextToken();
+                                for ( int j = 0 ; j < i ; j++)
+                                {
+                                    if (insert.equals(weight[j][0]))
+                                    {
+                                        weight[j][1] += "1";
+                                        Log.d("겹치는 태그 있을 때 weigh["+j+"][0]", weight[j][0]);
+                                        Log.d("겹치는거 태그 있을 때 weigh["+j+"][1]", weight[j][1]);
+                                        exist = true;
+                                    }
+                                }
+                                if ( !exist) {
+                                    weight[i][0] = insert;
+                                    Log.d("weigh[" + i + "][0]", weight[i][0]);
+                                    weight[i][1] = "1";
+                                    Log.d("weigh[" + i + "][1]", weight[i][1]);
+                                }
+                                else
+                                {
+                                    exist = false;
+                                    i--;
+                                    minus++;
+                                }
+                            }
                             show_tag.setText(target);
                             Log.d("Target",target);
                         }
                     }
-                    return;
+
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {

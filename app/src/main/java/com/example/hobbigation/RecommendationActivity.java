@@ -92,7 +92,6 @@ public class RecommendationActivity extends AppCompatActivity {
                 for ( int i = 0 ; i < count ; i+=2)
                 {
                     item[i] = new RecommnedInfo(shuffle[i],shuffle[i+1],shuffle_two[i],shuffle_two[i+1]);
-                 // Log.d("dddd",st_two.nextToken());
                     items.add(item[i]);
                 }
                 recyclerView.setAdapter(new RecyclerAdapter(getApplicationContext(),items,R.layout.activity_recommendation));
