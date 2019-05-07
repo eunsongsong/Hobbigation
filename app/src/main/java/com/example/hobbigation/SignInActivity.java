@@ -129,7 +129,11 @@ public class SignInActivity extends AppCompatActivity  {
                                             PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("LoginID", email);
                                             PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("LoginPW", password);
                                         }
-                                        else PreferenceUtil.getInstance(getApplicationContext()).putBooleanExtra("AutoLogin", false);
+                                        else {
+                                            PreferenceUtil.getInstance(getApplicationContext()).putBooleanExtra("AutoLogin", false);
+                                            PreferenceUtil.getInstance(getApplicationContext()).removePreference("LoginID");
+                                            PreferenceUtil.getInstance(getApplicationContext()).removePreference("LoginPW");
+                                        }
 
                                         startActivity(new Intent(getApplicationContext(), TapViewActivity.class));
                                     }
@@ -154,6 +158,7 @@ public class SignInActivity extends AppCompatActivity  {
         String PW = PreferenceUtil.getInstance(this).getStringExtra("LoginPW");
         email_login.setText(ID);
         pwd_login.setText(PW);
+
     }
 
     // 이메일 유효성 검사
