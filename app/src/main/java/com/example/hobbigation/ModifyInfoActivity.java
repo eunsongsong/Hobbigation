@@ -87,7 +87,6 @@ public class ModifyInfoActivity extends AppCompatActivity {
                 modify_age.setText(null);
                 male_check.setChecked(false);
                 female_check.setChecked(false);
-                egender="";
             }
         });
     }
@@ -96,12 +95,14 @@ public class ModifyInfoActivity extends AppCompatActivity {
     public void ModifyUserInfo(){
         ename = modify_name.getText().toString();
         eage = modify_age.getText().toString();
+        boolean mcheck = male_check.isChecked();
+        boolean fcheck = female_check.isChecked();
 
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = firebaseAuth.getCurrentUser();
 
         //변경사항이 없을 때 - 메세지만 띄우기
-        if((TextUtils.isEmpty(egender))&&(TextUtils.isEmpty(eage))&&(TextUtils.isEmpty(ename))) {
+        if(!mcheck&&!fcheck&&(TextUtils.isEmpty(eage))&&(TextUtils.isEmpty(ename))) {
             nulltoastMsg();
         }
         //변경사항이 있을 때 - DB 업데이트

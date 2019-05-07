@@ -18,6 +18,8 @@ public class SubActivity extends AppCompatActivity {
 
     String keyword = "";
     String str = "";
+    String[] strarr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +36,36 @@ public class SubActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            TextView searchResult1 = (TextView) findViewById(R.id.searchResult1);
                             TextView searchResult2 = (TextView) findViewById(R.id.searchResult2);
-                            searchResult2.setText(str);
+                            TextView searchResult3 = (TextView) findViewById(R.id.searchResult3);
+                            TextView searchResult4 = (TextView) findViewById(R.id.searchResult4);
+                            TextView searchResult5 = (TextView) findViewById(R.id.searchResult5);
+                            TextView searchResult6 = (TextView) findViewById(R.id.searchResult6);
+                            TextView searchResult7 = (TextView) findViewById(R.id.searchResult7);
+                            TextView searchResult8 = (TextView) findViewById(R.id.searchResult8);
+                            TextView searchResult9 = (TextView) findViewById(R.id.searchResult9);
+                            TextView searchResult10 = (TextView) findViewById(R.id.searchResult10);
 
+                            str = str.replace("&quot;","\"");
+                            str = str.replace("&gt;",">");
+                            str = str.replace("&lt;","<");
+                            str = str.replace("&amp;","&");
+                            str = str.replace("&nbsp;"," ");
+                            int idx = str.indexOf("Result");
+                            String str2 = str.substring(idx+7);
+
+                            strarr = str2.split("%");
+                            searchResult1.setText(strarr[0]);
+                            searchResult2.setText(strarr[1]);
+                            searchResult3.setText(strarr[2]);
+                            searchResult4.setText(strarr[3]);
+                            searchResult5.setText(strarr[4]);
+                            searchResult6.setText(strarr[5]);
+                            searchResult7.setText(strarr[6]);
+                            searchResult8.setText(strarr[7]);
+                            searchResult9.setText(strarr[8]);
+                            searchResult10.setText(strarr[9]);
                         }
                     });
 
@@ -91,23 +120,43 @@ public class SubActivity extends AppCompatActivity {
                             sb.append("내용 : ");
                             xpp.next();
 
+                            sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
+                            sb.append("\n");
+
+                        } else if (tag.equals("link")) {
+
+                            sb.append("링크 : ");
+                            xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("\n");
 
+                        } else if (tag.equals("bloggername")) {
 
+                            sb.append("블로거명 : ");
+                            xpp.next();
+
+                            sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
+                            sb.append("\n");
+
+                        } else if (tag.equals("postdate")) {
+
+                            sb.append("작성날짜 : ");
+                            xpp.next();
+
+                            sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
+                            sb.append("\n%");
                         }
+
                         break;
                 }
 
                 eventType = xpp.next();
 
-
             }
 
         } catch (Exception e) {
             return e.toString();
-
         }
 
         return sb.toString();
