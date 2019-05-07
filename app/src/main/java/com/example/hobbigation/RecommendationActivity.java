@@ -51,11 +51,6 @@ public class RecommendationActivity extends AppCompatActivity {
 
          final List<RecommnedInfo> items=new ArrayList<>();
 
-
-
-
-
-
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -73,19 +68,14 @@ public class RecommendationActivity extends AppCompatActivity {
                 StringTokenizer st = new StringTokenizer(test, "#");
                 StringTokenizer st_two = new StringTokenizer(test_two, "%");
 
-              /*  for ( int i = 0 ; i <  count ; i++) {
-                    StringTokenizer st_tag = new StringTokenizer(tag[i], "#");
-                    int num_tag = st_tag.countTokens();
-                    for( int j = 0 ; j < num_tag ; j++) {
-                        tag_arr[i][j] = st_tag.nextToken();
-                        Log.d("tag_arr"+i+j, tag_arr[i][j]);
-                    }
-                }*/
                 String shuffle[] = new String[count];
+                String shuffle_two[] = new String[count];
 
                 for (int i = 0; i < count ; i++) {
                     shuffle[i] = st.nextToken();
+                    shuffle_two[i] = st_two.nextToken();
                 }
+
                 for(int i = 0 ; i <shuffle.length; i++)
                 {
                     int a = (int)(Math.random()*shuffle.length);
@@ -93,11 +83,15 @@ public class RecommendationActivity extends AppCompatActivity {
                     String temp = shuffle[a];
                     shuffle[a] = shuffle[b];
                     shuffle[b] = temp;
+
+                    String temp_two = shuffle_two[a];
+                    shuffle_two[a] = shuffle_two[b];
+                    shuffle_two[b] = temp_two;
                 }
 
                 for ( int i = 0 ; i < count ; i+=2)
                 {
-                         item[i] = new RecommnedInfo(shuffle[i],shuffle[i+1],st_two.nextToken(),st_two.nextToken());
+                    item[i] = new RecommnedInfo(shuffle[i],shuffle[i+1],shuffle_two[i],shuffle_two[i+1]);
                  // Log.d("dddd",st_two.nextToken());
                     items.add(item[i]);
                 }

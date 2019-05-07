@@ -88,6 +88,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     deletestr = item.getTag()+"%";
                     tag_sum = tag_sum.replace(deletestr, "");
                 }
+
+                //가중치
+
+
                 //DB에 업데이트
                 myRef_two.addValueEventListener(new ValueEventListener() {
                     @Override
