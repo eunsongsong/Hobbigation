@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +25,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
     public RecyclerView recyclerView_out;
     public RecyclerView recyclerView_part;
     public RecyclerView recyclerView_see;
+    private TextView cate_tv;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("취미").child("카테고리");
@@ -34,9 +36,12 @@ public class CategoryDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_detail);
 
+        cate_tv = (TextView)findViewById(R.id.category_tv);
+
         Intent intent = getIntent();
         String category = intent.getStringExtra("category");
         Log.d("ddddasdsadd",category);
+        cate_tv.setText(category);
 
         recyclerView_in=(RecyclerView)findViewById(R.id.recycler_indoor);
         final LinearLayoutManager layoutManager_in=new LinearLayoutManager(getApplicationContext());
