@@ -1,9 +1,13 @@
 package com.example.hobbigation;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -36,16 +40,13 @@ public class SubActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            TextView searchResult1 = (TextView) findViewById(R.id.searchResult1);
-                            TextView searchResult2 = (TextView) findViewById(R.id.searchResult2);
-                            TextView searchResult3 = (TextView) findViewById(R.id.searchResult3);
-                            TextView searchResult4 = (TextView) findViewById(R.id.searchResult4);
-                            TextView searchResult5 = (TextView) findViewById(R.id.searchResult5);
-                            TextView searchResult6 = (TextView) findViewById(R.id.searchResult6);
-                            TextView searchResult7 = (TextView) findViewById(R.id.searchResult7);
-                            TextView searchResult8 = (TextView) findViewById(R.id.searchResult8);
-                            TextView searchResult9 = (TextView) findViewById(R.id.searchResult9);
-                            TextView searchResult10 = (TextView) findViewById(R.id.searchResult10);
+                            ListView listview;
+                            blogListviewAdapter adapter;
+                            int i = 0;
+
+                            adapter = new blogListviewAdapter();
+                            listview = (ListView) findViewById(R.id.bloglist);
+                            listview.setAdapter(adapter);
 
                             str = str.replace("&quot;","\"");
                             str = str.replace("&gt;",">");
@@ -56,16 +57,51 @@ public class SubActivity extends AppCompatActivity {
                             String str2 = str.substring(idx+7);
 
                             strarr = str2.split("%");
-                            searchResult1.setText(strarr[0]);
-                            searchResult2.setText(strarr[1]);
-                            searchResult3.setText(strarr[2]);
-                            searchResult4.setText(strarr[3]);
-                            searchResult5.setText(strarr[4]);
-                            searchResult6.setText(strarr[5]);
-                            searchResult7.setText(strarr[6]);
-                            searchResult8.setText(strarr[7]);
-                            searchResult9.setText(strarr[8]);
-                            searchResult10.setText(strarr[9]);
+
+                            for(i=0; i < 50; i=i+5) {
+                                String tmp = strarr[i+4];
+                                tmp = tmp.substring(0,4)+"."+tmp.substring(4,6)+"."+tmp.substring(6,8);
+                                strarr[i+4] = tmp;
+                                adapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.blog)
+                                        , strarr[i], strarr[i + 2], strarr[i + 3], strarr[i + 4]);
+                            }
+
+                            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                final Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse(strarr[1]));
+                                final Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse(strarr[6]));
+                                final Intent intent3 = new Intent(Intent.ACTION_VIEW, Uri.parse(strarr[11]));
+                                final Intent intent4 = new Intent(Intent.ACTION_VIEW, Uri.parse(strarr[16]));
+                                final Intent intent5 = new Intent(Intent.ACTION_VIEW, Uri.parse(strarr[21]));
+                                final Intent intent6 = new Intent(Intent.ACTION_VIEW, Uri.parse(strarr[26]));
+                                final Intent intent7 = new Intent(Intent.ACTION_VIEW, Uri.parse(strarr[31]));
+                                final Intent intent8 = new Intent(Intent.ACTION_VIEW, Uri.parse(strarr[36]));
+                                final Intent intent9 = new Intent(Intent.ACTION_VIEW, Uri.parse(strarr[41]));
+                                final Intent intent10 = new Intent(Intent.ACTION_VIEW, Uri.parse(strarr[46]));
+
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    if (position == 0)
+                                        startActivity(intent1);
+                                    else if (position == 1)
+                                        startActivity(intent2);
+                                    else if (position == 2)
+                                        startActivity(intent3);
+                                    else if (position == 3)
+                                        startActivity(intent4);
+                                    else if (position == 4)
+                                        startActivity(intent5);
+                                    else if (position == 5)
+                                        startActivity(intent6);
+                                    else if (position == 6)
+                                        startActivity(intent7);
+                                    else if (position == 7)
+                                        startActivity(intent8);
+                                    else if (position == 8)
+                                        startActivity(intent9);
+                                    else if (position == 9)
+                                        startActivity(intent10);
+                                }
+                            });
                         }
                     });
 
@@ -110,42 +146,42 @@ public class SubActivity extends AppCompatActivity {
                         if (tag.equals("item")) ; //첫번째 검색 결과
                         else if (tag.equals("title")) {
 
-                            sb.append("제목 : ");
+                            //sb.append("제목 : ");
                             xpp.next();
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("\n");
+                            sb.append("%");
 
                         } else if (tag.equals("description")) {
 
-                            sb.append("내용 : ");
+                            //sb.append("내용 : ");
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("\n");
+                            sb.append("%");
 
                         } else if (tag.equals("link")) {
 
-                            sb.append("링크 : ");
+                            //sb.append("링크 : ");
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("\n");
+                            sb.append("%");
 
                         } else if (tag.equals("bloggername")) {
 
-                            sb.append("블로거명 : ");
+                            //sb.append("블로거명 : ");
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("\n");
+                            sb.append("%");
 
                         } else if (tag.equals("postdate")) {
 
-                            sb.append("작성날짜 : ");
+                            //sb.append("작성날짜 : ");
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("\n%");
+                            sb.append("%");
                         }
 
                         break;

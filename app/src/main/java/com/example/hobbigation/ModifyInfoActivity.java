@@ -103,7 +103,7 @@ public class ModifyInfoActivity extends AppCompatActivity {
 
         //변경사항이 없을 때 - 메세지만 띄우기
         if(!mcheck&&!fcheck&&(TextUtils.isEmpty(eage))&&(TextUtils.isEmpty(ename))) {
-            nulltoastMsg();
+            Toast.makeText(this, "변경사항이 없습니다.", Toast.LENGTH_SHORT).show();
         }
         //변경사항이 있을 때 - DB 업데이트
         else {
@@ -131,6 +131,8 @@ public class ModifyInfoActivity extends AppCompatActivity {
                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
                                     myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("gender").setValue(egender);
                                 }
+                                //변경 사항이 저장되었음을 알림
+                                Toast.makeText(getApplicationContext(), "변경사항이 저장되었습니다.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -140,18 +142,6 @@ public class ModifyInfoActivity extends AppCompatActivity {
 
                 }
             });
-            //변경 사항이 저장되었음을 알림
-            savetoastMsg();
         }
     }
-
-    //변경 사항 저장 알림 토스트 메세지
-    public void savetoastMsg(){
-        Toast.makeText(this, "변경사항이 저장되었습니다.", Toast.LENGTH_SHORT).show();
-    }
-    //변경 사항 없음 토스트 메세지
-    public void nulltoastMsg(){
-        Toast.makeText(this, "변경사항이 없습니다.", Toast.LENGTH_SHORT).show();
-    }
-
 }
