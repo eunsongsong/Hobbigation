@@ -36,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="5dp"
                 android:paddingRight="15dp"
-                android:textColor="#666666"
+                android:textColor="#555555"
                 android:textSize="16dp" />
     </LinearLayout>
 
@@ -48,11 +48,13 @@
         <TextView
             android:id="@+id/bloger"
             android:layout_width="250dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
             android:paddingRight="15dp"
-            android:textColor="#666666"
+            android:drawableLeft="@mipmap/anonym"
+            android:drawablePadding="8dp"
+            android:textColor="#BB666666"
             android:textSize="16dp" />
 
         <TextView
@@ -61,19 +63,19 @@
             android:layout_height="match_parent"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:textColor="#22666666"
+            android:textColor="#2F666666"
             android:textSize="16dp"
             android:text="|"/>
 
         <TextView
             android:id="@+id/postdate"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
             android:paddingRight="15dp"
             android:paddingBottom="10dp"
-            android:textColor="#666666"
+            android:textColor="#BB666666"
             android:textSize="16dp" />
 
     </LinearLayout>
