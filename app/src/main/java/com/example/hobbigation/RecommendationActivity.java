@@ -41,7 +41,6 @@ public class RecommendationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommendation);
 
-
         confirm_btn = (Button)findViewById(R.id.confirm);
 
         recyclerView=(RecyclerView)findViewById(R.id.myrecyclerview);

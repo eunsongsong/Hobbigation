@@ -40,7 +40,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String category = intent.getStringExtra("category");
-        Log.d("ddddasdsadd",category);
         cate_tv.setText(category);
 
         recyclerView_in=(RecyclerView)findViewById(R.id.recycler_indoor);
@@ -60,7 +59,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
                 int i = 0;
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    Log.d("ddddd",ds.getValue().toString());
                     item[i] = new InDoorInfo(ds.getValue().toString());
                     items_in.add(item[i]);
                     i++;
@@ -93,7 +91,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 int i = 0;
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    Log.d("ddddd",ds.getValue().toString());
                     item[i] = new OutDoorInfo(ds.getValue().toString());
                     items_out.add(item[i]);
                     i++;
@@ -125,7 +122,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 int i = 0;
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    Log.d("ddddd",ds.getValue().toString());
                     item[i] = new PartInfo(ds.getValue().toString());
                     items_part.add(item[i]);
                     i++;
@@ -158,7 +154,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 int i = 0;
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    Log.d("ddddd",ds.getValue().toString());
                     item[i] = new SeeInfo(ds.getValue().toString());
                     items_see.add(item[i]);
                     i++;
