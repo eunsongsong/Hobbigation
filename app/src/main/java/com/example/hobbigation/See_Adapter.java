@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,10 @@ public class See_Adapter extends RecyclerView.Adapter<See_Adapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final SeeInfo item=items.get(position);
         holder.see_tv.setText(item.getName());
+
+        Glide.with(holder.itemView.getContext())
+                .load(item.getUrl())
+                .into(holder.see_img);
     }
 
     @Override
@@ -49,10 +55,12 @@ public class See_Adapter extends RecyclerView.Adapter<See_Adapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView see_tv;
+        ImageView see_img;
 
         public ViewHolder(View itemView) {
             super(itemView);
             see_tv = (TextView) itemView.findViewById(R.id.see_tv);
+            see_img = (ImageView) itemView.findViewById(R.id.see_img_view);
         }
     }
 }

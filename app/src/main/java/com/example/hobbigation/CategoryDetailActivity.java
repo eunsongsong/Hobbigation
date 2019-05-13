@@ -16,7 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CategoryDetailActivity extends AppCompatActivity {
@@ -28,18 +30,45 @@ public class CategoryDetailActivity extends AppCompatActivity {
     private TextView cate_tv;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("취미").child("카테고리");
+    DatabaseReference myRef = database.getReference("취미").child("이미지_태그");
 
+    String url ="lll";
     int count = 0 ;
+    String[] indoor;
+    String[] outdoor;
+    String[] see;
+    String[] part;
+    String temp;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_detail);
 
         cate_tv = (TextView)findViewById(R.id.category_tv);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         String category = intent.getStringExtra("category");
+
+        temp = intent.getStringExtra("실내").replace("[","");
+        temp = temp.replace("]","");
+        indoor = temp.split(",");
+        Arrays.sort(indoor);
+
+        temp = intent.getStringExtra("야외").replace("[","");
+        temp = temp.replace("]","");
+        outdoor = temp.split(",");
+        Arrays.sort(outdoor);
+
+        temp = intent.getStringExtra("감상").replace("[","");
+        temp = temp.replace("]","");
+        see = temp.split(",");
+        Arrays.sort(see);
+
+        temp = intent.getStringExtra("참여").replace("[","");
+        temp = temp.replace("]","");
+        part = temp.split(",");
+        Arrays.sort(part);
+
         cate_tv.setText(category);
 
         recyclerView_in=(RecyclerView)findViewById(R.id.recycler_indoor);
@@ -48,29 +77,38 @@ public class CategoryDetailActivity extends AppCompatActivity {
         recyclerView_in.setHasFixedSize(true);
         recyclerView_in.setLayoutManager(layoutManager_in);
 
-        final List<InDoorInfo> items_in =new ArrayList<>();
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                     List<InDoorInfo> items_in =new ArrayList<>();
+                    InDoorInfo[] item = new InDoorInfo[indoor.length]; // 9
 
-        myRef.child(category).child("실내_야외").child("실내").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    int a = 0;
+                        for(DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                count = (int)dataSnapshot.getChildrenCount();
-                InDoorInfo[] item=new InDoorInfo[count];
+                            if( a > indoor.length - 1)
+                                break;
 
-                int i = 0;
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    item[i] = new InDoorInfo(ds.getValue().toString());
-                    items_in.add(item[i]);
-                    i++;
+                            String b = dataSnapshot.child(indoor[a]).getKey().trim();
+                            String c = ds.getKey().trim();
+
+                            if (b.equals(c)) {
+
+                                item[a] = new InDoorInfo(indoor[a], ds.child("url_태그").child("0").child("url").getValue().toString());
+                                items_in.add(item[a]);
+                                a++;
+                            }
+
+                        }
+                    recyclerView_in.setAdapter(new InDoor_Adapter(getApplicationContext(),items_in,R.layout.activity_category_detail));
                 }
-                recyclerView_in.setAdapter(new InDoor_Adapter(getApplicationContext(),items_in,R.layout.activity_category_detail));
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
 
-            }
-        });
+
 
 
         recyclerView_out=(RecyclerView)findViewById(R.id.recycler_outdoor);
@@ -79,21 +117,29 @@ public class CategoryDetailActivity extends AppCompatActivity {
         recyclerView_out.setHasFixedSize(true);
         recyclerView_out.setLayoutManager(layoutManager_out);
 
-        final List<OutDoorInfo> items_out=new ArrayList<>();
 
-        myRef.child(category).child("실내_야외").child("야외").addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<OutDoorInfo> items_out=new ArrayList<>();
 
-                count = (int)dataSnapshot.getChildrenCount();
-                OutDoorInfo[] item=new OutDoorInfo[count];
+                OutDoorInfo[] item = new OutDoorInfo[outdoor.length]; // 9
 
-                int i = 0;
+                int a = 0;
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    item[i] = new OutDoorInfo(ds.getValue().toString());
-                    items_out.add(item[i]);
-                    i++;
+                    if( a > outdoor.length - 1)
+                        break;
+
+                    String b = dataSnapshot.child(outdoor[a]).getKey().trim();
+                    String c = ds.getKey().trim();
+
+                    if (b.equals(c)) {
+
+                        item[a] = new OutDoorInfo(outdoor[a], ds.child("url_태그").child("0").child("url").getValue().toString());
+                        items_out.add(item[a]);
+                        a++;
+                    }
                 }
                 recyclerView_out.setAdapter(new OutDoor_Adapter(getApplicationContext(),items_out,R.layout.activity_category_detail));
             }
@@ -110,21 +156,30 @@ public class CategoryDetailActivity extends AppCompatActivity {
         recyclerView_part.setHasFixedSize(true);
         recyclerView_part.setLayoutManager(layoutManager_part);
 
-        final List<PartInfo> items_part=new ArrayList<>();
 
-        myRef.child(category).child("참여_감상").child("참여").addValueEventListener(new ValueEventListener() {
+
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<PartInfo> items_part=new ArrayList<>();
 
-                count = (int)dataSnapshot.getChildrenCount();
-                PartInfo[] item=new PartInfo[count];
+                PartInfo[] item = new PartInfo[part.length]; // 9
 
-                int i = 0;
+                int a = 0;
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    item[i] = new PartInfo(ds.getValue().toString());
-                    items_part.add(item[i]);
-                    i++;
+                    if( a > part.length - 1)
+                        break;
+
+                    String b = dataSnapshot.child(part[a]).getKey().trim();
+                    String c = ds.getKey().trim();
+
+                    if (b.equals(c)) {
+
+                        item[a] = new PartInfo(part[a], ds.child("url_태그").child("0").child("url").getValue().toString());
+                        items_part.add(item[a]);
+                        a++;
+                    }
                 }
                 recyclerView_part.setAdapter(new Part_Adapter(getApplicationContext(),items_part,R.layout.activity_category_detail));
             }
@@ -135,38 +190,43 @@ public class CategoryDetailActivity extends AppCompatActivity {
             }
         });
 
-
         recyclerView_see=(RecyclerView)findViewById(R.id.recycler_see);
         final LinearLayoutManager layoutManager_see=new LinearLayoutManager(getApplicationContext());
         layoutManager_see.setOrientation(LinearLayout.HORIZONTAL);
         recyclerView_see.setHasFixedSize(true);
         recyclerView_see.setLayoutManager(layoutManager_see);
 
-        final List<SeeInfo> items_see=new ArrayList<>();
 
-        myRef.child(category).child("참여_감상").child("감상").addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<SeeInfo> items_see=new ArrayList<>();
 
-                count = (int)dataSnapshot.getChildrenCount();
-                SeeInfo[] item=new SeeInfo[count];
+                SeeInfo[] item = new SeeInfo[see.length]; // 9
 
-                int i = 0;
+                int a = 0;
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    item[i] = new SeeInfo(ds.getValue().toString());
-                    items_see.add(item[i]);
-                    i++;
+                    if( a > see.length - 1)
+                        break;
+
+                    String b = dataSnapshot.child(see[a]).getKey().trim();
+                    String c = ds.getKey().trim();
+
+                    if (b.equals(c)) {
+
+                        item[a] = new SeeInfo(see[a], ds.child("url_태그").child("0").child("url").getValue().toString());
+                        items_see.add(item[a]);
+                        a++;
+                    }
                 }
                 recyclerView_see.setAdapter(new See_Adapter(getApplicationContext(),items_see,R.layout.activity_category_detail));
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
 
     }
 }

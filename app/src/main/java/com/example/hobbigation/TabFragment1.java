@@ -34,7 +34,6 @@ public class TabFragment1 extends Fragment {
     AutoScrollViewPager autoViewPager;
     int count = 0;
     String total = "";
-    String temp = "";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("추천이미지");
 
@@ -77,13 +76,13 @@ public class TabFragment1 extends Fragment {
         recyclerView.setAdapter(new Main_CategoryAdapter(getContext(),items,R.layout.fragment_tab_fragment1));
 
         recommend_btn = (Button) rootview.findViewById(R.id.recommend);
-
         recommend_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), RecommendationActivity.class));
             }
         });
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -110,7 +109,6 @@ public class TabFragment1 extends Fragment {
                 for (int i = 0; i < count ; i++) {
                     data.add(shuffle[i]);
                 }
-
                 AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(getContext(), data);
                 autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
                 autoViewPager.setInterval(3500); // 페이지 넘어갈 시간 간격 설정

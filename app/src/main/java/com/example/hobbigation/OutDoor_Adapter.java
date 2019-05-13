@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,10 @@ public class OutDoor_Adapter extends RecyclerView.Adapter<OutDoor_Adapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final OutDoorInfo item=items.get(position);
         holder.outdoor_tv.setText(item.getName());
+
+        Glide.with(holder.itemView.getContext())
+                .load(item.getUrl())
+                .into(holder.outdoor_img);
     }
 
     @Override
@@ -49,10 +55,12 @@ public class OutDoor_Adapter extends RecyclerView.Adapter<OutDoor_Adapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView outdoor_tv;
+        ImageView outdoor_img;
 
         public ViewHolder(View itemView) {
             super(itemView);
             outdoor_tv = (TextView) itemView.findViewById(R.id.outdoor_tv);
+            outdoor_img = (ImageView) itemView.findViewById(R.id.outdoor_img_view);
         }
     }
 }

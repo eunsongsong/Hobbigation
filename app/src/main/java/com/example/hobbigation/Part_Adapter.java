@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,11 @@ public class Part_Adapter extends RecyclerView.Adapter<Part_Adapter.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final PartInfo item=items.get(position);
         holder.part_tv.setText(item.getName());
+
+        Glide.with(holder.itemView.getContext())
+                .load(item.getUrl())
+                .into(holder.part_img);
+
     }
 
     @Override
@@ -49,10 +56,12 @@ public class Part_Adapter extends RecyclerView.Adapter<Part_Adapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView part_tv;
+        ImageView part_img;
 
         public ViewHolder(View itemView) {
             super(itemView);
             part_tv = (TextView) itemView.findViewById(R.id.part_tv);
+            part_img = (ImageView) itemView.findViewById(R.id.part_img_view);
         }
     }
 }

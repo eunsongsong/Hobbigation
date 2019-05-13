@@ -41,7 +41,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/back_img_art1"
+                    android:id="@+id/back_img_culture1"
                     android:layout_width="180dp"
                     android:layout_height="180dp"
                     android:layout_marginLeft="10dp"
@@ -52,19 +52,19 @@
                     android:textSize="22sp" />
 
                 <TextView
-                    android:id="@+id/art_text"
+                    android:id="@+id/culture1"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:layout_marginTop="155dp"
                     android:textAlignment="center"
                     android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:text="예술"
+                    android:textSize="18sp"
+                    android:text="문화/공연"
                     android:textStyle="bold" />
 
                 <ImageButton
-                    android:id="@+id/back_img_book2"
+                    android:id="@+id/back_img_music2"
                     android:layout_width="180dp"
                     android:layout_height="180dp"
                     android:layout_marginLeft="210dp"
@@ -74,12 +74,12 @@
                     android:text="@+id/categ_txt2"
                     android:textSize="22sp" />
                 <TextView
-                    android:id="@+id/book_text"
+                    android:id="@+id/music_text"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="260dp"
                     android:layout_marginTop="155dp"
-                    android:text="책"
+                    android:text="음악"
                     android:textAlignment="center"
                     android:textColor="#000000"
                     android:textSize="20sp"
@@ -91,20 +91,22 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/art_img"
-                        android:layout_width="180dp"
-                        android:layout_height="135dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp" />
+                        android:id="@+id/culture_img"
+                        android:layout_width="135dp"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="35dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/show" />
 
                     <ImageView
-                        android:id="@+id/book_img"
-                        android:layout_width="180dp"
-                        android:layout_height="135dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp" />
+                        android:id="@+id/music_img"
+                        android:layout_width="138dp"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/music" />
 
                 </LinearLayout>
             </FrameLayout>
@@ -117,7 +119,7 @@
                     >
 
                     <ImageButton
-                        android:id="@+id/back_img_collection3"
+                        android:id="@+id/back_img_art3"
                         android:layout_width="180dp"
                         android:layout_height="180dp"
                         android:layout_marginLeft="10dp"
@@ -128,11 +130,11 @@
                         android:textSize="22sp" />
 
                     <TextView
-                        android:id="@+id/collection_text"
+                        android:id="@+id/art_text"
                         android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="60dp"
-                        android:text="수집"
+                        android:text="예술"
                         android:layout_marginTop="155dp"
                         android:textAlignment="center"
                         android:textColor="#000000"
@@ -140,7 +142,7 @@
                         android:textStyle="bold" />
 
                     <ImageButton
-                        android:id="@+id/back_img_make4"
+                        android:id="@+id/back_img_book4"
                         android:layout_width="180dp"
                         android:layout_height="180dp"
                         android:layout_marginLeft="210dp"
@@ -150,15 +152,15 @@
                         android:text="@+id/categ_txt2"
                         android:textSize="22sp" />
                     <TextView
-                        android:id="@+id/make_text"
+                        android:id="@+id/book_text"
                         android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="260dp"
-                        android:text="만들기"
+                        android:text="책/글"
                         android:layout_marginTop="155dp"
                         android:textAlignment="center"
                         android:textColor="#000000"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -167,20 +169,22 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/collection_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
+                            android:id="@+id/art_img"
+                            android:layout_width="136dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="35dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/art" />
 
                         <ImageView
-                            android:id="@+id/make_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
+                            android:id="@+id/book_img"
+                            android:layout_width="142dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/book" />
 
                     </LinearLayout>
                 </FrameLayout>
@@ -192,7 +196,7 @@
                 >
 
                 <ImageButton
-                    android:id="@+id/back_img_food5"
+                    android:id="@+id/back_img_sports5"
                     android:layout_width="180dp"
                     android:layout_height="180dp"
                     android:layout_marginLeft="10dp"
@@ -203,19 +207,19 @@
                     android:textSize="22sp" />
 
                 <TextView
-                    android:id="@+id/food_text"
-                    android:layout_width="85dp"
+                    android:id="@+id/sports_text"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:text="음식"
+                    android:layout_marginLeft="45dp"
+                    android:text="운동/스포츠"
                     android:layout_marginTop="155dp"
                     android:textAlignment="center"
                     android:textColor="#000000"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <ImageButton
-                    android:id="@+id/back_img_picture6"
+                    android:id="@+id/back_img_make6"
                     android:layout_width="180dp"
                     android:layout_height="180dp"
                     android:layout_marginLeft="210dp"
@@ -225,13 +229,13 @@
                     android:text="@+id/categ_txt2"
                     android:textSize="22sp" />
                 <TextView
-                    android:id="@+id/picture_text"
+                    android:id="@+id/make_text"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="260dp"
                     android:layout_marginTop="155dp"
                     android:textAlignment="center"
-                    android:text="사진"
+                    android:text="만들기"
                     android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -242,20 +246,22 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/food_img"
-                        android:layout_width="180dp"
-                        android:layout_height="135dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp" />
+                        android:id="@+id/sports_img"
+                        android:layout_width="132dp"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="35dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/sports" />
 
                     <ImageView
-                        android:id="@+id/picture_img"
-                        android:layout_width="180dp"
-                        android:layout_height="135dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp" />
+                        android:id="@+id/make_img"
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/craft" />
 
                 </LinearLayout>
             </FrameLayout>
@@ -267,7 +273,7 @@
                     >
 
                     <ImageButton
-                        android:id="@+id/back_img_game7"
+                        android:id="@+id/back_img_food7"
                         android:layout_width="180dp"
                         android:layout_height="180dp"
                         android:layout_marginLeft="10dp"
@@ -278,20 +284,20 @@
                         android:textSize="22sp" />
 
                     <TextView
-                        android:id="@+id/game_text"
+                        android:id="@+id/food_text"
                         android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="60dp"
                         android:layout_marginTop="155dp"
 
-                        android:text="게임/오락"
+                        android:text="음식"
                         android:textAlignment="center"
                         android:textColor="#000000"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <ImageButton
-                        android:id="@+id/back_img_shop8"
+                        android:id="@+id/back_img_game8"
                         android:layout_width="180dp"
                         android:layout_height="180dp"
                         android:layout_marginLeft="210dp"
@@ -301,15 +307,15 @@
                         android:text="@+id/categ_txt2"
                         android:textSize="22sp" />
                     <TextView
-                        android:id="@+id/shop_text"
+                        android:id="@+id/game_text"
                         android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="260dp"
                         android:layout_marginTop="155dp"
                         android:textAlignment="center"
-                        android:text="쇼핑"
+                        android:text="게임/오락"
                         android:textColor="#000000"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -318,20 +324,22 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/game_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
+                            android:id="@+id/food_img"
+                            android:layout_width="136dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="35dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/burger" />
 
                         <ImageView
-                            android:id="@+id/show_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
+                            android:id="@+id/game_img"
+                            android:layout_width="137dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/game" />
 
                     </LinearLayout>
                 </FrameLayout>
@@ -343,7 +351,7 @@
                     >
 
                     <ImageButton
-                        android:id="@+id/back_img_plant9"
+                        android:id="@+id/back_img_outdoor9"
                         android:layout_width="180dp"
                         android:layout_height="180dp"
                         android:layout_marginLeft="10dp"
@@ -353,37 +361,37 @@
                         android:background="@drawable/square_states"
                         android:textSize="22sp" />
 
+                    <TextView
+                        android:id="@+id/outdoor_text"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="155dp"
+                        android:text="아웃도어"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/back_img_plant10"
+                        android:layout_width="180dp"
+                        android:layout_height="180dp"
+                        android:layout_marginLeft="210dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/square_states"
+                        android:text="@+id/categ_txt2"
+                        android:textSize="22sp" />
                     <TextView
                         android:id="@+id/plant_text"
                         android:layout_width="85dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="60dp"
-                        android:layout_marginTop="155dp"
-                        android:text="식물"
-                        android:textAlignment="center"
-                        android:textColor="#000000"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/back_img_music10"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:layout_marginLeft="210dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/square_states"
-                        android:text="@+id/categ_txt2"
-                        android:textSize="22sp" />
-                    <TextView
-                        android:id="@+id/music_text"
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
                         android:layout_marginLeft="260dp"
                         android:layout_marginTop="155dp"
                         android:textAlignment="center"
                         android:textColor="#000000"
-                        android:text="음악"
+                        android:text="식물"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -393,20 +401,22 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/plant_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
+                            android:id="@+id/outdoor_img"
+                            android:layout_width="130dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="35dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/outdoor" />
 
                         <ImageView
-                            android:id="@+id/music_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
+                            android:id="@+id/plant_img"
+                            android:layout_width="142dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/plant" />
 
                     </LinearLayout>
                 </FrameLayout>
@@ -418,7 +428,7 @@
                     >
 
                     <ImageButton
-                        android:id="@+id/back_img_study11"
+                        android:id="@+id/back_img_rest11"
                         android:layout_width="180dp"
                         android:layout_height="180dp"
                         android:layout_marginLeft="10dp"
@@ -429,13 +439,13 @@
                         android:textSize="22sp" />
 
                     <TextView
-                        android:id="@+id/study_text"
+                        android:id="@+id/rest_text"
                         android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="60dp"
                         android:layout_marginTop="155dp"
                         android:textAlignment="center"
-                        android:text="공부"
+                        android:text="휴식"
                         android:textColor="#000000"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -468,244 +478,21 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/study_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
+                            android:id="@+id/rest_img"
+                            android:layout_width="128dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="35dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/sleep" />
 
                         <ImageView
                             android:id="@+id/volunteer_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
-
-                    </LinearLayout>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-
-                    <ImageButton
-                        android:id="@+id/back_img_media13"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:textAlignment="center"
-                        android:background="@drawable/square_states"
-                        android:textSize="22sp" />
-
-                    <TextView
-                        android:id="@+id/media_text"
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="60dp"
-                        android:layout_marginTop="155dp"
-                        android:textAlignment="center"
-                        android:textColor="#000000"
-                        android:textSize="20sp"
-                        android:text="미디어"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/back_img_rest14"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:layout_marginLeft="210dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/square_states"
-                        android:text="@+id/categ_txt2"
-                        android:textSize="22sp" />
-                    <TextView
-                        android:id="@+id/rest_text"
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="260dp"
-                        android:layout_marginTop="155dp"
-                        android:textAlignment="center"
-                        android:textColor="#000000"
-                        android:text="휴식"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/media_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
-
-                        <ImageView
-                            android:id="@+id/rest_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
-
-                    </LinearLayout>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-
-                    <ImageButton
-                        android:id="@+id/back_img_concert15"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:textAlignment="center"
-                        android:background="@drawable/square_states"
-                        android:textSize="22sp" />
-
-                    <TextView
-                        android:id="@+id/concert_text"
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="60dp"
-                        android:layout_marginTop="155dp"
-                        android:textAlignment="center"
-                        android:textColor="#000000"
-                        android:textSize="20sp"
-                        android:text="공연"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/back_img_travel16"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:layout_marginLeft="210dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/square_states"
-                        android:text="@+id/categ_txt2"
-                        android:textSize="22sp" />
-                    <TextView
-                        android:id="@+id/travel_text"
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="260dp"
-                        android:layout_marginTop="155dp"
-                        android:textAlignment="center"
-                        android:textColor="#000000"
-                        android:text="여행"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/concert_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
-
-                        <ImageView
-                            android:id="@+id/travel_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
-
-                    </LinearLayout>
-                </FrameLayout>
-
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-
-                    <ImageButton
-                        android:id="@+id/back_img_outdoor17"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:textAlignment="center"
-                        android:background="@drawable/square_states"
-                        android:textSize="22sp" />
-
-                    <TextView
-                        android:id="@+id/outdoor_text"
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="60dp"
-                        android:layout_marginTop="155dp"
-                        android:textAlignment="center"
-                        android:textColor="#000000"
-                        android:textSize="20sp"
-                        android:text="아웃도어"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/back_img_sport18"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:layout_marginLeft="210dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/square_states"
-                        android:textSize="22sp" />
-                    <TextView
-                        android:id="@+id/sports_text"
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="260dp"
-                        android:layout_marginTop="155dp"
-                        android:textAlignment="center"
-                        android:textColor="#000000"
-                        android:text="스포츠"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/outdoor_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp" />
-
-                        <ImageView
-                            android:id="@+id/sports_img"
-                            android:layout_width="180dp"
-                            android:layout_height="135dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
+                            android:background="@drawable/volunteer"
+                            android:layout_width="150dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginTop="30dp"
                             android:layout_marginRight="10dp" />
 
                     </LinearLayout>
