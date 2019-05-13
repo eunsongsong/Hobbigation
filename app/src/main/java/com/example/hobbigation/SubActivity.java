@@ -74,8 +74,7 @@ public class SubActivity extends AppCompatActivity {
                             String str2 = strshop.substring(idx+7);
                             shoparr = str2.split("%");
 
-
-                            for(i=0; i < 50; i=i+5) {
+                            for(i=0; i < blogarr.length; i=i+5) {
                                 String tmp = blogarr[i+4];
                                 tmp = tmp.substring(0,4)+"."+tmp.substring(4,6)+"."+tmp.substring(6,8);
                                 blogarr[i+4] = tmp;
@@ -84,7 +83,7 @@ public class SubActivity extends AppCompatActivity {
                             }
 
 
-                            for(i=0; i < 50; i=i+5) {
+                            for(i=0; i < shoparr.length; i=i+5) {
                                 adapter2.addItem(shoparr[i], shoparr[i + 3], shoparr[i + 4], shoparr[i + 2]);
                             }
 
