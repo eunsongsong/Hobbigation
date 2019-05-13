@@ -63,7 +63,8 @@ public class ConfirmActivity extends AppCompatActivity {
                             row = shop.countTokens();
 
                             Log.d("row",row+"");
-                            String[][] weight = new String[row][2];
+                            String[] tag = new String[row];
+                            int[] weighcnt = new int[row];
 
                             boolean exist = false;
                             int minus = 0;
@@ -72,19 +73,19 @@ public class ConfirmActivity extends AppCompatActivity {
                                 String insert = shop.nextToken();
                                 for ( int j = 0 ; j < i ; j++)
                                 {
-                                    if (insert.equals(weight[j][0]))
+                                    if (insert.equals(tag[j]))
                                     {
-                                        weight[j][1] += "1";
-                                        Log.d("겹치는 태그 있을 때 weigh["+j+"][0]", weight[j][0]);
-                                        Log.d("겹치는거 태그 있을 때 weigh["+j+"][1]", weight[j][1]);
+                                        weighcnt[j] += 1;
+                                        Log.d("겹치는 태그 있을 때 tag["+j+"]", tag[j]);
+                                        Log.d("겹치는거 태그 있을 때 weighcnt["+j+"]", weighcnt[j]+"");
                                         exist = true;
                                     }
                                 }
                                 if ( !exist) {
-                                    weight[i][0] = insert;
-                                    Log.d("weigh[" + i + "][0]", weight[i][0]);
-                                    weight[i][1] = "1";
-                                    Log.d("weigh[" + i + "][1]", weight[i][1]);
+                                    tag[i] = insert;
+                                    Log.d("tag[" + i + "]", tag[i]);
+                                    weighcnt[i] += 1;
+                                    Log.d("weighcnt[" + i + "]", weighcnt[i]+"");
                                 }
                                 else
                                 {
