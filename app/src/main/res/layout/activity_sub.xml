@@ -11,10 +11,32 @@
         android:text="검색결과"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ListView
             android:id="@+id/bloglist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ListView>
+            android:layout_height="380dp"></ListView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#22333333"></View>
+
+        <ListView
+            android:id="@+id/shoplist"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"></ListView>
+
+    </LinearLayout>
+
+</ScrollView>
 
 </LinearLayout>

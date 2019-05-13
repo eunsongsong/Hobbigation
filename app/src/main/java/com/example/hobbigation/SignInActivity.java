@@ -24,7 +24,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class SignInActivity extends AppCompatActivity  {
 
@@ -126,8 +134,24 @@ public class SignInActivity extends AppCompatActivity  {
 
                                         if(remember.isChecked()) {
                                             PreferenceUtil.getInstance(getApplicationContext()).putBooleanExtra("AutoLogin", true);
-                                            PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("LoginID", email);
-                                            PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("LoginPW", password);
+                                            try {
+                                                PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("LoginID", AESCipher.AES_Encode(email));
+                                                PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("LoginPW", AESCipher.AES_Encode(password));
+                                            } catch (UnsupportedEncodingException e) {
+                                                e.printStackTrace();
+                                            } catch (NoSuchAlgorithmException e) {
+                                                e.printStackTrace();
+                                            } catch (NoSuchPaddingException e) {
+                                                e.printStackTrace();
+                                            } catch (InvalidKeyException e) {
+                                                e.printStackTrace();
+                                            } catch (InvalidAlgorithmParameterException e) {
+                                                e.printStackTrace();
+                                            } catch (IllegalBlockSizeException e) {
+                                                e.printStackTrace();
+                                            } catch (BadPaddingException e) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                         else {
                                             PreferenceUtil.getInstance(getApplicationContext()).putBooleanExtra("AutoLogin", false);
@@ -154,11 +178,24 @@ public class SignInActivity extends AppCompatActivity  {
     }
 
     private void load() {
-        String ID = PreferenceUtil.getInstance(this).getStringExtra("LoginID");
-        String PW = PreferenceUtil.getInstance(this).getStringExtra("LoginPW");
-        email_login.setText(ID);
-        pwd_login.setText(PW);
-
+        try {
+            email_login.setText(AESCipher.AES_Decode(PreferenceUtil.getInstance(this).getStringExtra("LoginID")));
+            pwd_login.setText(AESCipher.AES_Decode(PreferenceUtil.getInstance(this).getStringExtra("LoginPW")));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        }
     }
 
     // 이메일 유효성 검사
