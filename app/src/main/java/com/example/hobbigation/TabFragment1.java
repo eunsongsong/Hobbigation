@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +35,9 @@ public class TabFragment1 extends Fragment {
     String total = "";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("추천이미지");
+
+    FirebaseDatabase database2 = FirebaseDatabase.getInstance();
+    DatabaseReference myRef2 = database.getReference("취미").child("카테고리");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -120,6 +122,33 @@ public class TabFragment1 extends Fragment {
 
             }
         });
+
+
+        //세부 카테고리 스트링 보내기
+        String[] category = {"문화_공연","음악","예술","책_글","운동_스포츠","만들기","음식","게임_오락","아웃도어","식물","휴식","봉사활동"};
+        for(int i=0; i<12; i++) {
+            final int finalI = i;
+            myRef2.child(category[i]).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String hobby, tmp = "";
+                    hobby = dataSnapshot.child("실내_야외").child("실내").getValue().toString();
+                    hobby += "," + dataSnapshot.child("실내_야외").child("야외").getValue().toString();
+
+                    tmp = hobby.replace("]", "");
+                    tmp= tmp.replace("[", "");
+                    tmp = tmp.replace(" ", "");
+                    Log.d("----dddd"+finalI, tmp);
+
+                    PreferenceUtil.getInstance(getContext()).putStringExtra("detail" + finalI, tmp);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
         return rootview;
     }
 }
