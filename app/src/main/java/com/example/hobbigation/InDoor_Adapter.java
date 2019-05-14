@@ -2,6 +2,7 @@ package com.example.hobbigation;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 ;
@@ -25,6 +26,7 @@ public class InDoor_Adapter extends RecyclerView.Adapter<InDoor_Adapter.ViewHold
     List<InDoorInfo> items;
     int item_layout;
 
+
     public InDoor_Adapter(Context context, List<InDoorInfo> items, int item_layout) {
         this.context = context;
         this.items = items;
@@ -45,6 +47,15 @@ public class InDoor_Adapter extends RecyclerView.Adapter<InDoor_Adapter.ViewHold
         Glide.with(holder.itemView.getContext())
                 .load(item.getUrl())
                 .into(holder.indoor_img);
+
+        holder.indoor_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),SubActivity.class);
+                intent.putExtra("keyword", item.getName());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

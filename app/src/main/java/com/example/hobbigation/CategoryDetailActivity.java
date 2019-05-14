@@ -86,7 +86,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
                     int a = 0;
                         for(DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                            if( a > indoor.length - 1)
+                            if (a > indoor.length - 1)
                                 break;
 
                             String b = dataSnapshot.child(indoor[a]).getKey().trim();
@@ -100,7 +100,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
                             }
 
                         }
-                    recyclerView_in.setAdapter(new InDoor_Adapter(getApplicationContext(),items_in,R.layout.activity_category_detail));
+                    InDoor_Adapter inDoor_adapter = new InDoor_Adapter(getApplicationContext(),items_in,R.layout.activity_category_detail);
+                    recyclerView_in.setAdapter(inDoor_adapter);
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {

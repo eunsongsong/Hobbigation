@@ -6,12 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".SubActivity"
     android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/search_category_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="#FFC81E"
+            android:textStyle="bold"/>
+        <CheckBox
+            android:id="@+id/like_check"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="250dp"
+            android:layout_toRightOf="@+id/search_category_name"
+            android:button="@drawable/like_bg"/>
+    </RelativeLayout>
 
-    <TextView
-        android:text="검색결과"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-<ScrollView
+    <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,17 +43,17 @@
         <ListView
             android:id="@+id/bloglist"
             android:layout_width="match_parent"
-            android:layout_height="380dp"></ListView>
+            android:layout_height="380dp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="#22333333"></View>
+            android:background="#22333333"/>
 
         <ListView
             android:id="@+id/shoplist"
             android:layout_width="match_parent"
-            android:layout_height="350dp"></ListView>
+            android:layout_height="350dp"/>
 
     </LinearLayout>
 

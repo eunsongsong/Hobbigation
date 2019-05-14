@@ -88,11 +88,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     deletestr = item.getTag()+"%";
                     tag_sum = tag_sum.replace(deletestr, "");
                 }
-
-                //가중치
-                String weight = tag_sum;
-
-
                 //DB에 업데이트
                 myRef_two.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -109,7 +104,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                             }
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 

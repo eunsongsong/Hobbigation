@@ -78,19 +78,18 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String[] hobbies = new String[4];
+               hobbies[0] =  dataSnapshot.child("실내_야외").child("실내").getValue().toString();
+               hobbies[1] =  dataSnapshot.child("실내_야외").child("야외").getValue().toString();
+               hobbies[2] =  dataSnapshot.child("참여_감상").child("참여").getValue().toString();
+               hobbies[3] =  dataSnapshot.child("참여_감상").child("감상").getValue().toString();
 
-                hobbies[0] =  dataSnapshot.child("실내_야외").child("실내").getValue().toString();
-                hobbies[1] =  dataSnapshot.child("실내_야외").child("야외").getValue().toString();
-                hobbies[2] =  dataSnapshot.child("참여_감상").child("참여").getValue().toString();
-                hobbies[3] =  dataSnapshot.child("참여_감상").child("감상").getValue().toString();
-
-                Intent intent = new Intent(getContext(), CategoryDetailActivity.class);
-                intent.putExtra("category", category);
-                intent.putExtra("실내",hobbies[0]);
-                intent.putExtra("야외",hobbies[1]);
-                intent.putExtra("참여",hobbies[2]);
-                intent.putExtra("감상",hobbies[3]);
-                startActivity(intent);
+               Intent intent = new Intent(getContext(), CategoryDetailActivity.class);
+               intent.putExtra("category", category);
+               intent.putExtra("실내",hobbies[0]);
+               intent.putExtra("야외",hobbies[1]);
+               intent.putExtra("참여",hobbies[2]);
+               intent.putExtra("감상",hobbies[3]);
+               startActivity(intent);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -100,7 +99,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     }
     @Override
     public void onClick(View view) {
-
 
         switch (view.getId()) {
             case R.id.back_img_culture1:
@@ -137,10 +135,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 categorySelect("휴식");
                 break;
             case R.id.back_img_vol12:
-                categorySelect("봉사활등");
+                categorySelect("봉사활동");
                 break;
-
         }
-
     }
 }

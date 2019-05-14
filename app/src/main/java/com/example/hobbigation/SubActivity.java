@@ -3,11 +3,23 @@ package com.example.hobbigation;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -16,6 +28,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.StringTokenizer;
 
 public class SubActivity extends AppCompatActivity {
 
@@ -25,18 +38,61 @@ public class SubActivity extends AppCompatActivity {
     String strshop = "";
     String[] blogarr;
     String[] shoparr;
+    TextView cate_name_v;
+    CheckBox like_c;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseDatabase database= FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("사용자");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
+
+
+        cate_name_v = (TextView) findViewById(R.id.search_category_name);
+        like_c = (CheckBox) findViewById(R.id.like_check);
+        like_c.setOnCheckedChangeListener(null);
+
+        Intent intent = getIntent();
+        keyword = intent.getStringExtra("keyword");
+
+        like_c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren())
+                        {
+                            String target = ds.child("email").getValue().toString();
+                            if (mFirebaseUser != null)
+                            {
+                                if(target.equals(mFirebaseUser.getEmail())){
+                                    StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
+                                    StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
+                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(keyword);
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Intent intent = getIntent();
-                    keyword = intent.getStringExtra("keyword");
+                    cate_name_v.setText(keyword);
                     strblog = getNaverBlogSearch(keyword);
                     strshop = getNaverShoppingSearch(keyword);
 

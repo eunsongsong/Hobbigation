@@ -458,7 +458,6 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/square_states"
-                        android:text="@+id/categ_txt2"
                         android:textSize="22sp" />
                     <TextView
                         android:id="@+id/volunteer_text"

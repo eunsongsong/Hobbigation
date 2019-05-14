@@ -143,8 +143,6 @@ public class SignUpActivity extends AppCompatActivity  {
                 male_check.setChecked(false);
                 female_check.setChecked(false);
 
-
-
             }
         });
     }
@@ -239,7 +237,7 @@ public class SignUpActivity extends AppCompatActivity  {
                         count ++;
                     }
                     String passwordHashed = BCrypt.hashpw(password, BCrypt.gensalt());
-                    User user = new User(email,passwordHashed,ename,egender,eage,"empty");
+                    User user = new User(email,passwordHashed,ename,egender,eage,"empty","empty");
 
                     StringTokenizer st =  new StringTokenizer(email, "@");
                     if (count >= 9 )
