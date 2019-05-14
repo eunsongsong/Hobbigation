@@ -82,11 +82,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 //isChecked = true 일때 태그 추가
                 if (OnOff1) {
                     tag_sum += item.getTag() + "%";
+                    Log.d("TAG_SUM",tag_sum);
                 }
                 //isChecked = false 일때 태그 삭제
                 else{
                     deletestr = item.getTag()+"%";
                     tag_sum = tag_sum.replace(deletestr, "");
+                    Log.d("delete - TAG_SUM",tag_sum);
                 }
                 //DB에 업데이트
                 myRef_two.addValueEventListener(new ValueEventListener() {
@@ -127,6 +129,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 else{
                     deletestr = item.getTag_two()+"%";
                     tag_sum = tag_sum.replace(deletestr, "");
+                    Log.d("delete - TAG_SUM",tag_sum);
                 }
                 //DB에 업데이트
                 myRef_two.addValueEventListener(new ValueEventListener() {

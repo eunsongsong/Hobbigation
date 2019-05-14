@@ -107,7 +107,7 @@ public class ModifyInfoActivity extends AppCompatActivity {
         }
         //변경사항이 있을 때 - DB 업데이트
         else {
-            myRef.addValueEventListener(new ValueEventListener() {
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
