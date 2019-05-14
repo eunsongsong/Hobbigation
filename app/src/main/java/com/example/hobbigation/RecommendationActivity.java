@@ -123,55 +123,38 @@ public class RecommendationActivity extends AppCompatActivity {
                         plant[2].toString(), rest[2].toString(), vol[2].toString()},
 
         };
-
-        for ( int k = 0 ;k < 12 ; k++)
-        {
-            Log.d("aaa",total[0][k]);
-        }
-
         Arrays.sort(total[0]);
         Arrays.sort(total[1]);
         Arrays.sort(total[2]);
-        for ( int k = 0 ;k < 12 ; k++)
-        {
-            Log.d("정렬후",total[0][k]);
-        }
 
         //이미지, 태그 가져오기
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("vvvv",dataSnapshot.getKey());
-                RecommnedInfo[] item=new RecommnedInfo[12];
+            
+                RecommnedInfo[] item=new RecommnedInfo[18];
 
-                int i =0;
-                int k = 0 ;
                 for (DataSnapshot ds : dataSnapshot.getChildren())
                 {
-                    if ( k > 2)
-                        break;
-                    if ( i > 11){
-                        k++;
-                        i=0;
-                    }
-                    if( ds.getKey().equals(total[k][i]))
-                    {
-                        int count = (int )ds.child("url_태그").getChildrenCount();
-                        int a2 = (int) (Math.random()*count);
+                    for ( int k = 0; k < 3 ; k++) {
+                        for(int i = 0 ; i < 12 ;i++) {
+                            if (ds.getKey().equals(total[k][i])) {
+                                int count = (int) ds.child("url_태그").getChildrenCount();
+                                int a2 = (int) (Math.random() * count);
 
-                        test +=  ds.child("url_태그").child(a2+"").child("url").getValue().toString() + "#";
-                        test_two += ds.child("url_태그").child(a2+"").child("태그").getValue().toString() + "%";
-                        i++;
-                        Log.d("aaa",i+"");
-                    }
+                                test += ds.child("url_태그").child(a2 + "").child("url").getValue().toString() + "#";
+                                test_two += ds.child("url_태그").child(a2 + "").child("태그").getValue().toString() + "%";
 
+                            }
+                        }
+                    }
                 }
 
                 StringTokenizer st = new StringTokenizer(test, "#");
                 StringTokenizer st_two = new StringTokenizer(test_two, "%");
 
 
-                for ( i = 0 ; i < 9; i++)
+                for ( int i = 0 ; i < 18; i++)
                 {
                     Log.d("i",i+"");
                    item[i] = new RecommnedInfo(st.nextToken(),st.nextToken(),st_two.nextToken(),st_two.nextToken());
