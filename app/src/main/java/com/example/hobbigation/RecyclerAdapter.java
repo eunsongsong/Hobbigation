@@ -93,15 +93,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            String target = ds.child("email").getValue().toString();
-                            if (mFirebaseUser != null) {
-                                if (target.equals(mFirebaseUser.getEmail())) {
-                                    StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
-                                    StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
+                                String target = ds.child("email").getValue().toString();
+                                if (mFirebaseUser != null) {
+                                    if (target.equals(mFirebaseUser.getEmail())) {
+                                        StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
+                                        StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
 
-                                    myRef_two.child(st_two.nextToken() + ":" + st.nextToken()).child("tag").setValue(tag_sum);
+                                        myRef_two.child(st_two.nextToken() + ":" + st.nextToken()).child("tag").setValue(tag_sum);
+                                    }
                                 }
-                            }
                         }
                     }
                     @Override

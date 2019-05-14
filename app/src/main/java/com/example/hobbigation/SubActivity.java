@@ -32,7 +32,6 @@ import java.util.StringTokenizer;
 
 public class SubActivity extends AppCompatActivity {
 
-
     String keyword = "";
     String strblog = "";
     String strshop = "";
@@ -41,6 +40,7 @@ public class SubActivity extends AppCompatActivity {
     TextView cate_name_v;
     CheckBox like_c;
 
+    String like = "";
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database= FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("사용자");
@@ -53,18 +53,16 @@ public class SubActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
-
         cate_name_v = (TextView) findViewById(R.id.search_category_name);
         like_c = (CheckBox) findViewById(R.id.like_check);
-        like_c.setOnCheckedChangeListener(null);
-
-        Intent intent = getIntent();
-        keyword = intent.getStringExtra("keyword");
+      //  like_c.setOnCheckedChangeListener(null);
+        like = PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("like");
+        keyword = PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("keyword");
 
         like_c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                myRef.addValueEventListener(new ValueEventListener() {
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot ds : dataSnapshot.getChildren())
@@ -75,7 +73,8 @@ public class SubActivity extends AppCompatActivity {
                                 if(target.equals(mFirebaseUser.getEmail())){
                                     StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
-                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(keyword);
+
+                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(like+keyword);
                                 }
                             }
                         }
