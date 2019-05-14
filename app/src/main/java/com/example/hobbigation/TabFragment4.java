@@ -19,7 +19,8 @@ public class TabFragment4 extends Fragment {
 
         ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_tab_fragment4,container,false);
         searchText = (TextView) rootview.findViewById(R.id.searchText);
-        
+
+
         search_btn = (Button) rootview.findViewById(R.id.searchBtn);
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
