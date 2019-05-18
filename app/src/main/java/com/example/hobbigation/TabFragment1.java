@@ -128,7 +128,7 @@ public class TabFragment1 extends Fragment {
         String[] category = {"문화_공연","음악","예술","책_글","운동_스포츠","만들기","음식","게임_오락","아웃도어","식물","휴식","봉사활동"};
         for(int i=0; i<12; i++) {
             final int finalI = i;
-            myRef2.child(category[i]).addValueEventListener(new ValueEventListener() {
+            myRef2.child(category[i]).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String hobby, tmp = "";

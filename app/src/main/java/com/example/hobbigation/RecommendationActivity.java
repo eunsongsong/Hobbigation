@@ -56,6 +56,7 @@ public class RecommendationActivity extends AppCompatActivity {
         for(int i =0; i<12; i++) {
             detail[i] = PreferenceUtil.getInstance(this).getStringExtra("detail" + i);
             detail[i] = FirstStringTest(detail[i]);
+            detail[i] = LastStringTest(detail[i]);
             Log.d("----받은거", detail[i]);
         }
 
@@ -188,6 +189,16 @@ public class RecommendationActivity extends AppCompatActivity {
         }
         return str;
     }
+    //스트링 첫번째가 ,로 시작하면 ,없애고 반환
+    public String LastStringTest(String str) {
+        String tmp;
+        tmp = str.substring(str.length()-1);
+        if(tmp.equals(",")){
+            str = str.substring(0,str.length()-1);
+        }
+        return str;
+    }
+
 
     public Object[] removeDuplicateArray(String[] array){
         Object[] removeArray=null;

@@ -43,7 +43,7 @@
         <ListView
             android:id="@+id/bloglist"
             android:layout_width="match_parent"
-            android:layout_height="263dp" />
+            android:layout_height="265dp" />
 
         <View
             android:layout_width="match_parent"
@@ -53,7 +53,7 @@
         <ListView
             android:id="@+id/shoplist"
             android:layout_width="match_parent"
-            android:layout_height="291dp" />
+            android:layout_height="265dp" />
 
     </LinearLayout>
 
