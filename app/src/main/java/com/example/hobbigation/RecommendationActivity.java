@@ -189,7 +189,7 @@ public class RecommendationActivity extends AppCompatActivity {
         }
         return str;
     }
-    //스트링 첫번째가 ,로 시작하면 ,없애고 반환
+    //스트링 마지막이 ,로 끝나면 ,없애고 반환
     public String LastStringTest(String str) {
         String tmp;
         tmp = str.substring(str.length()-1);
