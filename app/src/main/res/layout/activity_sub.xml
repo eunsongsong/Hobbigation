@@ -9,17 +9,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
+
         <TextView
             android:id="@+id/search_category_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="25dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:text="TextView"
             android:textColor="#FFC81E"
-            android:textStyle="bold"/>
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
         <CheckBox
             android:id="@+id/like_check"
             android:layout_width="45dp"
@@ -31,32 +33,26 @@
             android:button="@drawable/like_bg"/>
     </RelativeLayout>
 
-    <ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <android.support.design.widget.TabLayout
+        android:id="@+id/subtab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FCFCFC"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:tabContentStart="?attr/actionBarSize"
+        app:tabGravity="center"
+        app:tabIndicatorColor="#FFC81E"
+        app:tabIndicatorGravity="top"
+        app:tabIndicatorHeight="2dp"
+        app:tabMaxWidth="400dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="#FFC81E" />
 
-    <LinearLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/subpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <ListView
-            android:id="@+id/bloglist"
-            android:layout_width="match_parent"
-            android:layout_height="265dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="#22333333"/>
-
-        <ListView
-            android:id="@+id/shoplist"
-            android:layout_width="match_parent"
-            android:layout_height="265dp" />
-
-    </LinearLayout>
-
-</ScrollView>
+        android:layout_weight="1" />
 
 </LinearLayout>
