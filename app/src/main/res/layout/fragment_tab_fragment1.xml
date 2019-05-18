@@ -29,10 +29,11 @@
             android:id="@+id/recommend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFC81E"
+            android:background="@drawable/round_rectangle"
             android:text="지금 당장 내 취미를 알아보세요"
             android:textSize="20dp"
             android:textStyle="bold"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="40dp"
             android:layout_marginLeft="40dp"/>
 
