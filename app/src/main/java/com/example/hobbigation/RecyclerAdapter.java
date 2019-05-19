@@ -140,7 +140,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         {
 
                             String target = ds.child("email").getValue().toString();
-                            Log.d("dd",target);
+
                             if (mFirebaseUser != null) {
                                 if( target.equals(mFirebaseUser.getEmail()))
                                 {
