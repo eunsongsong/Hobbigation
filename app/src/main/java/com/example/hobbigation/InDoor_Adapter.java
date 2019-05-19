@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,18 +14,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
 import java.util.List;
-import java.util.StringTokenizer;
+
+;
 
 public class InDoor_Adapter extends RecyclerView.Adapter<InDoor_Adapter.ViewHolder> {
     Context context;
@@ -77,10 +72,10 @@ public class InDoor_Adapter extends RecyclerView.Adapter<InDoor_Adapter.ViewHold
                            if (mFirebaseUser != null) {
                                if (target.equals(mFirebaseUser.getEmail())) {
                                    PreferenceUtil.getInstance(v.getContext()).putStringExtra("like", ds.child("like").getValue().toString());
-                                   PreferenceUtil.getInstance(v.getContext()).putStringExtra("keyword",  item.getName());
+                                   PreferenceUtil.getInstance(v.getContext()).putStringExtra("keyword",item.getName());
                                    // intent.putExtra("like", ds.child("like").getValue().toString());
                                    //  intent.putExtra("keyword", item.getName());
-
+                                   v.getContext().startActivity(intent);
                                }
                            }
                        }
@@ -91,7 +86,7 @@ public class InDoor_Adapter extends RecyclerView.Adapter<InDoor_Adapter.ViewHold
 
                    }
                });
-                v.getContext().startActivity(intent);
+
             }
         });
     }

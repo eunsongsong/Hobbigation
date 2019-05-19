@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -27,11 +28,13 @@ public class SubActivity extends AppCompatActivity {
     String keyword = "";
     TextView cate_name_v;
     CheckBox like_c;
+    String finallike = "";
 
     String like = "";
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database= FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("사용자");
+    DatabaseReference myRef2 = database.getReference("취미").child("이미지_태그");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +50,23 @@ public class SubActivity extends AppCompatActivity {
         like = PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("like");
         keyword = PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("keyword");
 
+        Log.d("---쉐어드", "#"+keyword);
         cate_name_v.setText(keyword);
         like_c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                final boolean OnOff = like_c.isChecked();
+
+                if(OnOff){
+                    finallike = like+keyword+"#";
+                    Log.d("Final_Like", finallike);
+                }
+                else{
+                    String del = keyword+"#";
+                    finallike = finallike.replace(del, "");
+                    Log.d("delete_Final_Like", finallike);
+                }
+
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -63,7 +79,8 @@ public class SubActivity extends AppCompatActivity {
                                     StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
 
-                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(like+keyword);
+                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(finallike);
+                                    //myRef2.child();
                                 }
                             }
                         }

@@ -1,12 +1,11 @@
 package com.example.hobbigation;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,7 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -94,7 +92,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
                             if (b.equals(c)) {
 
-                                item[a] = new InDoorInfo(indoor[a], ds.child("url_태그").child("0").child("url").getValue().toString());
+                                item[a] = new InDoorInfo(b, ds.child("url_태그").child("0").child("url").getValue().toString());
                                 items_in.add(item[a]);
                                 a++;
                             }
@@ -137,7 +135,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
                     if (b.equals(c)) {
 
-                        item[a] = new OutDoorInfo(outdoor[a], ds.child("url_태그").child("0").child("url").getValue().toString());
+                        item[a] = new OutDoorInfo(b, ds.child("url_태그").child("0").child("url").getValue().toString());
                         items_out.add(item[a]);
                         a++;
                     }
@@ -177,7 +175,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
                     if (b.equals(c)) {
 
-                        item[a] = new PartInfo(part[a], ds.child("url_태그").child("0").child("url").getValue().toString());
+                        item[a] = new PartInfo(b, ds.child("url_태그").child("0").child("url").getValue().toString());
                         items_part.add(item[a]);
                         a++;
                     }
@@ -216,7 +214,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
                     if (b.equals(c)) {
 
-                        item[a] = new SeeInfo(see[a], ds.child("url_태그").child("0").child("url").getValue().toString());
+                        item[a] = new SeeInfo(b, ds.child("url_태그").child("0").child("url").getValue().toString());
                         items_see.add(item[a]);
                         a++;
                     }
