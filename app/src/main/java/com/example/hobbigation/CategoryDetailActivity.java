@@ -49,21 +49,25 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
         temp = intent.getStringExtra("실내").replace("[","");
         temp = temp.replace("]","");
+        temp = temp.replace(" ","");
         indoor = temp.split(",");
         Arrays.sort(indoor);
 
         temp = intent.getStringExtra("야외").replace("[","");
         temp = temp.replace("]","");
+        temp = temp.replace(" ","");
         outdoor = temp.split(",");
         Arrays.sort(outdoor);
 
         temp = intent.getStringExtra("감상").replace("[","");
         temp = temp.replace("]","");
+        temp = temp.replace(" ","");
         see = temp.split(",");
         Arrays.sort(see);
 
         temp = intent.getStringExtra("참여").replace("[","");
         temp = temp.replace("]","");
+        temp = temp.replace(" ","");
         part = temp.split(",");
         Arrays.sort(part);
 

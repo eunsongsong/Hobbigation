@@ -47,7 +47,8 @@
         app:tabIndicatorHeight="2dp"
         app:tabMaxWidth="400dp"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="#FFC81E" />
+        app:tabSelectedTextColor="#FFC81E"
+        app:tabTextColor="#999999"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/subpager"
