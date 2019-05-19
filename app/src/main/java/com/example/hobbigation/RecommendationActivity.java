@@ -55,8 +55,10 @@ public class RecommendationActivity extends AppCompatActivity {
 
         for(int i =0; i<12; i++) {
             detail[i] = PreferenceUtil.getInstance(this).getStringExtra("detail" + i);
-            detail[i] = FirstStringTest(detail[i]);
-            detail[i] = LastStringTest(detail[i]);
+            if ( detail[i].startsWith(","))
+                detail[i] = detail[i].substring(1);
+            else if (  detail[i].endsWith(","))
+                detail[i] = detail[i].substring(0,detail[i].length()-1);
             Log.d("----받은거", detail[i]);
         }
 
@@ -64,23 +66,30 @@ public class RecommendationActivity extends AppCompatActivity {
         String[] dupculture = detail[0].split(",");
         Object culture[]= removeDuplicateArray(dupculture);
 
+
         String[] dupmusic = detail[1].split(",");
         Object music[]= removeDuplicateArray(dupmusic);
+
 
         String[] dupart = detail[2].split(",");
         Object art[]= removeDuplicateArray(dupart);
 
+
         String[] dupbook = detail[3].split(",");
         Object book[]= removeDuplicateArray(dupbook);
+
 
         String[] dupsports = detail[4].split(",");
         Object sports[]= removeDuplicateArray(dupsports);
 
+
         String[] dupmake = detail[5].split(",");
         Object make[]= removeDuplicateArray(dupmake);
 
+
         String[] dupfood = detail[6].split(",");
         Object food[] = removeDuplicateArray(dupfood);
+
 
         String[] dupgame = detail[7].split(",");
         Object game[] = removeDuplicateArray(dupgame);
@@ -94,8 +103,10 @@ public class RecommendationActivity extends AppCompatActivity {
         String[] duprest = detail[10].split(",");
         Object rest[] = removeDuplicateArray(duprest);
 
+
         String[] dupvol = detail[11].split(",");
         Object vol[] = removeDuplicateArray(dupvol);
+
         Collections.shuffle(Arrays.asList(culture));
         Collections.shuffle(Arrays.asList(music));
         Collections.shuffle(Arrays.asList(art));
@@ -109,8 +120,7 @@ public class RecommendationActivity extends AppCompatActivity {
         Collections.shuffle(Arrays.asList(rest));
         Collections.shuffle(Arrays.asList(vol));
 
-
-        final String[][]  total = {{culture[0].toString(),music[0].toString(), art[0].toString(), book[0].toString(),
+         final String[][]  total = {{culture[0].toString(),music[0].toString(), art[0].toString(), book[0].toString(),
             sports[0].toString(), make[0].toString(), food[0].toString(), game[0].toString(), outdoor[0].toString(),
             plant[0].toString(), rest[0].toString(), vol[0].toString()},
 
@@ -124,9 +134,21 @@ public class RecommendationActivity extends AppCompatActivity {
                         plant[2].toString(), rest[2].toString(), vol[2].toString()},
 
         };
+        for ( int i = 0 ; i < 12; i++)
+            Log.d("total[0]",total[0][i]);
+        for ( int i = 0 ; i < 12; i++)
+            Log.d("total[1]",total[1][i]);
+        for ( int i = 0 ; i < 12; i++)
+            Log.d("total[2]",total[2][i]);
         Arrays.sort(total[0]);
         Arrays.sort(total[1]);
         Arrays.sort(total[2]);
+        for ( int i = 0 ; i < 12; i++)
+            Log.d("total[10]",total[0][i]);
+        for ( int i = 0 ; i < 12; i++)
+            Log.d("total[11]",total[1][i]);
+        for ( int i = 0 ; i < 12; i++)
+            Log.d("total[1\2]",total[2][i]);
 
         //이미지, 태그 가져오기
         myRef.addValueEventListener(new ValueEventListener() {
@@ -134,6 +156,7 @@ public class RecommendationActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             
                 RecommnedInfo[] item=new RecommnedInfo[18];
+
 
                 for (DataSnapshot ds : dataSnapshot.getChildren())
                 {
@@ -144,7 +167,9 @@ public class RecommendationActivity extends AppCompatActivity {
                                 int a2 = (int) (Math.random() * count);
 
                                 test += ds.child("url_태그").child(a2 + "").child("url").getValue().toString() + "#";
+                                Log.d("cdcdc",test);
                                 test_two += ds.child("url_태그").child(a2 + "").child("태그").getValue().toString() + "%";
+                                Log.d("k i",k+"#"+i);
 
                             }
                         }
@@ -152,6 +177,7 @@ public class RecommendationActivity extends AppCompatActivity {
                 }
 
                 StringTokenizer st = new StringTokenizer(test, "#");
+                Log.d("count",st.countTokens()+"");
                 StringTokenizer st_two = new StringTokenizer(test_two, "%");
 
 
@@ -159,7 +185,10 @@ public class RecommendationActivity extends AppCompatActivity {
                 {
                     Log.d("i",i+"");
                    item[i] = new RecommnedInfo(st.nextToken(),st.nextToken(),st_two.nextToken(),st_two.nextToken());
+                   Log.d("url",item[i].getUrl());
+                   Log.d("url2",item[i].getUrl_two());
                     items.add(item[i]);
+                    Log.d("13123",i+"");
                 }
                 recyclerView.setAdapter(new RecyclerAdapter(getApplicationContext(),items,R.layout.activity_recommendation));
             }
