@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -50,6 +51,19 @@ public class SubActivity extends AppCompatActivity {
         like = PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("like");
         keyword = PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("keyword");
 
+        String tmp = like;
+        //like 있을 때만
+        if(!TextUtils.isEmpty(tmp)) {
+            tmp = tmp.substring(0, like.length() - 1);
+            String[] setlike = tmp.split("#");
+
+            //찜 유지
+            for (int i = 0; i < setlike.length; i++) {
+                if (setlike[i].equals(keyword)) {
+                    like_c.setChecked(true);
+                }
+            }
+        }
         Log.d("---쉐어드", "#"+keyword);
         cate_name_v.setText(keyword);
         like_c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -60,11 +74,13 @@ public class SubActivity extends AppCompatActivity {
                 if(OnOff){
                     finallike = like+keyword+"#";
                     Log.d("Final_Like", finallike);
+                    like = finallike;
                 }
                 else{
                     String del = keyword+"#";
-                    finallike = finallike.replace(del, "");
+                    finallike = like.replace(del, "");
                     Log.d("delete_Final_Like", finallike);
+                    like = finallike;
                 }
 
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -87,7 +103,6 @@ public class SubActivity extends AppCompatActivity {
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 for (DataSnapshot de : dataSnapshot.getChildren()) {
                                                     String hobby = de.getKey().toString();
-                                                    Log.d("하비", hobby);
                                                     if (hobby.equals(keyword)) {
                                                         String cntstr = de.child("count").getValue().toString();
                                                         int cnt = Integer.parseInt(cntstr);
@@ -104,14 +119,13 @@ public class SubActivity extends AppCompatActivity {
 
 
                                     }
-                                    else
-                                    {
+                                    //찜 취소했을 때 취미의 count 내리기
+                                    else {
                                         myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 for (DataSnapshot de : dataSnapshot.getChildren()) {
                                                     String hobby = de.getKey().toString();
-                                                    Log.d("하비", hobby);
                                                     if (hobby.equals(keyword)) {
                                                         String cntstr = de.child("count").getValue().toString();
                                                         int cnt = Integer.parseInt(cntstr);
