@@ -54,7 +54,7 @@ public class SubActivity extends AppCompatActivity {
         cate_name_v.setText(keyword);
         like_c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
                 final boolean OnOff = like_c.isChecked();
 
                 if(OnOff){
@@ -80,7 +80,28 @@ public class SubActivity extends AppCompatActivity {
                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
 
                                     myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(finallike);
-                                    //myRef2.child();
+                                    //찜을 눌렀을 때 취미의 count 올리기
+                                    if(isChecked) {
+                                        myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot de : dataSnapshot.getChildren()) {
+                                                    String hobby = de.getKey().toString();
+                                                    Log.d("하비", hobby);
+                                                    if (hobby.equals(keyword)) {
+                                                        String cntstr = de.child("count").getValue().toString();
+                                                        int cnt = Integer.parseInt(cntstr);
+                                                        myRef2.child(keyword).child("count").setValue(cnt + 1);
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         }
