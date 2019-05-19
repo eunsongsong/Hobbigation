@@ -54,8 +54,8 @@ public class Sub_BlogTab extends Fragment {
                             strblog = strblog.replace("&amp;", "&");
                             strblog = strblog.replace("&nbsp;", " ");
                             int idx = strblog.indexOf("Result");
-                            String str1 = strblog.substring(idx + 7);
-                            blogarr = str1.split("%");
+                            String str1 = strblog.substring(idx + 10);
+                            blogarr = str1.split("%%%@");
 
                             for (i = 0; i < blogarr.length; i = i + 5) {
                                 String tmp = blogarr[i + 4];
@@ -151,7 +151,7 @@ public class Sub_BlogTab extends Fragment {
                             //sb.append("제목 : ");
                             xpp.next();
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("%");
+                            sb.append("%%%@");
 
                         } else if (tag.equals("description")) {
 
@@ -159,7 +159,7 @@ public class Sub_BlogTab extends Fragment {
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("%");
+                            sb.append("%%%@");
 
                         } else if (tag.equals("link")) {
 
@@ -167,7 +167,7 @@ public class Sub_BlogTab extends Fragment {
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("%");
+                            sb.append("%%%@");
 
                         } else if (tag.equals("bloggername")) {
 
@@ -175,7 +175,7 @@ public class Sub_BlogTab extends Fragment {
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("%");
+                            sb.append("%%%@");
 
                         } else if (tag.equals("postdate")) {
 
@@ -183,7 +183,7 @@ public class Sub_BlogTab extends Fragment {
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("%");
+                            sb.append("%%%@");
                         }
 
                         break;

@@ -52,8 +52,8 @@ public class Sub_ShopTab extends Fragment {
                             strshop = strshop.replace("&amp;", "&");
                             strshop = strshop.replace("&nbsp;", " ");
                             int idx = strshop.indexOf("Result");
-                            String str2 = strshop.substring(idx + 7);
-                            shoparr = str2.split("%");
+                            String str2 = strshop.substring(idx + 10);
+                            shoparr = str2.split("%%%@");
 
                             for (i = 0; i < shoparr.length; i = i + 5) {
                                 adapter2.addItem(shoparr[i], shoparr[i + 3], shoparr[i + 4], shoparr[i + 2]);
@@ -145,7 +145,7 @@ public class Sub_ShopTab extends Fragment {
                             //sb.append("제목 : ");
                             xpp.next();
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("\n%");
+                            sb.append("%%%@");
 
                         } else if (tag.equals("image")) {
 
@@ -153,7 +153,7 @@ public class Sub_ShopTab extends Fragment {
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("%");
+                            sb.append("%%%@");
 
                         } else if (tag.equals("link")) {
 
@@ -161,7 +161,7 @@ public class Sub_ShopTab extends Fragment {
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("\n%");
+                            sb.append("%%%@");
 
                         } else if (tag.equals("lprice")) {
 
@@ -169,7 +169,7 @@ public class Sub_ShopTab extends Fragment {
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("원\n%");
+                            sb.append("원%%%@");
 
                         } else if (tag.equals("mallName")) {
 
@@ -177,14 +177,14 @@ public class Sub_ShopTab extends Fragment {
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("\n%");
+                            sb.append("%%%@");
                         } else if (tag.equals("description")) {
 
                             //sb.append("내용 : ");
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("%");
+                            sb.append("%%%@");
 
                         }
 

@@ -54,8 +54,8 @@ public class Sub_CafeTab extends Fragment {
                             strcafe = strcafe.replace("&amp;", "&");
                             strcafe = strcafe.replace("&nbsp;", " ");
                             int idx = strcafe.indexOf("Result");
-                            String str3 = strcafe.substring(idx + 7);
-                            cafearr = str3.split("%");
+                            String str3 = strcafe.substring(idx + 10);
+                            cafearr = str3.split("%%%@");
 
                             for (i = 0; i < cafearr.length; i = i + 4) {
                                 adapter3.addItem(ContextCompat.getDrawable(getContext(), R.drawable.cafe)
@@ -148,7 +148,7 @@ public class Sub_CafeTab extends Fragment {
                             //sb.append("제목 : ");
                             xpp.next();
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("%");
+                            sb.append("%%%@");
 
                         } else if (tag.equals("description")) {
 
@@ -156,7 +156,7 @@ public class Sub_CafeTab extends Fragment {
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("%");
+                            sb.append("%%%@");
 
                         } else if (tag.equals("link")) {
 
@@ -164,7 +164,7 @@ public class Sub_CafeTab extends Fragment {
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("%");
+                            sb.append("%%%@");
 
                         } else if (tag.equals("cafename")) {
 
@@ -172,7 +172,7 @@ public class Sub_CafeTab extends Fragment {
                             xpp.next();
 
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
-                            sb.append("%");
+                            sb.append("%%%@");
 
                         }
                         break;
