@@ -157,7 +157,6 @@ public class RecommendationActivity extends AppCompatActivity {
             
                 RecommnedInfo[] item=new RecommnedInfo[18];
 
-
                 for (DataSnapshot ds : dataSnapshot.getChildren())
                 {
                     for ( int k = 0; k < 3 ; k++) {
@@ -167,28 +166,22 @@ public class RecommendationActivity extends AppCompatActivity {
                                 int a2 = (int) (Math.random() * count);
 
                                 test += ds.child("url_태그").child(a2 + "").child("url").getValue().toString() + "#";
-                                Log.d("cdcdc",test);
                                 test_two += ds.child("url_태그").child(a2 + "").child("태그").getValue().toString() + "%";
-                                Log.d("k i",k+"#"+i);
-
                             }
                         }
                     }
                 }
 
                 StringTokenizer st = new StringTokenizer(test, "#");
-                Log.d("count",st.countTokens()+"");
                 StringTokenizer st_two = new StringTokenizer(test_two, "%");
 
 
                 for ( int i = 0 ; i < 18; i++)
                 {
-                    Log.d("i",i+"");
+
                    item[i] = new RecommnedInfo(st.nextToken(),st.nextToken(),st_two.nextToken(),st_two.nextToken());
-                   Log.d("url",item[i].getUrl());
-                   Log.d("url2",item[i].getUrl_two());
+
                     items.add(item[i]);
-                    Log.d("13123",i+"");
                 }
                 recyclerView.setAdapter(new RecyclerAdapter(getApplicationContext(),items,R.layout.activity_recommendation));
             }

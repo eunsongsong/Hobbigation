@@ -41,7 +41,7 @@ public class TabFragment1 extends Fragment {
     FirebaseDatabase database2 = FirebaseDatabase.getInstance();
     DatabaseReference myRef2 = database2.getReference("취미").child("카테고리");
     FirebaseDatabase database3 = FirebaseDatabase.getInstance();
-    DatabaseReference myRef3 = database3.getReference("취미").child("이미지_태그");
+    DatabaseReference myRef3 = database3.getReference("취미");
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_tab_fragment1,container,false);
@@ -88,75 +88,27 @@ public class TabFragment1 extends Fragment {
             }
         });
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        //Top10 이미지를 보여줌
+        ArrayList<String> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
+        String[] urls = new String[10];
+         Log.d("쉐어트",PreferenceUtil.getInstance(getContext()).getStringExtra("total"));
+         StringTokenizer st = new StringTokenizer(PreferenceUtil.getInstance(getContext()).getStringExtra("total"),"#");
+         for ( int j = 0 ; j < 10; j++)
+         {
+             urls[j] = st.nextToken();
+         }
+         for ( int k = 9 ; k >= 0 ; k--) {
+             data.add(urls[k]);
 
-                ArrayList<String> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
+         }
 
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    count++;
-                    total += ds.child("url").getValue().toString()   + "#";
-                }
-                StringTokenizer st = new StringTokenizer(total, "#");
-                String shuffle[] = new String[count];
-                for (int i = 0; i < count ; i++) {
-                    shuffle[i] = st.nextToken();
-                }
-                for(int i = 0 ; i <shuffle.length; i++)
-                {
-                    int a = (int)(Math.random()*shuffle.length);
-                    int b = (int)(Math.random()*shuffle.length);
-                    String temp = shuffle[a];
-                    shuffle[a] = shuffle[b];
-                    shuffle[b] = temp;
-                }
-                for (int i = 0; i < count ; i++) {
-                    data.add(shuffle[i]);
-                }
-                AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(getContext(), data);
-                autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
-                autoViewPager.setInterval(3500); // 페이지 넘어갈 시간 간격 설정
-                autoViewPager.startAutoScroll(); //Auto Scroll 시작
-            }
+        AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(getContext(), data);
+        autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
+        autoViewPager.setInterval(3500); // 페이지 넘어갈 시간 간격 설정
+        autoViewPager.startAutoScroll(); //Auto Scroll 시작
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
-        myRef3.orderByChild("count").limitToLast(10).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for( DataSnapshot ds: dataSnapshot.getChildren()) {
-                    Log.d("오더바이차트 테스트 ", ds.getValue().toString());
-                    Log.d("오더바이차트 테스트 ", dataSnapshot.getKey());
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-            //세부 카테고리 스트링 보내기
+        //세부 카테고리 스트링 보내기
         String[] category = {"문화_공연","음악","예술","책_글","운동_스포츠","만들기","음식","게임_오락","아웃도어","식물","휴식","봉사활동"};
         for(int i=0; i<12; i++) {
             final int finalI = i;

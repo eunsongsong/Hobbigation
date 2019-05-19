@@ -159,7 +159,7 @@ public class SignInActivity extends AppCompatActivity  {
                                             PreferenceUtil.getInstance(getApplicationContext()).removePreference("LoginPW");
                                         }
 
-                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), TapViewActivity.class));
                                     }
                                 }
                             } else {
