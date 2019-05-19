@@ -101,6 +101,30 @@ public class SubActivity extends AppCompatActivity {
 
                                             }
                                         });
+
+
+                                    }
+                                    else
+                                    {
+                                        myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot de : dataSnapshot.getChildren()) {
+                                                    String hobby = de.getKey().toString();
+                                                    Log.d("하비", hobby);
+                                                    if (hobby.equals(keyword)) {
+                                                        String cntstr = de.child("count").getValue().toString();
+                                                        int cnt = Integer.parseInt(cntstr);
+                                                        myRef2.child(keyword).child("count").setValue(cnt - 1);
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
                                     }
                                 }
                             }
@@ -128,7 +152,7 @@ public class SubActivity extends AppCompatActivity {
         mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
 
-        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition(),true);
