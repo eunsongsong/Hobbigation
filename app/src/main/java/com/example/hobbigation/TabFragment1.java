@@ -33,21 +33,21 @@ public class TabFragment1 extends Fragment {
     private RecyclerView recyclerView;
 
     AutoScrollViewPager autoViewPager;
-    int count = 0;
-    String total = "";
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("추천이미지");
 
     FirebaseDatabase database2 = FirebaseDatabase.getInstance();
     DatabaseReference myRef2 = database2.getReference("취미").child("카테고리");
-    FirebaseDatabase database3 = FirebaseDatabase.getInstance();
-    DatabaseReference myRef3 = database3.getReference("취미");
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_tab_fragment1,container,false);
 
         autoViewPager = (AutoScrollViewPager)rootview.findViewById(R.id.autoViewPager);
         recyclerView = (RecyclerView) rootview.findViewById(R.id.frag_1_recycle);
+        //Top10 이미지를 보여줌
+
 
         //카테고리 RecyclerView
         final LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
@@ -58,6 +58,7 @@ public class TabFragment1 extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         final List<Main_CategoryItem> items =new ArrayList<>();
+
         Main_CategoryItem[] item=new Main_CategoryItem[12];
 
         item[0] = new Main_CategoryItem("문화/공연", getResources().getDrawable(R.drawable.show));
@@ -88,19 +89,18 @@ public class TabFragment1 extends Fragment {
             }
         });
 
-        //Top10 이미지를 보여줌
         ArrayList<String> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
         String[] urls = new String[10];
-         Log.d("쉐어트",PreferenceUtil.getInstance(getContext()).getStringExtra("total"));
-         StringTokenizer st = new StringTokenizer(PreferenceUtil.getInstance(getContext()).getStringExtra("total"),"#");
-         for ( int j = 0 ; j < 10; j++)
-         {
-             urls[j] = st.nextToken();
-         }
-         for ( int k = 9 ; k >= 0 ; k--) {
-             data.add(urls[k]);
+        Log.d("쉐어트",PreferenceUtil.getInstance(getContext()).getStringExtra("total"));
+        StringTokenizer st = new StringTokenizer(PreferenceUtil.getInstance(getContext()).getStringExtra("total"),"#");
+        for ( int j = 0 ; j < 10; j++)
+        {
+            urls[j] = st.nextToken();
+        }
+        for ( int k = 9 ; k >= 0 ; k--) {
+            data.add(urls[k]);
 
-         }
+        }
 
         AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(getContext(), data);
         autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
