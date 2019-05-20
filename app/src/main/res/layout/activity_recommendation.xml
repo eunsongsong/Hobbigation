@@ -14,7 +14,7 @@
         android:background="#000000"
         android:text="결 과 확 인"
         android:layout_marginTop="15dp"
-        android:enabled="true"/>
+        android:enabled="false"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/myrecyclerview"

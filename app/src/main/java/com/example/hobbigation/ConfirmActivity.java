@@ -1,110 +1,116 @@
 package com.example.hobbigation;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class ConfirmActivity extends AppCompatActivity {
 
-
-    FirebaseAuth firebaseAuth;
-
-    String userID = "";
-
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("사용자");
+    String[] tag_array;
+    int[] weighcnt;
+    int[] sorted_weigh;
+    int row;
     private TextView show_tag;
 
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("취미");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
 
-        show_tag = (TextView) findViewById(R.id.tag_result);
+        Intent intent = getIntent();
+        //스트링 배열 가중치 (정렬안됨)
+        //행 갯수 하나로 맞추기
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
-        StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(),"@");
-        userID = st.nextToken();
-        Log.d("userId",userID);
-        if (mFirebaseUser != null) {
-            myRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for(DataSnapshot ds: dataSnapshot.getChildren())
+        tag_array = intent.getStringArrayExtra("tag[]");
+        weighcnt = intent.getIntArrayExtra("weighcnt[]");
+        row = intent.getIntExtra("row",0);
+
+        //잘들어갔는지 확인
+        for (int i = 0 ; i < row ; i++)
+        {
+            if(!TextUtils.isEmpty(tag_array[i]))
+            Log.d("aaaa",tag_array[i]);
+            Log.d("bbbbb",weighcnt[i]+"");
+        }
+
+        //wighcnt[]를 sorted_weigh에 복사
+         sorted_weigh = weighcnt.clone();
+        //sorted weigh 정렬
+        Arrays.sort(sorted_weigh);
+
+        int i, p = 0;
+        for ( i = sorted_weigh.length- 1 ; i>0; i--) {
+            if (sorted_weigh[i] == 1) break;
+            for (int k = 0; k < weighcnt.length; k++) {
+                if (sorted_weigh[i] == weighcnt[k]) {
+                    String tmp = tag_array[k];
+                    tag_array[k] = tag_array[p];
+                    tag_array[p] = tmp;
+                    weighcnt[k] = 1;
+                    p++;
+                    break;
+                }
+            }
+        }
+        for ( i = 0 ;  i < tag_array.length; i++) {
+            if ( !TextUtils.isEmpty(tag_array[i]))
+                Log.d("--소트된 태그", tag_array[i]);
+        }
+        //정렬끝
+
+        myRef.child("이미지_태그").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for ( DataSnapshot ds: dataSnapshot.getChildren())
+                {
+                    String con = ds.child("취미_태그").getValue().toString();
+
+                    if ( con.contains(tag_array[0]) && con.contains(tag_array[1])){
+
+                    }
+                    else if (con.contains(tag_array[0]) && con.contains(tag_array[1]) && con.contains(tag_array[2]))
                     {
-                        StringTokenizer st = new StringTokenizer(ds.getKey(),":");
-                        String key = "";
-                        key = st.nextToken();
-                        key = st.nextToken();
-                        if(userID.equals(key))
-                        {
-                            String target = ds.child("tag").getValue().toString();
-                            Log.d("c_Target",target);
-                            // "꼬치#먹방#음식#길거리음식#맛집%헬스#런닝머신#실내#운동#달리기#걷기#건강%"
-                            //# 4개 태그 5개 % 2개 #6개 태그 7개
-                            int row = 0;
-                            target = target.replace("%","#");
-                            Log.d("r_Target",target);
-                            StringTokenizer shop = new StringTokenizer(target, "#");
-                            row = shop.countTokens();
 
-                            Log.d("row",row+"");
-                            String[] tag = new String[row];
-                            int[] weighcnt = new int[row];
-
-                            boolean exist = false;
-                            int minus = 0;
-                            for (int i = 0 ; i < row - minus ; i++)
-                            {
-                                String insert = shop.nextToken();
-                                for ( int j = 0 ; j < i ; j++)
-                                {
-                                    if (insert.equals(tag[j]))
-                                    {
-                                        weighcnt[j] += 1;
-                                        Log.d("겹치는 태그 있을 때 tag["+j+"]", tag[j]);
-                                        Log.d("겹치는거 태그 있을 때 weighcnt["+j+"]", weighcnt[j]+"");
-                                        exist = true;
-                                    }
-                                }
-                                if ( !exist) {
-                                    tag[i] = insert;
-                                    Log.d("tag[" + i + "]", tag[i]);
-                                    weighcnt[i] += 1;
-                                    Log.d("weighcnt[" + i + "]", weighcnt[i]+"");
-                                }
-                                else
-                                {
-                                    exist = false;
-                                    i--;
-                                    minus++;
-                                }
-                            }
-                            show_tag.setText(target);
-                            Log.d("Target",target);
-                        }
                     }
 
                 }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
 
-                }
-            });
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+        show_tag = (TextView) findViewById(R.id.tag_result);
+
+        show_tag.setText(PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("tag"));
+
+
     }
 }

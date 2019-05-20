@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -34,6 +35,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     String tag_sum = "";
     String deletestr = "";
 
+    int touch = 0;
 
     FirebaseDatabase database_two = FirebaseDatabase.getInstance();
     DatabaseReference myRef_two = database_two.getReference("사용자");
@@ -78,6 +80,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setChecked(isChecked);
+                if ( isChecked)
+                {
+                    int a = PreferenceUtil.getInstance(context.getApplicationContext()).getIntExtra("touch") + 1;
+                    PreferenceUtil.getInstance(context.getApplicationContext()).putIntExtra("touch",a);
+
+                }
+                else
+                {
+                    int a = PreferenceUtil.getInstance(context.getApplicationContext()).getIntExtra("touch") - 1;
+                    PreferenceUtil.getInstance(context.getApplicationContext()).putIntExtra("touch",a);
+                }
+
                 final boolean OnOff1 = item.isSelected();
                 //isChecked = true 일때 태그 추가
                 if (OnOff1) {
@@ -120,6 +134,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setCheked_two(isChecked);
                 final boolean OnOff2 = item.isSelected_two();
+                if ( isChecked )
+                    touch++;
+                else
+                    touch--;
                 //isChecked = true 일때 태그 추가
                 if (OnOff2) {
                     tag_sum += item.getTag_two() + "%";
@@ -178,4 +196,5 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             post2 = (CheckBox) itemView.findViewById(R.id.image_check2);
         }
     }
+
 }
