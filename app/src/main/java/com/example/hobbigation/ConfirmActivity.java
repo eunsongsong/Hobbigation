@@ -30,12 +30,17 @@ public class ConfirmActivity extends AppCompatActivity {
     int[] weighcnt;
     int[] sorted_weigh;
     int row;
-    private TextView show_tag;
+    private TextView top1;
+    private TextView top2;
+    private TextView top3;
+
     int count = 0;
 
     int minus;
     int index = 0 ;
-    private ImageView img;
+    private ImageView img1;
+    private ImageView img2;
+    private ImageView img3;
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -44,8 +49,12 @@ public class ConfirmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
-        img = (ImageView) findViewById(R.id.con_result);
-        show_tag = (TextView) findViewById(R.id.tag_result);
+        img1 = (ImageView) findViewById(R.id.con_result1);
+        img2 = (ImageView) findViewById(R.id.con_result2);
+        img3 = (ImageView) findViewById(R.id.con_result3);
+        top1 = (TextView) findViewById(R.id.hobby_result1);
+        top2 = (TextView) findViewById(R.id.hobby_result2);
+        top3 = (TextView) findViewById(R.id.hobby_result3);
         Intent intent = getIntent();
         //스트링 배열 가중치 (정렬안됨)
         //행 갯수 하나로 맞추기
@@ -189,19 +198,52 @@ public class ConfirmActivity extends AppCompatActivity {
                     }
                     */
                 }
-                int max = weighcnt[0];
-                int k;
                 //맥스 찾고 0으로 만들기 x 3번
+                int max = weighcnt[0];
+                int k, ind = 0;
+
                 for(k=1; k<hobbycnt; k++){
-                    if(max < weighcnt[k])
+                    if(max < weighcnt[k]) {
                         max = weighcnt[k];
-                    break;
+                        ind =k;
+                    }
                 }
 
                 Glide.with(getApplicationContext())
-                        .load(url[k])
-                        .into(img);
-                show_tag.setText(hobby[k]);
+                        .load(url[ind])
+                        .into(img1);
+                top1.setText(hobby[ind]);
+
+                weighcnt[ind] = 0;
+                max = weighcnt[0];
+
+                for(k=1; k<hobbycnt; k++){
+                    if(max < weighcnt[k]) {
+                        max = weighcnt[k];
+                        ind =k;
+                    }
+                }
+
+                Glide.with(getApplicationContext())
+                        .load(url[ind])
+                        .into(img2);
+                top2.setText(hobby[ind]);
+
+                weighcnt[ind] = 0;
+                max = weighcnt[0];
+
+                for(k=1; k<hobbycnt; k++){
+                    if(max < weighcnt[k]) {
+                        max = weighcnt[k];
+                        ind =k;
+                    }
+                }
+
+                Glide.with(getApplicationContext())
+                        .load(url[ind])
+                        .into(img3);
+                top3.setText(hobby[ind]);
+
 
                 for ( int i = 0 ; i < 20 ; i++) {
                     if (!TextUtils.isEmpty(hobby[i]))
