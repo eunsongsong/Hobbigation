@@ -91,7 +91,7 @@ public class TabFragment1 extends Fragment {
 
         ArrayList<String> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
         String[] urls = new String[10];
-        Log.d("쉐어트",PreferenceUtil.getInstance(getContext()).getStringExtra("total"));
+
         StringTokenizer st = new StringTokenizer(PreferenceUtil.getInstance(getContext()).getStringExtra("total"),"#");
         for ( int j = 0 ; j < 10; j++)
         {

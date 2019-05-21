@@ -1,9 +1,12 @@
 package com.example.hobbigation;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,6 +57,8 @@ public class RecommendationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommendation);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         PreferenceUtil.getInstance(getApplicationContext()).putIntExtra("touch",touch);
         confirm_btn = (Button) findViewById(R.id.confirm);
@@ -210,9 +215,10 @@ public class RecommendationActivity extends AppCompatActivity {
 
             }
 
+            @SuppressLint("NewApi")
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                firebaseAuth = FirebaseAuth.getInstance();
+
                  FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
                 if (mFirebaseUser != null) {
                     if( mFirebaseUser.getEmail().equals(dataSnapshot.child("email").getValue().toString())) {
@@ -222,9 +228,16 @@ public class RecommendationActivity extends AppCompatActivity {
                         if (touch_cnt > 4 )
                         {
                             confirm_btn.setEnabled(true);
+                            confirm_btn.setText("결 과 확 인 ->");
+                            confirm_btn.setBackground(ContextCompat.getDrawable(getApplicationContext(),  R.drawable.round_rectangle_black));
+                            confirm_btn.setTextColor(Color.rgb(255,255,255));
                         }
-                        else
+                        else {
                             confirm_btn.setEnabled(false);
+                            confirm_btn.setText("5개 이상의 이미지를 선택 해주세요");
+                            confirm_btn.setBackground(ContextCompat.getDrawable(getApplicationContext(),  R.drawable.round_rectangle));
+                            confirm_btn.setTextColor(Color.rgb(0,0,0));
+                        }
                     }
                 }
             }
@@ -249,7 +262,6 @@ public class RecommendationActivity extends AppCompatActivity {
         confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseAuth = FirebaseAuth.getInstance();
                 final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
                 if (mFirebaseUser != null) {
