@@ -30,7 +30,6 @@ import java.util.TreeSet;
 
 public class RecommendationActivity extends AppCompatActivity {
 
-    int count = 0;
     String test = "";
     String test_two = "";
     int minus = 0;
@@ -40,10 +39,10 @@ public class RecommendationActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("취미").child("이미지_태그");
 
+    FirebaseDatabase database_two = FirebaseDatabase.getInstance();
+    DatabaseReference myRef_two = database_two.getReference("사용자");
 
     FirebaseAuth firebaseAuth;
-
-    String userID = "";
 
     FirebaseDatabase database2 = FirebaseDatabase.getInstance();
     DatabaseReference myRef2 = database2.getReference("사용자");
@@ -203,25 +202,66 @@ public class RecommendationActivity extends AppCompatActivity {
 
             }
         });
+
+        //터치 횟수 측정
+        myRef_two.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                firebaseAuth = FirebaseAuth.getInstance();
+                 FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
+                if (mFirebaseUser != null) {
+                    if( mFirebaseUser.getEmail().equals(dataSnapshot.child("email").getValue().toString())) {
+                        Log.d("아이들 벨류ㅜ", dataSnapshot.child("email").getValue().toString());
+                        StringTokenizer st = new StringTokenizer(dataSnapshot.child("tag").getValue().toString(), "%");
+                        int touch_cnt = st.countTokens();
+                        if (touch_cnt > 4 )
+                        {
+                            confirm_btn.setEnabled(true);
+                        }
+                        else
+                            confirm_btn.setEnabled(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 firebaseAuth = FirebaseAuth.getInstance();
                 final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
-                StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
-                userID = st.nextToken();
-
                 if (mFirebaseUser != null) {
                     myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Log.d("무엇이무엇ㅇ;",dataSnapshot.getKey());
+                            Log.d("12313무엇이무엇ㅇ;",dataSnapshot.getValue().toString());
+
                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                StringTokenizer st = new StringTokenizer(ds.getKey(), ":");
-                                String key = "";
-                                key = st.nextToken();
-                                key = st.nextToken();
-                                if (userID.equals(key)) {
+
+                                if (mFirebaseUser.getEmail().equals(ds.child("email").getValue().toString())) {
                                     String target = ds.child("tag").getValue().toString();
                                     Log.d("c_Target", target);
                                     // "꼬치#먹방#음식#길거리음식#맛집%헬스#런닝머신#실내#운동#달리기#걷기#건강%"
