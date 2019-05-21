@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -30,9 +32,10 @@ public class ConfirmActivity extends AppCompatActivity {
     int row;
     private TextView show_tag;
     int count = 0;
-    int count2 = 0;
-    int count3 = 0;
-    int count4 = 0;
+
+    int minus;
+    int index = 0 ;
+    private ImageView img;
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -41,7 +44,8 @@ public class ConfirmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
-
+        img = (ImageView) findViewById(R.id.con_result);
+        show_tag = (TextView) findViewById(R.id.tag_result);
         Intent intent = getIntent();
         //스트링 배열 가중치 (정렬안됨)
         //행 갯수 하나로 맞추기
@@ -50,6 +54,7 @@ public class ConfirmActivity extends AppCompatActivity {
         tag_array = intent.getStringArrayExtra("tag[]");
         weighcnt = intent.getIntArrayExtra("weighcnt[]");
         row = intent.getIntExtra("row",0);
+        minus = intent.getIntExtra("minus",0);
 
         //잘들어갔는지 확인
         for (int i = 0 ; i < row ; i++)
@@ -84,52 +89,124 @@ public class ConfirmActivity extends AppCompatActivity {
         }
         //정렬끝
 
+        final int tags_num= tag_array.length - minus;
 
         myRef.child("이미지_태그").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String[] two = new String[3];
-                String[] three = new String[3];
-                String[] four = new String[3];
-        
+                int hobbycnt = (int)dataSnapshot.getChildrenCount();
+                String[] hobby = new String[hobbycnt];
+                String[] url = new String[hobbycnt];
+                int[] weighcnt = new int[hobbycnt];
 
+                //같은 취미가 있는 지 없는지 체크
+                boolean exist = false;
                 for ( DataSnapshot ds: dataSnapshot.getChildren())
                 {
                     String con = ds.child("취미_태그").getValue().toString();
-
-                    if ( con.contains(tag_array[0]) && con.contains(tag_array[1])){
-                        /////
-                        if(count2 >2) continue;
-                        Log.d("2개 태그들",con+"카운트"+count2);
-                        two[count2] = con;
-                        Log.d("two",two[count2]);
-                        count2++;
-                        if (con.contains(tag_array[2]))
+                    for ( count = 3 ;count < tags_num -1 ; count++)
+                    {
+                        if(con.contains(tag_array[0]) && con.contains(tag_array[1])
+                           && con.contains(tag_array[count]))
                         {
-                            if(count3 >2) continue;
-                            three[count3] = con;
-                            Log.d("3개 태그들",con + count3);
-                            Log.d("three",three[count3]);
-                            count3++;
-                            if(con.contains(tag_array[3]))
-                            {
-                                if(count4 >2) break;
-                                four[count4] = con;
-                                Log.d("4개 태그들",con);
-
-                                Log.d("four",four[count4]);
-                                count4++;
-                                /*
-                                if (con.contains(tag_array[4]))
-                                {
-                                    five[count] = con;
-                                    Log.d("five",five[count]);
-                                    Log.d("5개 태그들",con);
+                            for(int i=0; i<hobbycnt; i++) {
+                                if (ds.getKey().equals(hobby[i])) {
+                                    weighcnt[i] += 1;
+                                    exist = true;
+                                    break;
                                 }
-                                */
                             }
+                            if(!exist){
+                                    hobby[index] = ds.getKey();
+                                    url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
+                                    weighcnt[index] += 1;
+                                    index++;
+                            }
+                            else
+                                exist = false;
+
+
+                            //Log.d("sjfsjfsjfj",con.equals("")+"");
+
+                            Log.d("나와라얍 0번 1번" + count, con + "### " + count);
+                            Log.d("취미가 무엇이니", ds.getKey());
+                        }
+                        if(con.contains(tag_array[1]) && con.contains(tag_array[2])
+                                && con.contains(tag_array[count]))
+                        {
+                            for(int i=0; i<hobbycnt; i++) {
+                                if (ds.getKey().equals(hobby[i])) {
+                                    weighcnt[i] += 1;
+                                    exist = true;
+                                    break;
+                                }
+                            }
+                            if(!exist){
+                                hobby[index] = ds.getKey();
+                                weighcnt[index] += 1;
+                                url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
+                                index++;
+                            }
+                            else
+                                exist = false;
+
+                            Log.d("나와라얍 1번 2번" + count, con + "### " + count);
+                            Log.d("취미가 무엇이니", ds.getKey());
+                        }
+                        if(con.contains(tag_array[0]) && con.contains(tag_array[2])
+                                && con.contains(tag_array[count]))
+                        {
+                            for(int i=0; i<hobbycnt; i++) {
+                                if (ds.getKey().equals(hobby[i])) {
+                                    weighcnt[i] += 1;
+                                    exist = true;
+                                    break;
+                                }
+                            }
+                            if(!exist){
+                                hobby[index] = ds.getKey();
+                                weighcnt[index] += 1;
+                                url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
+                                index++;
+                            }
+                            else
+                                exist = false;
+
+
+                            Log.d("나와라얍 0번 2번" + count, con + "### " + count);
+                            Log.d("취미가 무엇이니", ds.getKey());
                         }
                     }
+                    /*
+                    String con = ds.child("취미_태그").getValue().toString();
+                    for(count = 2; count < tags_num -1 ; count++ ) {
+                        if (con.contains(tag_array[0]) && con.contains(tag_array[1])
+                                && con.contains(tag_array[count])) {
+                            if (count > tags_num - 1)
+                                break;
+                            Log.d("나와라얍 " + count, con + "### " + count);
+                        }
+                    }
+                    */
+                }
+                int max = weighcnt[0];
+                int k;
+                //맥스 찾고 0으로 만들기 x 3번
+                for(k=1; k<hobbycnt; k++){
+                    if(max < weighcnt[k])
+                        max = weighcnt[k];
+                    break;
+                }
+
+                Glide.with(getApplicationContext())
+                        .load(url[k])
+                        .into(img);
+                show_tag.setText(hobby[k]);
+
+                for ( int i = 0 ; i < 20 ; i++) {
+                    if (!TextUtils.isEmpty(hobby[i]))
+                        Log.d("a12312", hobby[i]);
+                    Log.d("tttt", weighcnt[i] + "");
 
                 }
             }
@@ -142,10 +219,6 @@ public class ConfirmActivity extends AppCompatActivity {
 
 
 
-
-        show_tag = (TextView) findViewById(R.id.tag_result);
-
-        show_tag.setText(PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("tag"));
 
 
     }

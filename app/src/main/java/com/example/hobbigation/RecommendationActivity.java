@@ -166,7 +166,7 @@ public class RecommendationActivity extends AppCompatActivity {
         for (int i = 0; i < 12; i++)
             Log.d("total[11]", total[1][i]);
         for (int i = 0; i < 12; i++)
-            Log.d("total[1\2]", total[2][i]);
+            Log.d("total[12]", total[2][i]);
 
         //이미지, 태그 가져오기
         myRef.addValueEventListener(new ValueEventListener() {
@@ -222,7 +222,6 @@ public class RecommendationActivity extends AppCompatActivity {
                  FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
                 if (mFirebaseUser != null) {
                     if( mFirebaseUser.getEmail().equals(dataSnapshot.child("email").getValue().toString())) {
-                        Log.d("아이들 벨류ㅜ", dataSnapshot.child("email").getValue().toString());
                         StringTokenizer st = new StringTokenizer(dataSnapshot.child("tag").getValue().toString(), "%");
                         int touch_cnt = st.countTokens();
                         if (touch_cnt > 4 )
@@ -268,8 +267,6 @@ public class RecommendationActivity extends AppCompatActivity {
                     myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Log.d("무엇이무엇ㅇ;",dataSnapshot.getKey());
-                            Log.d("12313무엇이무엇ㅇ;",dataSnapshot.getValue().toString());
 
                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
@@ -284,7 +281,6 @@ public class RecommendationActivity extends AppCompatActivity {
                                     StringTokenizer shop = new StringTokenizer(target, "#");
                                     row = shop.countTokens();
 
-                                    Log.d("row", row + "");
                                     String[] tag = new String[row];
                                     int[] weighcnt = new int[row];
 
@@ -318,9 +314,11 @@ public class RecommendationActivity extends AppCompatActivity {
 
                                     PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("tag", target);
                                     Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
+                                    //태그 가중치 배열
                                     intent.putExtra("tag[]", tag);
                                     intent.putExtra("weighcnt[]", weighcnt);
                                     intent.putExtra("row", row);
+                                    intent.putExtra("minus",minus);
                                     startActivity(intent);
                                 }
                             }
