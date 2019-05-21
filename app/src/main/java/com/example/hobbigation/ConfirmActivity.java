@@ -29,6 +29,10 @@ public class ConfirmActivity extends AppCompatActivity {
     int[] sorted_weigh;
     int row;
     private TextView show_tag;
+    int count = 0;
+    int count2 = 0;
+    int count3 = 0;
+    int count4 = 0;
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -80,19 +84,51 @@ public class ConfirmActivity extends AppCompatActivity {
         }
         //정렬끝
 
+
         myRef.child("이미지_태그").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String[] two = new String[3];
+                String[] three = new String[3];
+                String[] four = new String[3];
+        
+
                 for ( DataSnapshot ds: dataSnapshot.getChildren())
                 {
                     String con = ds.child("취미_태그").getValue().toString();
 
                     if ( con.contains(tag_array[0]) && con.contains(tag_array[1])){
+                        /////
+                        if(count2 >2) continue;
+                        Log.d("2개 태그들",con+"카운트"+count2);
+                        two[count2] = con;
+                        Log.d("two",two[count2]);
+                        count2++;
+                        if (con.contains(tag_array[2]))
+                        {
+                            if(count3 >2) continue;
+                            three[count3] = con;
+                            Log.d("3개 태그들",con + count3);
+                            Log.d("three",three[count3]);
+                            count3++;
+                            if(con.contains(tag_array[3]))
+                            {
+                                if(count4 >2) break;
+                                four[count4] = con;
+                                Log.d("4개 태그들",con);
 
-                    }
-                    else if (con.contains(tag_array[0]) && con.contains(tag_array[1]) && con.contains(tag_array[2]))
-                    {
-
+                                Log.d("four",four[count4]);
+                                count4++;
+                                /*
+                                if (con.contains(tag_array[4]))
+                                {
+                                    five[count] = con;
+                                    Log.d("five",five[count]);
+                                    Log.d("5개 태그들",con);
+                                }
+                                */
+                            }
+                        }
                     }
 
                 }
