@@ -41,27 +41,16 @@ public class BeforeSignin extends AppCompatActivity {
         myRef3.child("이미지_태그").orderByChild("count").limitToLast(10).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                //  ArrayList<String> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
-                //  Log.d("오더바이차트 테스트 ", dataSnapshot.child("이미지_태그").getValue().toString());
+
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    //   Log.d("오더바이차트 테스트 " + i, ds.getKey());
+
                     if ( ds.getKey().equals("count")) {
                         Log.d("dcc", ds.getValue().toString());
                         Log.d("ddd",dataSnapshot.getKey());
                         total +=  dataSnapshot.child("url_태그").child("0").child("url").getValue().toString() + "#";
-                        //   Log.d("urls",urls[count]);
                     }
-                    //  Log.d("오더바이차트 테스트 " + i, dataSnapshot.child("이미지_태그").getValue().toString());
                 }
                 PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("total",total);
-
-
-
-
-                //    Log.d("url입니다",dataSnapshot.child("이미지_태그").child("url_태그").child("0").child("url").getValue().toString());
-                //  data.add(dataSnapshot.child("url_태그").child("0").child("url").getValue().toString());
-                //      Log.d("오더바이차트 테스트 ", dataSnapshot.child("이미지_태그").getKey());
-
             }
 
             @Override

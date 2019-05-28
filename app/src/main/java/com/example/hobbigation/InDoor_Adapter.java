@@ -29,6 +29,7 @@ public class InDoor_Adapter extends RecyclerView.Adapter<InDoor_Adapter.ViewHold
     Context context;
     List<InDoorInfo> items;
     int item_layout;
+
     FirebaseAuth firebaseAuth;
 
     FirebaseDatabase database= FirebaseDatabase.getInstance();
@@ -73,8 +74,6 @@ public class InDoor_Adapter extends RecyclerView.Adapter<InDoor_Adapter.ViewHold
                                if (target.equals(mFirebaseUser.getEmail())) {
                                    PreferenceUtil.getInstance(v.getContext()).putStringExtra("like", ds.child("like").getValue().toString());
                                    PreferenceUtil.getInstance(v.getContext()).putStringExtra("keyword",item.getName());
-                                   // intent.putExtra("like", ds.child("like").getValue().toString());
-                                   //  intent.putExtra("keyword", item.getName());
                                    v.getContext().startActivity(intent);
                                }
                            }

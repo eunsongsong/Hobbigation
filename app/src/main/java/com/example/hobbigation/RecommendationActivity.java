@@ -319,6 +319,7 @@ public class RecommendationActivity extends AppCompatActivity {
                                     intent.putExtra("weighcnt[]", weighcnt);
                                     intent.putExtra("row", row);
                                     intent.putExtra("minus",minus);
+                                    finish();
                                     startActivity(intent);
                                 }
                             }

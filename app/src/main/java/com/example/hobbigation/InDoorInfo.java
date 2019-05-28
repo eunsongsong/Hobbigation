@@ -20,7 +20,7 @@ public class InDoorInfo {
     public String getName() {
         return name;
     }
- void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 

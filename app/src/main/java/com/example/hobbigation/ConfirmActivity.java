@@ -134,9 +134,6 @@ public class ConfirmActivity extends AppCompatActivity {
                             else
                                 exist = false;
 
-
-                            //Log.d("sjfsjfsjfj",con.equals("")+"");
-
                             Log.d("나와라얍 0번 1번" + count, con + "### " + count);
                             Log.d("취미가 무엇이니", ds.getKey());
                         }
