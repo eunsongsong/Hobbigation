@@ -9,24 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <!-- TODO: Update blank fragment layout -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/zzimtext"
+            android:text="나의 찜 목록"
+            android:textStyle="bold"
+            android:textSize="23dp"/>
 
-        <EditText
-            android:hint="검색어를 입력해주세요"
-            android:id="@+id/searchText"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/wishlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/searchBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFC81E"
-            android:text="검색" />
 
     </LinearLayout>
 </FrameLayout>

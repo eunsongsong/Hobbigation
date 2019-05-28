@@ -29,7 +29,7 @@ public class SubActivity extends AppCompatActivity {
     String keyword = "";
     TextView cate_name_v;
     CheckBox like_c;
-    String finallike = "";
+    String final_like = "";
 
     String like = "";
     FirebaseAuth firebaseAuth;
@@ -72,15 +72,15 @@ public class SubActivity extends AppCompatActivity {
                 final boolean OnOff = like_c.isChecked();
 
                 if(OnOff){
-                    finallike = like+keyword+"#";
-                    Log.d("Final_Like", finallike);
-                    like = finallike;
+                    final_like = like+keyword+"#";
+                    Log.d("Final_Like", final_like);
+                    like = final_like;
                 }
                 else{
                     String del = keyword+"#";
-                    finallike = like.replace(del, "");
-                    Log.d("delete_Final_Like", finallike);
-                    like = finallike;
+                    final_like = like.replace(del, "");
+                    Log.d("delete_Final_Like", final_like);
+                    like = final_like;
                 }
 
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -95,7 +95,8 @@ public class SubActivity extends AppCompatActivity {
                                     StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
 
-                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(finallike);
+                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(final_like);
+                                    PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("like", final_like);
                                     //찜을 눌렀을 때 취미의 count 올리기
                                     if(isChecked) {
                                         myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
