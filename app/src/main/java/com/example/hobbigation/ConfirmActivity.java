@@ -29,6 +29,7 @@ public class ConfirmActivity extends AppCompatActivity {
     String[] tag_array;
     int[] weighcnt;
     int[] sorted_weigh;
+
     int row;
     private TextView top1;
     private TextView top2;
@@ -58,7 +59,7 @@ public class ConfirmActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //스트링 배열 가중치 (정렬안됨)
         //행 갯수 하나로 맞추기
-
+        Log.d("컨펌", "컨펌시작!");
 
         tag_array = intent.getStringArrayExtra("tag[]");
         weighcnt = intent.getIntArrayExtra("weighcnt[]");
@@ -70,6 +71,8 @@ public class ConfirmActivity extends AppCompatActivity {
         {
             if(!TextUtils.isEmpty(tag_array[i]))
             Log.d("aaaa",tag_array[i]);
+            else
+                Log.d("없는것이다", "없는것이다!이건 빈공간이다 "+ i +" 번");
             Log.d("bbbbb",weighcnt[i]+"");
         }
 
@@ -92,6 +95,7 @@ public class ConfirmActivity extends AppCompatActivity {
                 }
             }
         }
+
         for ( i = 0 ;  i < tag_array.length; i++) {
             if ( !TextUtils.isEmpty(tag_array[i]))
                 Log.d("--소트된 태그", tag_array[i]);
@@ -183,29 +187,18 @@ public class ConfirmActivity extends AppCompatActivity {
                             Log.d("취미가 무엇이니", ds.getKey());
                         }
                     }
-                    /*
-                    String con = ds.child("취미_태그").getValue().toString();
-                    for(count = 2; count < tags_num -1 ; count++ ) {
-                        if (con.contains(tag_array[0]) && con.contains(tag_array[1])
-                                && con.contains(tag_array[count])) {
-                            if (count > tags_num - 1)
-                                break;
-                            Log.d("나와라얍 " + count, con + "### " + count);
-                        }
-                    }
-                    */
+
                 }
                 //맥스 찾고 0으로 만들기 x 3번
                 int max = weighcnt[0];
                 int k, ind = 0;
 
-                for(k=1; k<hobbycnt; k++){
+                for(k=1; k < hobbycnt; k++){
                     if(max < weighcnt[k]) {
                         max = weighcnt[k];
                         ind =k;
                     }
                 }
-
                 Glide.with(getApplicationContext())
                         .load(url[ind])
                         .into(img1);
@@ -213,6 +206,7 @@ public class ConfirmActivity extends AppCompatActivity {
 
                 weighcnt[ind] = 0;
                 max = weighcnt[0];
+                ind = 0;
 
                 for(k=1; k<hobbycnt; k++){
                     if(max < weighcnt[k]) {
@@ -220,7 +214,6 @@ public class ConfirmActivity extends AppCompatActivity {
                         ind =k;
                     }
                 }
-
                 Glide.with(getApplicationContext())
                         .load(url[ind])
                         .into(img2);
@@ -228,6 +221,7 @@ public class ConfirmActivity extends AppCompatActivity {
 
                 weighcnt[ind] = 0;
                 max = weighcnt[0];
+                ind = 0;
 
                 for(k=1; k<hobbycnt; k++){
                     if(max < weighcnt[k]) {
@@ -235,12 +229,10 @@ public class ConfirmActivity extends AppCompatActivity {
                         ind =k;
                     }
                 }
-
                 Glide.with(getApplicationContext())
                         .load(url[ind])
                         .into(img3);
                 top3.setText(hobby[ind]);
-
 
                 for ( int i = 0 ; i < 20 ; i++) {
                     if (!TextUtils.isEmpty(hobby[i]))
