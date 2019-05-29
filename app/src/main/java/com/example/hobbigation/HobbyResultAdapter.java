@@ -2,6 +2,7 @@ package com.example.hobbigation;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,6 +45,15 @@ public class HobbyResultAdapter extends RecyclerView.Adapter<HobbyResultAdapter.
         Glide.with(holder.itemView.getContext())
                 .load(item.getHobby_url())
                 .into(holder.hobby_result_img);
+
+        holder.hobby_result_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent intent = new Intent(v.getContext(),SubActivity.class);
+                PreferenceUtil.getInstance(v.getContext()).putStringExtra("keyword",item.getHobby_name());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
