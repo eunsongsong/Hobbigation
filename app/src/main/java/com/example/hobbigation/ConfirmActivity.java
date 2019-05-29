@@ -97,6 +97,9 @@ public class ConfirmActivity extends AppCompatActivity {
                 }
             }
         }
+        //이 값이 1보다 큰 가중치 태그 개수
+        Log.d("개수", sorted_weigh.length - i - 1 +"");
+        int gt_one_tag = sorted_weigh.length - i - 1;
 
         for ( i = 0 ;  i < tag_array.length; i++) {
             if ( !TextUtils.isEmpty(tag_array[i]))
@@ -206,7 +209,7 @@ public class ConfirmActivity extends AppCompatActivity {
                 int k, ind = 0;
 
                 //최대 3개 결과 출력
-                for ( int i = 0 ; i < 3 ; i++)
+                for ( int i = 0 ; i < 5 ; i++)
                 {
                     if ( i > result_cnt - 1 )
                         break; //결과가 1개 2개 이면 탈출
