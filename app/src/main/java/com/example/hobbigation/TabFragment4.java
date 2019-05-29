@@ -27,9 +27,6 @@ import java.util.StringTokenizer;
 
 public class TabFragment4 extends Fragment {
 
-    private Button search_btn;
-    String keyword = "";
-    private TextView searchText;
     public RecyclerView wishlist_recycleview;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();

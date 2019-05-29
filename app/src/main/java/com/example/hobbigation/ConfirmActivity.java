@@ -5,9 +5,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,7 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class ConfirmActivity extends AppCompatActivity {
@@ -31,17 +36,13 @@ public class ConfirmActivity extends AppCompatActivity {
     int[] sorted_weigh;
 
     int row;
-    private TextView top1;
-    private TextView top2;
-    private TextView top3;
 
     int count = 0;
 
     int minus;
     int index = 0 ;
-    private ImageView img1;
-    private ImageView img2;
-    private ImageView img3;
+    public RecyclerView result_recycler_view;
+
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -50,12 +51,13 @@ public class ConfirmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
-        img1 = (ImageView) findViewById(R.id.con_result1);
-        img2 = (ImageView) findViewById(R.id.con_result2);
-        img3 = (ImageView) findViewById(R.id.con_result3);
-        top1 = (TextView) findViewById(R.id.hobby_result1);
-        top2 = (TextView) findViewById(R.id.hobby_result2);
-        top3 = (TextView) findViewById(R.id.hobby_result3);
+        result_recycler_view = (RecyclerView) findViewById(R.id.result_recycler);
+
+        final LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
+        result_recycler_view.setHasFixedSize(true);
+        result_recycler_view.setLayoutManager(layoutManager);
+
+
         Intent intent = getIntent();
         //스트링 배열 가중치 (정렬안됨)
         //행 갯수 하나로 맞추기
@@ -112,6 +114,8 @@ public class ConfirmActivity extends AppCompatActivity {
                 String[] url = new String[hobbycnt];
                 int[] weighcnt = new int[hobbycnt];
 
+                int result_cnt = 0;
+
                 //같은 취미가 있는 지 없는지 체크
                 boolean exist = false;
                 for ( DataSnapshot ds: dataSnapshot.getChildren())
@@ -131,6 +135,7 @@ public class ConfirmActivity extends AppCompatActivity {
                             }
                             if(!exist){
                                     hobby[index] = ds.getKey();
+                                    result_cnt++;
                                     url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
                                     weighcnt[index] += 1;
                                     index++;
@@ -154,6 +159,7 @@ public class ConfirmActivity extends AppCompatActivity {
                             if(!exist){
                                 hobby[index] = ds.getKey();
                                 weighcnt[index] += 1;
+                                result_cnt++;
                                 url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
                                 index++;
                             }
@@ -176,6 +182,7 @@ public class ConfirmActivity extends AppCompatActivity {
                             if(!exist){
                                 hobby[index] = ds.getKey();
                                 weighcnt[index] += 1;
+                                result_cnt++;
                                 url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
                                 index++;
                             }
@@ -189,50 +196,36 @@ public class ConfirmActivity extends AppCompatActivity {
                     }
 
                 }
+
+                // 취미 가중치는 매겨져있음
+                List<HobbyResultInfo> result_items =new ArrayList<>();
+                HobbyResultInfo[] item = new HobbyResultInfo[result_cnt];
+
                 //맥스 찾고 0으로 만들기 x 3번
                 int max = weighcnt[0];
                 int k, ind = 0;
 
-                for(k=1; k < hobbycnt; k++){
-                    if(max < weighcnt[k]) {
-                        max = weighcnt[k];
-                        ind =k;
+                for ( int i = 0 ; i < 3 ; i++)
+                {
+                    for ( k = 1; k < result_cnt; k++ ){
+                        if ( max  < weighcnt[k]) {
+                            max = weighcnt[k];
+                            ind = k;
+                        }
                     }
+                    weighcnt[ind] = 0;
+                    Log.d("ddd",hobby[ind] + " 111" + url[ind]);
+                    item[i] = new HobbyResultInfo(hobby[ind],url[ind]);
+                    Log.d("아이템",item[i].getHobby_name() + "dasdsad" + item[i].getHobby_url());
+                    result_items.add(item[i]);
+
+                    ind = 0;
+
+                    max = weighcnt[0];
                 }
-                Glide.with(getApplicationContext())
-                        .load(url[ind])
-                        .into(img1);
-                top1.setText(hobby[ind]);
 
-                weighcnt[ind] = 0;
-                max = weighcnt[0];
-                ind = 0;
-
-                for(k=1; k<hobbycnt; k++){
-                    if(max < weighcnt[k]) {
-                        max = weighcnt[k];
-                        ind =k;
-                    }
-                }
-                Glide.with(getApplicationContext())
-                        .load(url[ind])
-                        .into(img2);
-                top2.setText(hobby[ind]);
-
-                weighcnt[ind] = 0;
-                max = weighcnt[0];
-                ind = 0;
-
-                for(k=1; k<hobbycnt; k++){
-                    if(max < weighcnt[k]) {
-                        max = weighcnt[k];
-                        ind =k;
-                    }
-                }
-                Glide.with(getApplicationContext())
-                        .load(url[ind])
-                        .into(img3);
-                top3.setText(hobby[ind]);
+                HobbyResultAdapter hobbyResultAdapter = new HobbyResultAdapter(getApplicationContext(),result_items,R.layout.activity_confirm);
+                result_recycler_view.setAdapter(hobbyResultAdapter);
 
                 for ( int i = 0 ; i < 20 ; i++) {
                     if (!TextUtils.isEmpty(hobby[i]))
@@ -240,7 +233,9 @@ public class ConfirmActivity extends AppCompatActivity {
                     Log.d("tttt", weighcnt[i] + "");
 
                 }
+
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

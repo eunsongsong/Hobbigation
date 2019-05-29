@@ -19,8 +19,11 @@ public class TapViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
+
             getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setCustomView(R.layout.custom_bar);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -74,6 +77,7 @@ public class TapViewActivity extends AppCompatActivity {
 
 
     }
+
 
 
 

@@ -24,65 +24,13 @@ tools:context=".ConfirmActivity">
                 android:layout_marginBottom="10dp"
                 android:textSize="22dp"
                 android:textStyle="bold|italic"/>
-        <ImageView
-        android:id="@+id/con_result1"
-        android:layout_width="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_height="200dp" />
-    <TextView
-        android:id="@+id/hobby_result1"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:text="TextView"
-        android:background="#77FFC81E"
-        android:textAlignment="center"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textSize="20dp"
-        android:layout_marginBottom="20dp"
-        />
 
-    <ImageView
-        android:id="@+id/con_result2"
-        android:layout_width="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_height="200dp" />
-    <TextView
-        android:id="@+id/hobby_result2"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:background="#77FFC81E"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textSize="20dp"
-        android:layout_marginBottom="20dp"
-        />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/result_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    <ImageView
-        android:id="@+id/con_result3"
-        android:layout_width="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_height="200dp" />
-    <TextView
-        android:id="@+id/hobby_result3"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:background="#77FFC81E"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textSize="20dp"
-        android:layout_marginBottom="20dp"
-        />
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
