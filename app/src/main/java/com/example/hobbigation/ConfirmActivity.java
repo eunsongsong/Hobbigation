@@ -205,24 +205,28 @@ public class ConfirmActivity extends AppCompatActivity {
                 int max = weighcnt[0];
                 int k, ind = 0;
 
+                //최대 3개 결과 출력
                 for ( int i = 0 ; i < 3 ; i++)
                 {
+                    if ( i > result_cnt - 1 )
+                        break; //결과가 1개 2개 이면 탈출
                     for ( k = 1; k < result_cnt; k++ ){
                         if ( max  < weighcnt[k]) {
                             max = weighcnt[k];
                             ind = k;
                         }
                     }
-                    weighcnt[ind] = 0;
+                    Log.d("가중치", weighcnt[ind]+"ㅇㅇ"+hobby[ind]);
                     Log.d("ddd",hobby[ind] + " 111" + url[ind]);
                     item[i] = new HobbyResultInfo(hobby[ind],url[ind]);
                     Log.d("아이템",item[i].getHobby_name() + "dasdsad" + item[i].getHobby_url());
                     result_items.add(item[i]);
 
+                    weighcnt[ind] = 0;
                     ind = 0;
-
                     max = weighcnt[0];
                 }
+                //마감
 
                 HobbyResultAdapter hobbyResultAdapter = new HobbyResultAdapter(getApplicationContext(),result_items,R.layout.activity_confirm);
                 result_recycler_view.setAdapter(hobbyResultAdapter);
