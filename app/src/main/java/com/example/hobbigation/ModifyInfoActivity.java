@@ -3,6 +3,7 @@ package com.example.hobbigation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -41,6 +42,9 @@ public class ModifyInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_info);
+
+        ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
+        actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
 
         modipwbtn = (Button)findViewById(R.id.modipwbtn);
         male_check = (CheckBox) findViewById(R.id.modiTomale);
@@ -144,4 +148,14 @@ public class ModifyInfoActivity extends AppCompatActivity {
             });
         }
     }
+
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    };
 }

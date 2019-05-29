@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class BeforeSignin extends AppCompatActivity {
 
     private Button sign_in_btn, sign_up_btn;
+    BackPressCloseHandler backPressCloseHandler;
 
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database3 = FirebaseDatabase.getInstance();
@@ -29,8 +31,12 @@ public class BeforeSignin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_signin);
 
+        backPressCloseHandler = new BackPressCloseHandler(this);
         sign_in_btn = (Button) findViewById(R.id.b_signin);
         sign_up_btn = (Button) findViewById(R.id.b_signup);
+
+        ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
+        actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -90,4 +96,22 @@ public class BeforeSignin extends AppCompatActivity {
 
 
     }
+
+
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // NavUtils.navigateUpFromSameTask(this);
+                backPressCloseHandler.onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    };
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
+    }
+
 }

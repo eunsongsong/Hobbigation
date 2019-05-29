@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".CategoryDetailActivity" android:parentActivityName=".TapViewActivity"></activity>
+        <activity android:name=".CategoryDetailActivity"></activity>
         <activity android:name=".ModifyInfoActivity" />
         <activity android:name=".ModifyInfoFragment" />
         <activity android:name=".ConfirmActivity" />

@@ -2,6 +2,7 @@ package com.example.hobbigation;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,6 +29,9 @@ public class ForgotPwActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_pw);
+
+        ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
+        actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
 
         userEmail = findViewById(R.id.userEmail);
         userPass = findViewById(R.id.btnResetPw);
@@ -67,4 +71,14 @@ public class ForgotPwActivity extends AppCompatActivity {
     public void emailtoastMsg(){
         Toast.makeText(this, "Email을 입력해주세요.", Toast.LENGTH_SHORT).show();
     }
+
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    };
 }
