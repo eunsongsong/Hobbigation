@@ -26,6 +26,7 @@ public class BeforeSignin extends AppCompatActivity {
     FirebaseDatabase database3 = FirebaseDatabase.getInstance();
     DatabaseReference myRef3 = database3.getReference("취미");
     String total= "";
+    String names = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +55,11 @@ public class BeforeSignin extends AppCompatActivity {
                         Log.d("dcc", ds.getValue().toString());
                         Log.d("ddd",dataSnapshot.getKey());
                         total +=  dataSnapshot.child("url_태그").child("0").child("url").getValue().toString() + "#";
+                        names += dataSnapshot.getKey() + "#";
                     }
                 }
                 PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("total",total);
+                PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("names",names);
             }
 
             @Override

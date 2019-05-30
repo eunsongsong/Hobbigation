@@ -89,20 +89,21 @@ public class TabFragment1 extends Fragment {
             }
         });
 
-        ArrayList<String> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
-        String[] urls = new String[10];
+        ArrayList<AutoScroll_Info>  auto_items = new ArrayList<>(); //이미지 url를 저장하는 arraylist
+        AutoScroll_Info[] auto_item = new AutoScroll_Info[10];
 
-        StringTokenizer st = new StringTokenizer(PreferenceUtil.getInstance(getContext()).getStringExtra("total"),"#");
+        StringTokenizer st_url = new StringTokenizer(PreferenceUtil.getInstance(getContext()).getStringExtra("total"),"#");
+        StringTokenizer st_names = new StringTokenizer(PreferenceUtil.getInstance(getContext()).getStringExtra("names"),"#");
+
         for ( int j = 0 ; j < 10; j++)
         {
-            urls[j] = st.nextToken();
+            auto_item[j] = new AutoScroll_Info(st_names.nextToken(), st_url.nextToken());
         }
         for ( int k = 9 ; k >= 0 ; k--) {
-            data.add(urls[k]);
-
+            auto_items.add(auto_item[k]);
         }
 
-        AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(getContext(), data);
+        AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(getContext(), auto_items);
         autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
         autoViewPager.setInterval(3500); // 페이지 넘어갈 시간 간격 설정
         autoViewPager.startAutoScroll(); //Auto Scroll 시작
