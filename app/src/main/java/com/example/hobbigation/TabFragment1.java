@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,11 +36,16 @@ public class TabFragment1 extends Fragment {
 
     AutoScrollViewPager autoViewPager;
 
+    FirebaseAuth firebaseAuth;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("추천이미지");
 
     FirebaseDatabase database2 = FirebaseDatabase.getInstance();
     DatabaseReference myRef2 = database2.getReference("취미").child("카테고리");
+
+    FirebaseDatabase database3 = FirebaseDatabase.getInstance();
+    DatabaseReference myRef3 = database3.getReference("사용자");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -134,6 +141,28 @@ public class TabFragment1 extends Fragment {
                 }
             });
         }
+
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
+
+        myRef3.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for( DataSnapshot ds : dataSnapshot.getChildren())
+                {
+                    if( ds.child("email").getValue().toString().equals(mFirebaseUser.getEmail()))
+                    {
+                        PreferenceUtil.getInstance(getContext()).putStringExtra("like",ds.child("like").getValue().toString());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return rootview;
     }
 }

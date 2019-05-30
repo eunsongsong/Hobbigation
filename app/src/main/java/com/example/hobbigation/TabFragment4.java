@@ -45,12 +45,16 @@ public class TabFragment4 extends Fragment {
 
         String like = PreferenceUtil.getInstance(getContext()).getStringExtra("like");
 
+        Log.d("like 0530", like);
         final String[] like_array = like.split("#");
         for ( int i = 0 ; i < like_array.length ; i++)
             Log.d("ddd",like_array[i]);
 
         Arrays.sort(like_array);
         Log.d("cnt ",like_array.length+"");
+        for ( int i = 0 ; i < like_array.length ; i++)
+            Log.d("ddd",like_array[i]);
+
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

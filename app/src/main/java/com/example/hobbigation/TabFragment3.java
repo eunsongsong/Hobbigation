@@ -32,7 +32,7 @@ public class TabFragment3 extends Fragment {
     TextView userEmail;
     TextView usergender;
     TextView userage;
-    String userid = "";  //DB에서 유저를 찾기 위한 ID 저장
+    
     Button modify;  //비밀번호 변경 버튼
     Switch pushsetsw;  //push 설정 스위치
 
@@ -53,10 +53,8 @@ public class TabFragment3 extends Fragment {
         pushsetsw = (Switch)rootview.findViewById(R.id.pushswitch);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
+        final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
-        StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(),"@");
-        userid = st.nextToken();
 
         pushsetsw.setChecked(sp_push_set);  //유저 설정대로 푸시 스위치 유지
 
@@ -68,11 +66,7 @@ public class TabFragment3 extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot ds: dataSnapshot.getChildren())
                         {
-                            StringTokenizer st = new StringTokenizer(ds.getKey(),":");
-                            String key = "";
-                            key = st.nextToken();
-                            key = st.nextToken();
-                        if(userid.equals(key))
+                        if(ds.child("email").getValue().toString().equals(mFirebaseUser.getEmail()))
                         {
                             String target = ds.child("username").getValue().toString();
                             username.setText(" 이름 : "+target);
