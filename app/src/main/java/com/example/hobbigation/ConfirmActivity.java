@@ -3,6 +3,7 @@ package com.example.hobbigation;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ import java.util.StringTokenizer;
 public class ConfirmActivity extends AppCompatActivity {
 
     String[] tag_array;
-    int[] weighcnt;
+    int[] weight;
     int[] sorted_weigh;
 
     int row;
@@ -43,7 +44,6 @@ public class ConfirmActivity extends AppCompatActivity {
     int minus;
     int index = 0 ;
     public RecyclerView result_recycler_view;
-
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -69,46 +69,63 @@ public class ConfirmActivity extends AppCompatActivity {
         Log.d("컨펌", "컨펌시작!");
 
         tag_array = intent.getStringArrayExtra("tag[]");
-        weighcnt = intent.getIntArrayExtra("weighcnt[]");
+        weight = intent.getIntArrayExtra("weighcnt[]");
         row = intent.getIntExtra("row",0);
         minus = intent.getIntExtra("minus",0);
+
+        Log.d("로우로우로우 ", row+"");
+        Log.d("마이너스", minus+"");
 
         //잘들어갔는지 확인
         for (int i = 0 ; i < row ; i++)
         {
             if(!TextUtils.isEmpty(tag_array[i]))
-            Log.d("aaaa",tag_array[i]);
+            Log.d("aaaa",tag_array[i] + "가중치" + weight[i]);
             else
                 Log.d("없는것이다", "없는것이다!이건 빈공간이다 "+ i +" 번");
-            Log.d("bbbbb",weighcnt[i]+"");
+
         }
 
         //wighcnt[]를 sorted_weigh에 복사
-         sorted_weigh = weighcnt.clone();
+         sorted_weigh = weight.clone();
         //sorted weigh 정렬
         Arrays.sort(sorted_weigh);
 
-        int i, p = 0;
+
+        int i, high = 0;
         for ( i = sorted_weigh.length- 1 ; i>0; i--) {
+            //가중치가 1이면 이 뒤로 다 1이므로 소팅 중지
             if (sorted_weigh[i] == 1) break;
-            for (int k = 0; k < weighcnt.length; k++) {
-                if (sorted_weigh[i] == weighcnt[k]) {
-                    String tmp = tag_array[k];
-                    tag_array[k] = tag_array[p];
-                    tag_array[p] = tmp;
-                    weighcnt[k] = 1;
-                    p++;
+            //높은 가중치가 어디에 있는지 찾기
+            for (int k = high; k < weight.length; k++) {
+                if (sorted_weigh[i] == weight[k]) {
+                    //가중치 높은 태그와 가중치값 저장
+                    String max_tag = tag_array[k];
+                    int max_weight = k;
+                    //한칸씩 뒤로 밀기
+                    for(int n=k-1; n>=high; n--) {
+                        if (sorted_weigh[i] == 1) break;
+                        tag_array[n+1] = tag_array[n];
+                        weight[n+1] = weight[n];
+                    }
+                    //배열 맨 앞에 가중치 높은 순으로 배치
+                    tag_array[high] = max_tag;
+                    weight[high] = max_weight;
+                    high++;
                     break;
                 }
             }
+
         }
+
+
         //이 값이 1보다 큰 가중치 태그 개수
         Log.d("개수", sorted_weigh.length - i - 1 +"");
         int gt_one_tag = sorted_weigh.length - i - 1;
 
-        for ( i = 0 ;  i < tag_array.length; i++) {
+        for (i = 0 ;  i < tag_array.length; i++) {
             if ( !TextUtils.isEmpty(tag_array[i]))
-                Log.d("--소트된 태그", tag_array[i]);
+                Log.d("--소트된 태그", tag_array[i] + "가중치 " + weight[i]);
         }
         //정렬끝
 
@@ -120,7 +137,7 @@ public class ConfirmActivity extends AppCompatActivity {
                 int hobbycnt = (int)dataSnapshot.getChildrenCount();
                 String[] hobby = new String[hobbycnt];
                 String[] url = new String[hobbycnt];
-                int[] weighcnt = new int[hobbycnt];
+                int[] weight = new int[hobbycnt];
 
                 int result_cnt = 0;
 
@@ -136,7 +153,7 @@ public class ConfirmActivity extends AppCompatActivity {
                         {
                             for(int i=0; i<hobbycnt; i++) {
                                 if (ds.getKey().equals(hobby[i])) {
-                                    weighcnt[i] += 1;
+                                    weight[i] += 1;
                                     exist = true;
                                     break;
                                 }
@@ -145,7 +162,7 @@ public class ConfirmActivity extends AppCompatActivity {
                                     hobby[index] = ds.getKey();
                                     result_cnt++;
                                     url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
-                                    weighcnt[index] += 1;
+                                    weight[index] += 1;
                                     index++;
                             }
                             else
@@ -159,14 +176,14 @@ public class ConfirmActivity extends AppCompatActivity {
                         {
                             for(int i=0; i<hobbycnt; i++) {
                                 if (ds.getKey().equals(hobby[i])) {
-                                    weighcnt[i] += 1;
+                                    weight[i] += 1;
                                     exist = true;
                                     break;
                                 }
                             }
                             if(!exist){
                                 hobby[index] = ds.getKey();
-                                weighcnt[index] += 1;
+                                weight[index] += 1;
                                 result_cnt++;
                                 url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
                                 index++;
@@ -182,14 +199,14 @@ public class ConfirmActivity extends AppCompatActivity {
                         {
                             for(int i=0; i<hobbycnt; i++) {
                                 if (ds.getKey().equals(hobby[i])) {
-                                    weighcnt[i] += 1;
+                                    weight[i] += 1;
                                     exist = true;
                                     break;
                                 }
                             }
                             if(!exist){
                                 hobby[index] = ds.getKey();
-                                weighcnt[index] += 1;
+                                weight[index] += 1;
                                 result_cnt++;
                                 url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
                                 index++;
@@ -210,29 +227,36 @@ public class ConfirmActivity extends AppCompatActivity {
                 HobbyResultInfo[] item = new HobbyResultInfo[result_cnt];
 
                 //맥스 찾고 0으로 만들기 x 3번
-                int max = weighcnt[0];
+                int max = weight[0];
                 int k, ind = 0;
 
                 //최대 3개 결과 출력
                 for ( int i = 0 ; i < 5 ; i++)
                 {
-                    if ( i > result_cnt - 1 )
+                    if ( i > result_cnt - 1 ) {
+                        if(result_cnt==0){
+                            String logo= "https://firebasestorage.googleapis.com/v0/b/habbigation-27e01.appspot.com/o/no.png?alt=media&token=568a6365-f948-4460-b712-ee89e672423b";
+                            HobbyResultInfo[] null_item = new HobbyResultInfo[1];
+                            null_item[0] = new HobbyResultInfo("죄송합니다. 결과가 없습니다. \n다시 한번 골라주세요!", logo);
+                            result_items.add(null_item[0]);
+                        }
                         break; //결과가 1개 2개 이면 탈출
+                    }
                     for ( k = 1; k < result_cnt; k++ ){
-                        if ( max  < weighcnt[k]) {
-                            max = weighcnt[k];
+                        if ( max  < weight[k]) {
+                            max = weight[k];
                             ind = k;
                         }
                     }
-                    Log.d("가중치", weighcnt[ind]+"ㅇㅇ"+hobby[ind]);
+                    Log.d("가중치", weight[ind]+"ㅇㅇ"+hobby[ind]);
                     Log.d("ddd",hobby[ind] + " 111" + url[ind]);
                     item[i] = new HobbyResultInfo(hobby[ind],url[ind]);
                     Log.d("아이템",item[i].getHobby_name() + "dasdsad" + item[i].getHobby_url());
                     result_items.add(item[i]);
 
-                    weighcnt[ind] = 0;
+                    weight[ind] = 0;
                     ind = 0;
-                    max = weighcnt[0];
+                    max = weight[0];
                 }
                 //마감
 
@@ -242,7 +266,7 @@ public class ConfirmActivity extends AppCompatActivity {
                 for ( int i = 0 ; i < 20 ; i++) {
                     if (!TextUtils.isEmpty(hobby[i]))
                         Log.d("a12312", hobby[i]);
-                    Log.d("tttt", weighcnt[i] + "");
+                    Log.d("tttt", weight[i] + "");
 
                 }
 
