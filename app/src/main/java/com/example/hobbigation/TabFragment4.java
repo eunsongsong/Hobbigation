@@ -67,20 +67,13 @@ public class TabFragment4 extends Fragment {
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
 
                     if (a > like_array.length - 1){
-                        Log.d("xsaasd","");
                         break;
                     }
 
                     if (like_array[a].equals(ds.getKey())) {
-                        Log.d("으아아", ds.child("url_태그").child("0").child("url").getValue().toString());
-                        Log.d("에이입니다", a + "");
-                        Log.d(a+"번 찜", like_array[a]);
                         item[a] = new WishlistInfo(like_array[a], ds.child("url_태그").child("0").child("url").getValue().toString());
-                        Log.d("핫",item[a].getUrl());
-                        Log.d("둘",item[a].getName());
                         wish_items.add(item[a]);
                         a++;
-                        Log.d("거기되니"+a+"",a+"");
                     }
 
                 }

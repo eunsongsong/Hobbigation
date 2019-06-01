@@ -4,26 +4,29 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:background="#55FFC81E"
         android:layout_width="wrap_content"
         android:layout_margin="15dp"
+        android:background="@drawable/rectangle_null"
         android:layout_height="wrap_content">
 
 
         <ImageView
             android:id="@+id/wishlist_img"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:scaleType="centerCrop"
+            android:layout_marginTop="5dp"
             android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/wishlist_txt"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:background="#55FFC81E"
             android:layout_below="@+id/wishlist_img"
+            android:textAlignment="center"
             android:textSize="20dp"
+            android:textColor="#000000"
             android:text="ddd" />
 
         <Button
