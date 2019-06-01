@@ -26,6 +26,17 @@
             android:textSize="20dp"
             android:text="ddd" />
 
+        <Button
+            android:id="@+id/wishlist_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/trash"
+            android:layout_below="@+id/wishlist_txt"
+            android:layout_centerInParent="true"
+          />
+
     </RelativeLayout>
 
 </LinearLayout>

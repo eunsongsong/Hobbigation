@@ -101,7 +101,7 @@ public class ConfirmActivity extends AppCompatActivity {
                 if (sorted_weigh[i] == weight[k]) {
                     //가중치 높은 태그와 가중치값 저장
                     String max_tag = tag_array[k];
-                    int max_weight = k;
+                    int max_weight = weight[k];
                     //한칸씩 뒤로 밀기
                     for(int n=k-1; n>=high; n--) {
                         if (sorted_weigh[i] == 1) break;
