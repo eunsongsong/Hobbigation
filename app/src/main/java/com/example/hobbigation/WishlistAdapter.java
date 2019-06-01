@@ -1,6 +1,8 @@
 package com.example.hobbigation;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -90,39 +92,57 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                items.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, items.size());
+                AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+                alert.setTitle("'"+item.getName()+"' 이(가) 찜 목록에서 삭제됩니다.");
+                alert.setMessage("정말 취소하실 건가요?");
+                alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                items.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, items.size());
 
-                firebaseAuth = FirebaseAuth.getInstance();
-                final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
+                                firebaseAuth = FirebaseAuth.getInstance();
+                                final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
-                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            String target = ds.child("email").getValue().toString();
-                            if (mFirebaseUser != null) {
-                                if (target.equals(mFirebaseUser.getEmail())) {
-                                    StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
-                                    StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
-                                    String like = PreferenceUtil.getInstance(v.getContext()).getStringExtra("like");
-                                    like = like.replace(item.getName()+"#", "");
-                                    Log.d("Aaaaa라이크", like);
-                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(like);
-                                    PreferenceUtil.getInstance(v.getContext()).putStringExtra("like", like);
-                                }
+                                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                            String target = ds.child("email").getValue().toString();
+                                            if (mFirebaseUser != null) {
+                                                if (target.equals(mFirebaseUser.getEmail())) {
+                                                    StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
+                                                    StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
+                                                    String like = PreferenceUtil.getInstance(v.getContext()).getStringExtra("like");
+                                                    like = like.replace(item.getName()+"#", "");
+                                                    Log.d("Aaaaa라이크", like);
+                                                    myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(like);
+                                                    PreferenceUtil.getInstance(v.getContext()).putStringExtra("like", like);
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
-                        }
-                    }
-
+                        });
+                alert.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onClick(DialogInterface dialog, int which) {
 
                     }
                 });
+                alert.show();
+
             }
+
         });
+
 
     }
 
