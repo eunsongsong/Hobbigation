@@ -1,11 +1,38 @@
 package com.example.hobbigation;
 
+import java.util.StringTokenizer;
+
 public class RecommnedInfo {
     private String url;
     private String url_two;
     private String tag;
     private String tag_two;
+    private String hobby_name;
+    private String hobby_name_two;
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setUrl_two(String url_two) {
+        this.url_two = url_two;
+    }
+
+    public String getHobby_name() {
+        return hobby_name;
+    }
+
+    public void setHobby_name(String hobby_name) {
+        this.hobby_name = hobby_name;
+    }
+
+    public String getHobby_name_two() {
+        return hobby_name_two;
+    }
+
+    public void setHobby_name_two(String hobby_name_two) {
+        this.hobby_name_two = hobby_name_two;
+    }
 
     private boolean cheked = false;
     private boolean cheked_two = false;
@@ -42,11 +69,13 @@ public class RecommnedInfo {
         return url;
     }
 
-    public RecommnedInfo(String url, String url_two, String tag, String tag_two) {
+    public RecommnedInfo(String url, String url_two, String tag, String tag_two, String hobby_name, String hobby_name_two) {
         this.url = url;
         this.url_two = url_two;
         this.tag = tag;
         this.tag_two = tag_two;
+        this.hobby_name = hobby_name;
+        this.hobby_name_two = hobby_name_two;
     }
 
     public String getUrl_two() {

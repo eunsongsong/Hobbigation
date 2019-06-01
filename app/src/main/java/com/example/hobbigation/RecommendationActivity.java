@@ -53,6 +53,8 @@ public class RecommendationActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
 
+    String temp2 = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +188,7 @@ public class RecommendationActivity extends AppCompatActivity {
                                 int count = (int) ds.child("url_태그").getChildrenCount();
                                 int a2 = (int) (Math.random() * count);
 
+                                temp2 += ds.getKey() + "#";
                                 test += ds.child("url_태그").child(a2 + "").child("url").getValue().toString() + "#";
                                 test_two += ds.child("url_태그").child(a2 + "").child("태그").getValue().toString() + "%";
                             }
@@ -193,13 +196,17 @@ public class RecommendationActivity extends AppCompatActivity {
                     }
                 }
 
+
+
                 StringTokenizer st = new StringTokenizer(test, "#");
                 StringTokenizer st_two = new StringTokenizer(test_two, "%");
+                StringTokenizer st_three = new StringTokenizer(temp2, "#");
 
 
                 for (int i = 0; i < 18; i++) {
 
-                    item[i] = new RecommnedInfo(st.nextToken(), st.nextToken(), st_two.nextToken(), st_two.nextToken());
+                    item[i] = new RecommnedInfo(st.nextToken(), st.nextToken(), st_two.nextToken(), st_two.nextToken()
+                    ,st_three.nextToken(), st_three.nextToken());
 
                     items.add(item[i]);
                 }

@@ -97,14 +97,13 @@ public class ConfirmActivity extends AppCompatActivity {
             //가중치가 1이면 이 뒤로 다 1이므로 소팅 중지
             if (sorted_weigh[i] == 1) break;
             //높은 가중치가 어디에 있는지 찾기
-            for (int k = high; k < weight.length; k++) {
+            for (int k = high; k < weight.length - minus; k++) {
                 if (sorted_weigh[i] == weight[k]) {
                     //가중치 높은 태그와 가중치값 저장
                     String max_tag = tag_array[k];
                     int max_weight = weight[k];
                     //한칸씩 뒤로 밀기
                     for(int n=k-1; n>=high; n--) {
-                        if (sorted_weigh[i] == 1) break;
                         tag_array[n+1] = tag_array[n];
                         weight[n+1] = weight[n];
                     }
@@ -146,7 +145,7 @@ public class ConfirmActivity extends AppCompatActivity {
                 for ( DataSnapshot ds: dataSnapshot.getChildren())
                 {
                     String con = ds.child("취미_태그").getValue().toString();
-                    for ( count = 3 ;count < tags_num -1 ; count++)
+                    for ( count = 4 ;count < tags_num -1 ; count++)
                     {
                         if(con.contains(tag_array[0]) && con.contains(tag_array[1])
                            && con.contains(tag_array[count]))
@@ -171,7 +170,7 @@ public class ConfirmActivity extends AppCompatActivity {
                             Log.d("나와라얍 0번 1번" + count, con + "### " + count);
                             Log.d("취미가 무엇이니", ds.getKey());
                         }
-                        if(con.contains(tag_array[1]) && con.contains(tag_array[2])
+                        if(con.contains(tag_array[0]) && con.contains(tag_array[2])
                                 && con.contains(tag_array[count]))
                         {
                             for(int i=0; i<hobbycnt; i++) {
@@ -194,7 +193,79 @@ public class ConfirmActivity extends AppCompatActivity {
                             Log.d("나와라얍 1번 2번" + count, con + "### " + count);
                             Log.d("취미가 무엇이니", ds.getKey());
                         }
-                        if(con.contains(tag_array[0]) && con.contains(tag_array[2])
+                        if(con.contains(tag_array[0]) && con.contains(tag_array[3])
+                                && con.contains(tag_array[count]))
+                        {
+                            for(int i=0; i<hobbycnt; i++) {
+                                if (ds.getKey().equals(hobby[i])) {
+                                    weight[i] += 1;
+                                    exist = true;
+                                    break;
+                                }
+                            }
+                            if(!exist){
+                                hobby[index] = ds.getKey();
+                                weight[index] += 1;
+                                result_cnt++;
+                                url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
+                                index++;
+                            }
+                            else
+                                exist = false;
+
+
+                            Log.d("나와라얍 0번 2번" + count, con + "### " + count);
+                            Log.d("취미가 무엇이니", ds.getKey());
+                        }
+                        if(con.contains(tag_array[1]) && con.contains(tag_array[2])
+                                && con.contains(tag_array[count]))
+                        {
+                            for(int i=0; i<hobbycnt; i++) {
+                                if (ds.getKey().equals(hobby[i])) {
+                                    weight[i] += 1;
+                                    exist = true;
+                                    break;
+                                }
+                            }
+                            if(!exist){
+                                hobby[index] = ds.getKey();
+                                weight[index] += 1;
+                                result_cnt++;
+                                url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
+                                index++;
+                            }
+                            else
+                                exist = false;
+
+
+                            Log.d("나와라얍 0번 2번" + count, con + "### " + count);
+                            Log.d("취미가 무엇이니", ds.getKey());
+                        }
+                        if(con.contains(tag_array[1]) && con.contains(tag_array[3])
+                                && con.contains(tag_array[count]))
+                        {
+                            for(int i=0; i<hobbycnt; i++) {
+                                if (ds.getKey().equals(hobby[i])) {
+                                    weight[i] += 1;
+                                    exist = true;
+                                    break;
+                                }
+                            }
+                            if(!exist){
+                                hobby[index] = ds.getKey();
+                                weight[index] += 1;
+                                result_cnt++;
+                                url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
+                                index++;
+                            }
+                            else
+                                exist = false;
+
+
+                            Log.d("나와라얍 0번 2번" + count, con + "### " + count);
+                            Log.d("취미가 무엇이니", ds.getKey());
+                        }
+                        if(con.contains(tag_array[2]) && con.contains(tag_array[3])
                                 && con.contains(tag_array[count]))
                         {
                             for(int i=0; i<hobbycnt; i++) {

@@ -55,6 +55,8 @@ public class SubActivity extends AppCompatActivity {
         like = PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("like");
         keyword = PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("keyword");
 
+        Log.d("찜하기",like);
+
         String tmp = like;
         //like 있을 때만
         if(!TextUtils.isEmpty(tmp)) {
@@ -68,7 +70,6 @@ public class SubActivity extends AppCompatActivity {
                 }
             }
         }
-        Log.d("---쉐어드", "#"+keyword);
         cate_name_v.setText(keyword);
         like_c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -78,13 +79,11 @@ public class SubActivity extends AppCompatActivity {
                 if(OnOff){
                     final_like = like+keyword+"#";
                     Log.d("Final_Like", final_like);
-                    like = final_like;
                 }
                 else{
                     String del = keyword+"#";
                     final_like = like.replace(del, "");
                     Log.d("delete_Final_Like", final_like);
-                    like = final_like;
                 }
 
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -107,7 +106,7 @@ public class SubActivity extends AppCompatActivity {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 for (DataSnapshot de : dataSnapshot.getChildren()) {
-                                                    String hobby = de.getKey().toString();
+                                                    String hobby = de.getKey();
                                                     if (hobby.equals(keyword)) {
                                                         String cntstr = de.child("count").getValue().toString();
                                                         int cnt = Integer.parseInt(cntstr);

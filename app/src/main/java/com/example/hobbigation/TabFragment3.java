@@ -32,7 +32,7 @@ public class TabFragment3 extends Fragment {
     TextView userEmail;
     TextView usergender;
     TextView userage;
-    
+
     Button modify;  //비밀번호 변경 버튼
     Switch pushsetsw;  //push 설정 스위치
 
@@ -54,7 +54,6 @@ public class TabFragment3 extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
-
 
         pushsetsw.setChecked(sp_push_set);  //유저 설정대로 푸시 스위치 유지
 

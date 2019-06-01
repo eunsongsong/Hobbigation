@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -41,7 +42,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     FirebaseDatabase database_two = FirebaseDatabase.getInstance();
     DatabaseReference myRef_two = database_two.getReference("사용자");
-
 
     public RecyclerAdapter(Context context, List<RecommnedInfo> items, int item_layout) {
         this.context=context;
@@ -82,30 +82,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setChecked(isChecked);
+                //isChecked = true 일때 태그 추가
                 if ( isChecked)
                 {
-                    int a = PreferenceUtil.getInstance(context.getApplicationContext()).getIntExtra("touch") + 1;
-                    PreferenceUtil.getInstance(context.getApplicationContext()).putIntExtra("touch",a);
-
-                }
-                else
-                {
-                    int a = PreferenceUtil.getInstance(context.getApplicationContext()).getIntExtra("touch") - 1;
-                    PreferenceUtil.getInstance(context.getApplicationContext()).putIntExtra("touch",a);
-                }
-
-                final boolean OnOff1 = item.isSelected();
-                //isChecked = true 일때 태그 추가
-                if (OnOff1) {
                     tag_sum += item.getTag() + "%";
                     Log.d("TAG_SUM",tag_sum);
+                    Log.d("취미이름", item.getHobby_name());
                 }
                 //isChecked = false 일때 태그 삭제
-                else{
+                else
+                {
                     deletestr = item.getTag()+"%";
                     tag_sum = tag_sum.replace(deletestr, "");
                     Log.d("delete - TAG_SUM",tag_sum);
                 }
+
                 //DB에 업데이트
                 myRef_two.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -135,22 +126,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setCheked_two(isChecked);
-                final boolean OnOff2 = item.isSelected_two();
-                if ( isChecked )
-                    touch++;
-                else
-                    touch--;
                 //isChecked = true 일때 태그 추가
-                if (OnOff2) {
+                if ( isChecked)
+                {
                     tag_sum += item.getTag_two() + "%";
                     Log.d("TAG_SUM",tag_sum);
+                    Log.d("취미이름", item.getHobby_name_two());
                 }
                 //isChecked = false 일때 태그 삭제
-                else{
+                else
+                {
                     deletestr = item.getTag_two()+"%";
                     tag_sum = tag_sum.replace(deletestr, "");
                     Log.d("delete - TAG_SUM",tag_sum);
                 }
+
                 //DB에 업데이트
                 myRef_two.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
