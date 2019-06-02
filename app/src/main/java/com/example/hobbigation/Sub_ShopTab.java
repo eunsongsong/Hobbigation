@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class Sub_ShopTab extends Fragment {
             public void run() {
                 try {
                     strshop = getNaverShoppingSearch(keyword);
-
+                    Log.d("널이냐?", strshop);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -75,7 +76,7 @@ public class Sub_ShopTab extends Fragment {
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     if (position == 0)
                                         startActivity(intent_1);
-                                    else if (position == 1)
+                                 /*   else if (position == 1)
                                         startActivity(intent_2);
                                     else if (position == 2)
                                         startActivity(intent_3);
@@ -92,7 +93,7 @@ public class Sub_ShopTab extends Fragment {
                                     else if (position == 8)
                                         startActivity(intent_9);
                                     else if (position == 9)
-                                        startActivity(intent_10);
+                                        startActivity(intent_10);*/
                                 }
                             });
                         }

@@ -31,6 +31,7 @@ public class ForgotPwActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_pw);
 
         ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
 
         userEmail = findViewById(R.id.userEmail);

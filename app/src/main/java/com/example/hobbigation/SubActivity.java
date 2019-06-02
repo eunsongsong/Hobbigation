@@ -31,6 +31,8 @@ public class SubActivity extends AppCompatActivity {
     TextView cate_name_v;
     CheckBox like_c;
     String final_like = "";
+    String[] volunteer;
+    boolean is_volunteer = false;
 
     String like = "";
     FirebaseAuth firebaseAuth;
@@ -44,8 +46,10 @@ public class SubActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sub);
 
         ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
 
+        volunteer = new String[]{"보육원봉사활동","양로원봉사활동","유기동물봉사","재능기부활동"};
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
@@ -160,9 +164,22 @@ public class SubActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.subpager);
         mTabLayout = (TabLayout) findViewById(R.id.subtab);
 
+
         mTabLayout.addTab(mTabLayout.newTab().setText("블로그"));
         mTabLayout.addTab(mTabLayout.newTab().setText("카페"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("쇼핑"));
+
+        //지역 정보 보여주는 취미 구별
+        for(int i=0; i<volunteer.length; i++) {
+            if(volunteer[i].equals(keyword)) {
+                is_volunteer = true;
+                break;
+            }
+            else
+                is_volunteer = false;
+        }
+        if(!is_volunteer)
+            mTabLayout.addTab(mTabLayout.newTab().setText("쇼핑"));
+
 
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 

@@ -57,6 +57,7 @@ public class ConfirmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_confirm);
 
         ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
 
         result_recycler_view = (RecyclerView) findViewById(R.id.result_recycler);
@@ -137,11 +138,8 @@ public class ConfirmActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int hobbycnt = (int)dataSnapshot.getChildrenCount();
                 String[] hobby = new String[hobbycnt];
-                String[] hobby_2 = new String[hobbycnt];
                 String[] url = new String[hobbycnt];
-                String[] url_2 = new String[hobbycnt];
                 int[] weight = new int[hobbycnt];
-                int[] weight_2 = new int[hobbycnt];
 
                 int result_cnt = 0;
 
