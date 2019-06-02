@@ -158,21 +158,10 @@ public class RecommendationActivity extends AppCompatActivity {
                         plant[2].toString(), rest[2].toString(), vol[2].toString()},
 
         };
-        for (int i = 0; i < 12; i++)
-            Log.d("total[0]", total[0][i]);
-        for (int i = 0; i < 12; i++)
-            Log.d("total[1]", total[1][i]);
-        for (int i = 0; i < 12; i++)
-            Log.d("total[2]", total[2][i]);
+
         Arrays.sort(total[0]);
         Arrays.sort(total[1]);
         Arrays.sort(total[2]);
-        for (int i = 0; i < 12; i++)
-            Log.d("total[10]", total[0][i]);
-        for (int i = 0; i < 12; i++)
-            Log.d("total[11]", total[1][i]);
-        for (int i = 0; i < 12; i++)
-            Log.d("total[12]", total[2][i]);
 
         //이미지, 태그 가져오기
         myRef.addValueEventListener(new ValueEventListener() {

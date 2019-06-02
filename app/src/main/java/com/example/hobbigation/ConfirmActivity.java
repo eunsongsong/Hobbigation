@@ -43,6 +43,9 @@ public class ConfirmActivity extends AppCompatActivity {
 
     int minus;
     int index = 0 ;
+    static int[] comb_int;
+    static int j=0;
+    static int comb_num;
     public RecyclerView result_recycler_view;
 
 
@@ -114,13 +117,12 @@ public class ConfirmActivity extends AppCompatActivity {
                     break;
                 }
             }
-
         }
 
 
         //이 값이 1보다 큰 가중치 태그 개수
         Log.d("개수", sorted_weigh.length - i - 1 +"");
-        int gt_one_tag = sorted_weigh.length - i - 1;
+        final int gt_one_tag = sorted_weigh.length - i - 1;
 
         for (i = 0 ;  i < tag_array.length; i++) {
             if ( !TextUtils.isEmpty(tag_array[i]))
@@ -135,8 +137,11 @@ public class ConfirmActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int hobbycnt = (int)dataSnapshot.getChildrenCount();
                 String[] hobby = new String[hobbycnt];
+                String[] hobby_2 = new String[hobbycnt];
                 String[] url = new String[hobbycnt];
+                String[] url_2 = new String[hobbycnt];
                 int[] weight = new int[hobbycnt];
+                int[] weight_2 = new int[hobbycnt];
 
                 int result_cnt = 0;
 
@@ -145,7 +150,7 @@ public class ConfirmActivity extends AppCompatActivity {
                 for ( DataSnapshot ds: dataSnapshot.getChildren())
                 {
                     String con = ds.child("취미_태그").getValue().toString();
-                    for ( count = 4 ;count < tags_num -1 ; count++)
+                    for ( count = 4 ;count < tags_num ; count++)
                     {
                         if(con.contains(tag_array[0]) && con.contains(tag_array[1])
                            && con.contains(tag_array[count]))
@@ -331,6 +336,7 @@ public class ConfirmActivity extends AppCompatActivity {
                 }
                 //마감
 
+
                 HobbyResultAdapter hobbyResultAdapter = new HobbyResultAdapter(getApplicationContext(),result_items,R.layout.activity_confirm);
                 result_recycler_view.setAdapter(hobbyResultAdapter);
 
@@ -350,8 +356,121 @@ public class ConfirmActivity extends AppCompatActivity {
             }
         });
 
+        myRef.child("이미지_태그").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int hobbycnt = (int) dataSnapshot.getChildrenCount();
+                String[] hobby_2 = new String[hobbycnt];
+                String[] url_2 = new String[hobbycnt];
+                int[] weight_2 = new int[hobbycnt];
+
+                //ㅇㅇㅇㅇㅇㅇnC2로 결과 찾기
+                if (true) {
+                    j = 0;
+                    int n = gt_one_tag;
+                    comb_num = n * (n - 1);
+                    comb_int = new int[comb_num];
+                    int[] arr = new int[n];
+                    for (int i = 0; i < n; i++)
+                        arr[i] = i;
+                    boolean[] visited = new boolean[n];
+
+                    combination(arr, visited, 0, n, 2);
+
+                    //nC2로 결과 찾기
+                    boolean exist = false;
+                    index = 0;
+                    int result_cnt_2 = 0;
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        String con = ds.child("취미_태그").getValue().toString();
+                        //Log.d("오고오고", con);
+                        //Log.d("오고오고취미", ds.getKey());
+                        //for(int m=0; m<comb_int.length-1; m=m+2)
+                            //Log.d("오고오태그뽑은거", tag_array[comb_int[m]]+tag_array[comb_int[m+1]] + "길이"+comb_int.length + " m값" + m);
+
+                        for (int m = 0; m < comb_int.length-1; m = m+2) {
+                            for(int k = gt_one_tag; k<tags_num; k++) {
+                                if (con.contains(tag_array[comb_int[m]]) && con.contains(tag_array[comb_int[m + 1]]) && con.contains(tag_array[k])) {
+                                    for (int i = 0; i < hobbycnt; i++) {
+                                        if (ds.getKey().equals(hobby_2[i])) {
+                                            weight_2[i] += 1;
+                                            exist = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!exist) {
+                                        hobby_2[index] = ds.getKey();
+                                        result_cnt_2++;
+                                        url_2[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
+                                        weight_2[index] += 1;
+                                        index++;
+                                    } else
+                                        exist = false;
+                                    //Log.d("조합 레스고" + m, con + "### " + m);
+                                    //Log.d("취미가 무엇이니", ds.getKey() + index);
+                                }
+                                //Log.d("검색하는 세개 태그", tag_array[comb_int[m]]+ tag_array[comb_int[m + 1]]+tag_array[k]);
+                            }
+
+                        }
+                    }
+
+                    //맥스 찾고 0으로 만들기 x 3번
+                    int max = weight_2[0];
+                    int k, ind = 0;
+
+                    //최대 3개 결과 출력
+                    for ( int i = 0 ; i < 10 ; i++)
+                    {
+                        if ( i > result_cnt_2 - 1 ) {
+                            break; //결과가 1개 2개 이면 탈출
+                        }
+                        for ( k = 1; k < result_cnt_2; k++ ){
+                            if ( max  < weight_2[k]) {
+                                max = weight_2[k];
+                                ind = k;
+                            }
+                        }
+                        Log.d("조합으로 뽑은 가중치", weight_2[ind]+"ㅇㅇ"+hobby_2[ind]);
+                        //Log.d("ddd",hobby_2[ind] + " 111" + url_2[ind]);
+
+                        weight_2[ind] = 0;
+                        ind = 0;
+                        max = weight_2[0];
+                    }
+
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
+    // 조합 구하기 - 백트래킹 사용
+    // 사용 예시 : combination(arr, visited, 0, n, r)
+    static void combination(int[] arr, boolean[] visited, int start, int n, int r) {
+        if(r == 0) {
+            for(int i=0; i<n; i++) {
+                if (visited[i] == true) {
+                    //Log.d("이게 이거냐", arr[i]+"");
+                    if (j>=comb_num) break;
+                    comb_int[j] = arr[i];
+                    j++;
+                }
+            }
+            return;
+        } else {
+            for(int i=start; i<n; i++) {
+                visited[i] = true;
+                combination(arr, visited, i + 1, n, r - 1);
+                visited[i] = false;
+            }
+        }
+    }
+
+    //액션바의 뒤로가기 버튼
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -361,4 +480,5 @@ public class ConfirmActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     };
+
 }
