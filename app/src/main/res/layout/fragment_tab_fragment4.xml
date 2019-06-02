@@ -33,7 +33,6 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
-            android:id="@+id/related_hobby_txt"
             android:text=" 연관된 취미 "
             android:textStyle="bold"
             android:textSize="23dp"/>

@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class BeforeSignin extends AppCompatActivity {
 
@@ -45,6 +46,18 @@ public class BeforeSignin extends AppCompatActivity {
                 //이미 로그인 되었다면
                 firebaseAuth.signOut();
             }
+         myRef3.child("이미지_태그").addListenerForSingleValueEvent(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                 PreferenceUtil.getInstance(getApplicationContext()).putIntExtra("hobby_num",(int)dataSnapshot.getChildrenCount());
+             }
+
+             @Override
+             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+             }
+         });
+
         myRef3.child("이미지_태그").orderByChild("count").limitToLast(10).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -60,6 +73,7 @@ public class BeforeSignin extends AppCompatActivity {
                 }
                 PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("total",total);
                 PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("names",names);
+
             }
 
             @Override

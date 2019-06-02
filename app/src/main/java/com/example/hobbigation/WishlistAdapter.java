@@ -116,7 +116,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
                                                     String like = PreferenceUtil.getInstance(v.getContext()).getStringExtra("like");
                                                     like = like.replace(item.getName()+"#", "");
-                                                    Log.d("Aaaaa라이크", like);
+
                                                     myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(like);
                                                     PreferenceUtil.getInstance(v.getContext()).putStringExtra("like", like);
                                                 }
