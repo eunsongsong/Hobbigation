@@ -37,7 +37,6 @@ public class TabFragment4 extends Fragment {
     FirebaseDatabase database2 = FirebaseDatabase.getInstance();
     DatabaseReference myRef_two = database2.getReference("취미").child("카테고리");
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -52,6 +51,7 @@ public class TabFragment4 extends Fragment {
         relatedlist_recycleview = (RecyclerView) rootview.findViewById(R.id.related_hobby);
 
         final LinearLayoutManager layoutManager_related=new LinearLayoutManager(getContext());
+        layoutManager_related.setOrientation(LinearLayout.HORIZONTAL);
         relatedlist_recycleview.setHasFixedSize(true);
         relatedlist_recycleview.setLayoutManager(layoutManager_related);
 
@@ -105,11 +105,6 @@ public class TabFragment4 extends Fragment {
         });
 
         final int[][] related = new int[2][2];
-
-        //실내_야외 0번
-
-        //감상_참여 1번
-
         final int[] category_num = new int[12];
         final String[] category_name = new String[]{"게임_오락","만들기","문화_공연","봉사활동","식물"
         ,"아웃도어","예술","운동_스포츠","음식","음악","책_글","휴식"};
@@ -131,34 +126,39 @@ public class TabFragment4 extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     int a = 0;
+                    //3개씩 나오는 곳
+                    boolean ischecked = false;
 
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Log.d("카테고리", ds.getKey() + " 번호 : " + a);
                         for (int i = 0; i < like_array.length; i++) {
                             if (ds.child("실내_야외").child("실내").getValue().toString().contains(like_array[i])) {
-                                Log.d("먼데 몇번인데", like_array[i]);
                                 related[0][0] += 1;
                                 category_num[a] += 1;
+                                ischecked = true;
                             }
                             if (ds.child("실내_야외").child("야외").getValue().toString().contains(like_array[i])) {
                                 related[0][1] += 1;
-                                category_num[a] += 1;
+                                if (!ischecked)
+                                 category_num[a] += 1;
                             }
-
                             if (ds.child("참여_감상").child("감상").getValue().toString().contains(like_array[i])) {
                                 related[1][0] += 1;
-                                category_num[a] += 1;
                             }
                             if (ds.child("참여_감상").child("참여").getValue().toString().contains(like_array[i])) {
                                 related[1][1] += 1;
-                                category_num[a] += 1;
                             }
+                            ischecked = false;
                         }
                         a++;
                     }
                     for (int i = 0; i < 12; i++) {
                         Log.d(i + "번", category_num[i] + "");
                     }
+                    Log.d("0, 0 ", related[0][0]+"");
+                    Log.d("0 1", related[0][1]+"");
+                    Log.d("1 0", related[1][0]+"");
+                    Log.d("1 1", related[1][1]+"");
                     String result = "";
                     String result_two = "";
 
@@ -166,15 +166,24 @@ public class TabFragment4 extends Fragment {
                         result = "실내";
                     } else if (related[0][0] < related[0][1]) {
                         result = "야외";
-                    } else {
-                        //same
+                    } else { //0과 1만 출력
+                        int p = (int) (Math.random() * 2);
+                        if( p == 0 )
+                            result = "실내";
+                        else
+                            result = "야외";
                     }
+
                     if (related[1][0] > related[1][1]) {
                         result_two = "감상";
                     } else if (related[1][0] < related[1][1]) {
                         result_two = "참여";
                     } else {
-                        //same
+                        int p = (int) (Math.random() * 2);
+                        if( p == 0 )
+                            result_two = "감상";
+                        else
+                            result_two = "참여";
                     }
                     Log.d("결과물", result + "ddd" + result_two);
                     // 여기까지 카테고리 가중치까지 다 입력됨
@@ -184,23 +193,29 @@ public class TabFragment4 extends Fragment {
                     myRef_two.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            int i = 0;
+                            int a = 0;
+                            int b = 0;
+                            int c = 0;
 
-                            final String[] hobby = new String[PreferenceUtil.getInstance(getContext()).getIntExtra("hobby_num")];
+                            final String[] hobby_one = new String[PreferenceUtil.getInstance(getContext()).getIntExtra("hobby_num")];
+                            final String[] hobby_two = new String[PreferenceUtil.getInstance(getContext()).getIntExtra("hobby_num")];
+                            final String[] hobby_three = new String[PreferenceUtil.getInstance(getContext()).getIntExtra("hobby_num")];
+
                             String hobby_name = "";
                             boolean has_in_like = false;
 
+
                             //max값을 찾아라
+                            int category_cnt = 1;
                             int max = category_num[0];
                             int index = 0;
-                                    for (int q = 1; q < 12; q++) {
-                                        if (max < category_num[q]) {
-                                            max = category_num[q];
-                                            index = q;
-                                        }
-                                    }
-
-                                    // 찜이 하나 있는 경우에만 함으로 max != 0 안함
+                            for (int q = 1; q < 12; q++) {
+                                if (max < category_num[q]) {
+                                    max = category_num[q];
+                                    index = q;
+                                }
+                            }
+                            // 찜이 하나 있는 경우에만 함으로 max != 0 안함
                             Log.d("dddd", category_name[index] + max);
 
                           category_num[index] = 0;
@@ -212,10 +227,11 @@ public class TabFragment4 extends Fragment {
                                         index_2 = q;
                                     }
                                 }
-
+                                if( max == 0 )
+                                    Log.d("카테고리 하나", "ㅇㅇㅇㅇㅇ");
                             int index_3 = 0;
                             if (max != 0) { //카테고리가 두개 인 경우
-                                Log.d("두개인경우 ", "입니다");
+                                category_cnt++;
                                 category_num[index_2] = 0;
                                 max = category_num[0];
                                 for (int q = 1; q < 12; q++) {
@@ -226,39 +242,159 @@ public class TabFragment4 extends Fragment {
                                 }
                             }
                             if (max != 0) {
-                                Log.d("dddd","카테고리 세개");
+                                category_cnt++;
+                                Log.d("세개","카테고리 세개");
+                                Log.d("2222",category_name[index_2] + " " + max);
+                                Log.d("3333",category_name[index_3] + " " + max);
                             }
-                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                if( ds.getKey().equals(category_name[index]) || ds.getKey().equals(category_name[index_2])) {
-                                    for (int k = 0; k < (int) ds.child("실내_야외").child(finalResult).getChildrenCount(); k++) {
-                                        hobby_name = ds.child("실내_야외").child(finalResult).child(String.valueOf(k)).getValue().toString();
-                                        if (hobby_name.equals(""))
-                                            continue;
+                            if (max == 0 && index_3 == 0){
+                                Log.d("두개","두개두개");
+                                Log.d("ddd",category_name[index_2] + " " + max);
+                            }
 
-                                        for (int t = 0; t < like_array.length; t++) {
-                                            if (like_array[t].equals(hobby_name)) {
-                                                has_in_like = true;
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                //첫번째 카테고리이며 실내 야외  참여 감상 중 각각 하나씩 선택하여 취미  hobby_one 에 담음
+                                    if ( ds.getKey().equals(category_name[index])) {
+                                        for (int k = 0; k < (int) ds.child("실내_야외").child(finalResult).getChildrenCount(); k++) {
+                                            hobby_name = ds.child("실내_야외").child(finalResult).child(String.valueOf(k)).getValue().toString();
+                                            if (hobby_name.equals(""))
+                                                continue;
+                                            for (int t = 0; t < like_array.length; t++) {
+                                                if (like_array[t].equals(hobby_name)) {
+                                                    has_in_like = true;
+                                                }
+                                            }
+                                            if (has_in_like) { // 내 취미와 같은거 안찾기위한 중복제거
+                                                has_in_like = false;
+                                                continue;
+                                            }
+                                            if (ds.child("참여_감상").child(finalResult_two).getValue().toString().contains(hobby_name)) {
+                                                Log.d(category_name[index], a + " " + ds.child("실내_야외").child(finalResult).child(String.valueOf(k)).getValue().toString());
+                                                hobby_one[a] = hobby_name;
+                                                a++;
                                             }
                                         }
-                                        if (has_in_like) {
-                                            has_in_like = false;
-                                            continue;
-                                        }
+                                    }
 
-                                        if (ds.child("참여_감상").child(finalResult_two).getValue().toString().contains(hobby_name)) {
-                                            Log.d("실내 참여인 취미", i + " " + ds.child("실내_야외").child(finalResult).child(String.valueOf(k)).getValue().toString());
-                                            hobby[i] = hobby_name;
-                                            i++;
+                                if (category_cnt >= 2)
+                                {
+                                     if( ds.getKey().equals(category_name[index_2]))
+                                    {
+                                        for (int k =0; k < (int) ds.child("실내_야외").child(finalResult).getChildrenCount(); k++) {
+                                            hobby_name = ds.child("실내_야외").child(finalResult).child(String.valueOf(k)).getValue().toString();
+                                            if (hobby_name.equals(""))
+                                                continue;
+                                            for (int t = 0; t < like_array.length; t++) {
+                                                if (like_array[t].equals(hobby_name)) {
+                                                    has_in_like = true;
+                                                }
+                                            }
+                                            if (has_in_like) {
+                                                has_in_like = false;
+                                                continue;
+                                            }
+                                            if (ds.child("참여_감상").child(finalResult_two).getValue().toString().contains(hobby_name)) {
+                                                Log.d(category_name[index_2], b + " " + ds.child("실내_야외").child(finalResult).child(String.valueOf(k)).getValue().toString());
+                                                hobby_two[b] = hobby_name;
+                                                b++;
+                                            }
+                                        }
+                                    }
+                                }
+                                if ( category_cnt == 3)
+                                {
+                                    if (ds.getKey().equals(category_name[index_3]))
+                                    {
+                                        for (int k = 0; k < (int) ds.child("실내_야외").child(finalResult).getChildrenCount(); k++) {
+                                            hobby_name = ds.child("실내_야외").child(finalResult).child(String.valueOf(k)).getValue().toString();
+                                            if (hobby_name.equals(""))
+                                                continue;
+                                            for (int t = 0; t < like_array.length; t++) {
+                                                if (like_array[t].equals(hobby_name)) {
+                                                    has_in_like = true;
+                                                }
+                                            }
+                                            if (has_in_like) {
+                                                has_in_like = false;
+                                                continue;
+                                            }
+                                            if (ds.child("참여_감상").child(finalResult_two).getValue().toString().contains(hobby_name)) {
+                                                Log.d(category_name[index_3], c + " " + ds.child("실내_야외").child(finalResult).child(String.valueOf(k)).getValue().toString());
+                                                hobby_three[c] = hobby_name;
+                                                c++;
+                                            }
                                         }
                                     }
                                 }
                             }
-                            Log.d("갯수갯수", i + "");
-                            Arrays.sort(hobby, 0, i);
+                            Log.d("갯수갯수카테 1"+ category_name[index], a + "");
+                            Log.d("갯수갯수카테 2"+ category_name[index_2], b + "");
+                            Log.d("갯수갯수카테 3"+ category_name[index_3], c + "");
+                            Arrays.sort(hobby_one, 0, a);
+                            Arrays.sort(hobby_two,0, b);
+                            Arrays.sort(hobby_three,0,c);
 
+                            for ( int q = 0 ; q < a ; q++){
+                                Log.d(category_name[index], hobby_one[q]);
+                            }
+                            for ( int q = 0 ; q < b ; q++){
+                                Log.d(category_name[index_2], hobby_two[q]);
+                            }
+                            for ( int q = 0 ; q < c ; q++){
+                                Log.d(category_name[index_3], hobby_three[q]);
+                            }
+                            final int hobby_sum = a + b + c;
+                            //5개 이하 일때 처리
+                            if(hobby_sum <= 5) {
+                                System.arraycopy(hobby_two, 0, hobby_one, a, b);
+                                System.arraycopy(hobby_three, 0, hobby_one, a + b, c);
+                                for (int i = 0; i < hobby_sum; i++) {
+                                    Log.d("하비이름 총합" + ";" + i, hobby_one[i]);
+                                }
+                                Arrays.sort(hobby_one, 0, hobby_sum);
+                                for (int i = 0; i < hobby_sum; i++) {
+                                    Log.d("정렬 이후 하비이름 총합" + ";" + i, hobby_one[i]);
+                                }
+                            }
+                           myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    List<RelatedlistInfo> relatedlistInfo_items =new ArrayList<>();
+                                    RelatedlistInfo[] item = new RelatedlistInfo[5];
+
+                                    int a = 0;
+                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                        if ( a > 5)
+                                            break;
+                                        if (hobby_sum > 5) {
+
+                                        } else //취미가 다섯개가 안될 때
+                                        {
+                                            for (int w = 0; w < hobby_sum; w++) {
+                                                Log.d("아아아아아",ds.getKey());
+                                                if (ds.getKey().equals(hobby_one[w]))
+                                                {
+                                                    item[w] = new RelatedlistInfo(hobby_one[w],ds.child("url_태그").child("1").child("url").getValue().toString());
+                                                    relatedlistInfo_items.add(item[w]);
+                                                    a++;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    RelatedlistAdapter relatedlistAdapter = new RelatedlistAdapter(getContext(),relatedlistInfo_items,R.layout.fragment_tab_fragment4);
+                                    relatedlist_recycleview.setAdapter(relatedlistAdapter);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+/*
                             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    int a = 0;
                                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                         if (ds.getKey().equals(hobby[a])) {
                                             Log.d("결과물",ds.child("url_태그").child("1").child("url").getValue().toString());
@@ -272,7 +408,7 @@ public class TabFragment4 extends Fragment {
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                 }
-                            });
+                            });*/
                         }
 
                         @Override

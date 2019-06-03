@@ -108,11 +108,13 @@ public class TabFragment1 extends Fragment {
         }
         for ( int k = 9 ; k >= 0 ; k--) {
             auto_items.add(auto_item[k]);
+
         }
 
         AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(getContext(), auto_items);
         autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
-        autoViewPager.setInterval(3500); // 페이지 넘어갈 시간 간격 설정
+        autoViewPager.setInterval(3500); // 페이지 넘어갈 시간 간격 설정;
+        autoViewPager.setBorderAnimation(true);
         autoViewPager.startAutoScroll(); //Auto Scroll 시작
 
 

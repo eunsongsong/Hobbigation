@@ -59,7 +59,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         Glide.with(holder.itemView.getContext())
                 .load(item.getUrl())
                 .into(holder.wish_img);
-        Log.d("url"+position,item.getUrl());
 
         //이미지 누르면 API정보 보여주기
         holder.wish_img.setOnClickListener(new View.OnClickListener() {
