@@ -8,15 +8,15 @@
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:background="#eaeaea"
+        android:background="#44FFC81E"
         android:layout_width="wrap_content"
         android:layout_margin="8dp"
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/see_img_view"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="95dp"
+            android:layout_height="90dp"
             android:scaleType="centerCrop"
             android:layout_centerHorizontal="true" />
 
