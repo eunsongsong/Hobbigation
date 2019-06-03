@@ -1,15 +1,14 @@
 package com.example.hobbigation;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -18,35 +17,39 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sub_CafeTab extends Fragment {
 
     String keyword = "";
     String strcafe = "";
     String[] cafearr;
+    public RecyclerView cafelist_recyclerview;
+    public Button more_link;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_sub_cafe, container, false);
 
         keyword = PreferenceUtil.getInstance(getContext()).getStringExtra("keyword");
 
+        cafelist_recyclerview = (RecyclerView) rootview.findViewById(R.id.cafelist);
+        final LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayout.VERTICAL);
+        cafelist_recyclerview.setHasFixedSize(true);
+        cafelist_recyclerview.setLayoutManager(layoutManager);
+
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-
                     strcafe = getNaverCafeSearch(keyword);
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ListView listview3;
-                            blogListviewAdapter adapter3;
-                            int i = 0;
-
-                            adapter3 = new blogListviewAdapter();
-                            listview3 = (ListView) rootview.findViewById(R.id.cafelist);
-                            listview3.setAdapter(adapter3);
 
                             strcafe = strcafe.replace("&quot;", "\"");
                             strcafe = strcafe.replace("&gt;", ">");
@@ -57,57 +60,27 @@ public class Sub_CafeTab extends Fragment {
                             String str3 = strcafe.substring(idx + 10);
                             cafearr = str3.split("%%%@");
 
-                            for (i = 0; i < cafearr.length; i = i + 4) {
-                                adapter3.addItem(ContextCompat.getDrawable(getContext(), R.drawable.cafe)
-                                        , cafearr[i], cafearr[i + 2], cafearr[i + 3],"");
+                            List<CafeItemInfo> cafe_item =new ArrayList<>();
+                            CafeItemInfo[] item = new CafeItemInfo[cafearr.length];
+
+                            int a=0;
+                            for (int i = 0; i < cafearr.length; i = i + 5) {
+                                item[a] = new CafeItemInfo(cafearr[i],cafearr[i+2],cafearr[i+1],cafearr[i+3],cafearr[i+4]);
+                                cafe_item.add(item[a]);
+                                a++;
                             }
-
-                            listview3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                final Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse(cafearr[1]));
-                                final Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse(cafearr[5]));
-                                final Intent intent3 = new Intent(Intent.ACTION_VIEW, Uri.parse(cafearr[9]));
-                                final Intent intent4 = new Intent(Intent.ACTION_VIEW, Uri.parse(cafearr[13]));
-                                final Intent intent5 = new Intent(Intent.ACTION_VIEW, Uri.parse(cafearr[17]));
-                                final Intent intent6 = new Intent(Intent.ACTION_VIEW, Uri.parse(cafearr[21]));
-                                final Intent intent7 = new Intent(Intent.ACTION_VIEW, Uri.parse(cafearr[25]));
-                                final Intent intent8 = new Intent(Intent.ACTION_VIEW, Uri.parse(cafearr[29]));
-                                final Intent intent9 = new Intent(Intent.ACTION_VIEW, Uri.parse(cafearr[33]));
-                                final Intent intent10 = new Intent(Intent.ACTION_VIEW, Uri.parse(cafearr[37]));
-
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    if (position == 0)
-                                        startActivity(intent1);
-                                    else if (position == 1)
-                                        startActivity(intent2);
-                                    else if (position == 2)
-                                        startActivity(intent3);
-                                    else if (position == 3)
-                                        startActivity(intent4);
-                                    else if (position == 4)
-                                        startActivity(intent5);
-                                    else if (position == 5)
-                                        startActivity(intent6);
-                                    else if (position == 6)
-                                        startActivity(intent7);
-                                    else if (position == 7)
-                                        startActivity(intent8);
-                                    else if (position == 8)
-                                        startActivity(intent9);
-                                    else if (position == 9)
-                                        startActivity(intent10);
-                                }
-                            });
+                            CafeItemAdapter cafeItemAdapter = new CafeItemAdapter(getContext(),cafe_item,R.layout.fragment_sub_cafe);
+                            cafelist_recyclerview.setAdapter(cafeItemAdapter);
                         }
                     });
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         });
         thread.start();
+
         return rootview;
     }
 
@@ -174,7 +147,15 @@ public class Sub_CafeTab extends Fragment {
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("%%%@");
 
+                        } else if (tag.equals("cafeurl")) {
+
+                            //sb.append("카페링크 : ");
+                            xpp.next();
+
+                            sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
+                            sb.append("%%%@");
                         }
+
                         break;
                 }
 

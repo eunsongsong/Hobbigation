@@ -94,7 +94,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             public void onClick(final View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
                 alert.setTitle("'"+item.getName()+"' 이(가) 찜 목록에서 삭제됩니다.");
-                alert.setMessage("정말 취소하실 건가요?");
+                alert.setMessage("정말 찜을 취소하실 건가요?");
                 alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
