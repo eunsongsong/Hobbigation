@@ -1,9 +1,17 @@
 package com.example.hobbigation;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +59,7 @@ public class TabFragment3 extends Fragment {
         userage = (TextView)rootview.findViewById(R.id.mypage_userage);
         modify = (Button)rootview.findViewById(R.id.modifyinfobtn);
         pushsetsw = (Switch)rootview.findViewById(R.id.pushswitch);
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
@@ -100,6 +109,42 @@ public class TabFragment3 extends Fragment {
                 if(isChecked){
                     PreferenceUtil.getInstance(getContext()).putBooleanExtra("PushSetting",true);  //true 입력
                     FirebaseMessaging.getInstance().subscribeToTopic("news");
+
+                    //푸시 설정 되었다는 알림 보내기
+                    String channelId = "channel";
+                    String channelName = "Channel Name";
+
+                    NotificationManager notifManager = (NotificationManager) getActivity().getSystemService  (Context.NOTIFICATION_SERVICE);
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        int importance = NotificationManager.IMPORTANCE_HIGH;
+                        NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                        notifManager.createNotificationChannel(mChannel);
+                    }
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), channelId);
+
+                    Intent notificationIntent = new Intent(getContext(), TabFragment3.class);
+
+                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                    int requestID = (int) System.currentTimeMillis();
+
+                    PendingIntent pendingIntent = PendingIntent.getActivity(getContext(),
+                            requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    builder.setContentTitle("푸시 알림 설정 완료") // required
+                            .setContentText("이제 푸시 알림을 받으실 수 있습니다!")  // required
+                            .setDefaults(Notification.DEFAULT_ALL) // 알림, 사운드 진동 설정
+                            .setAutoCancel(true) // 알림 터치시 반응 후 삭제
+                            .setSound(RingtoneManager
+                                    .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .setSmallIcon(R.mipmap.logo)
+                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.logo))
+                            .setBadgeIconType(R.mipmap.logo2)
+                            .setContentIntent(pendingIntent);
+
+                    notifManager.notify(0, builder.build());
+                    //startActivity(new Intent(getContext(), TabFragment3.class));
                 }
                 else{
                     PreferenceUtil.getInstance(getContext()).putBooleanExtra("PushSetting",false);  //false 입력
@@ -107,6 +152,7 @@ public class TabFragment3 extends Fragment {
                 }
             }
         });
+
         return rootview;
     }
 }
