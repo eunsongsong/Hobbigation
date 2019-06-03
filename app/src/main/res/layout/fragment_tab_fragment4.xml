@@ -13,13 +13,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:id="@+id/zzimtext"
             android:text="나의 찜 목록 ♥ "
             android:textStyle="bold"
-            android:textSize="23dp"/>
+            android:textSize="24dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/wishlist"
@@ -30,12 +30,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="35dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:text=" 연관된 취미 "
+            android:layout_marginLeft="15dp"
+            android:text=" 연관된 취미 🖇 "
             android:textStyle="bold"
-            android:textSize="23dp"/>
+            android:textSize="24dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/related_hobby"

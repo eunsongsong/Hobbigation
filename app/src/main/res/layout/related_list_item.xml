@@ -11,17 +11,17 @@
 
         <ImageView
             android:id="@+id/relatedlist_img"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/relatedlist_txt"
-            android:layout_width="130dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:background="#55FFA8A5"
+            android:background="#55FFC81E"
             android:layout_below="@+id/relatedlist_img"
             android:textAlignment="center"
             android:textSize="20dp"
