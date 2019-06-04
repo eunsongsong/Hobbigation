@@ -71,7 +71,7 @@ public class RelatedlistAdapter extends RecyclerView.Adapter<RelatedlistAdapter.
                             String target = ds.child("email").getValue().toString();
                             if (mFirebaseUser != null) {
                                 if (target.equals(mFirebaseUser.getEmail())) {
-                                  //  PreferenceUtil.getInstance(v.getContext()).putStringExtra("like", ds.child("like").getValue().toString());
+                                    PreferenceUtil.getInstance(v.getContext()).putStringExtra("like", ds.child("like").getValue().toString());
                                     PreferenceUtil.getInstance(v.getContext()).putStringExtra("keyword",item.getName());
                                     v.getContext().startActivity(intent);
                                 }

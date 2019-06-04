@@ -241,8 +241,7 @@ public class SignUpActivity extends AppCompatActivity  {
                     for ( DataSnapshot ds : dataSnapshot.getChildren()){
                         count ++;
                     }
-                    String passwordHashed = BCrypt.hashpw(password, BCrypt.gensalt());
-                    User user = new User(email,passwordHashed,ename,egender,eage,"empty","empty");
+                    User user = new User(email,ename,egender,eage,"empty","");
 
                     StringTokenizer st =  new StringTokenizer(email, "@");
                     if (count >= 9 )

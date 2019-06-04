@@ -3,7 +3,6 @@ package com.example.hobbigation;
 public class User {
 
     public String email = "";
-    public String pwd  = "";
     public String username = "";
     public String gender = "";
     public String age = "";
@@ -15,9 +14,8 @@ public class User {
     }
 
 
-    public User(String email, String pwd, String username, String gender, String age, String tag, String like) {
+    public User(String email, String username, String gender, String age, String tag, String like) {
         this.email = email;
-        this.pwd = pwd;
         this.username = username;
         this.gender = gender;
         this.age = age;
