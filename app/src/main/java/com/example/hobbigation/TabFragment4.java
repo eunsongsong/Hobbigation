@@ -748,41 +748,159 @@ public class TabFragment4 extends Fragment {
                                         count = 5;
                                     }
                                 }
-                                else
+                                else //마지막 날
                                 {
-                                    for ( int i = 0 ; i < 2; i++)
+                                    if ( a < 2 && b == 2 )
                                     {
-                                        int ran = (int) (Math.random() * a);
-                                        for (int j = 0 ; j < i; j++) {
-                                            if (result[j].equals(hobby_one[ran])) {
-                                                i--;
-                                                ran_check = true;
-                                                break;
+                                        System.arraycopy(hobby_one,0,result,0,a);
+                                        System.arraycopy(hobby_two,0,result,a,2);
+                                        for( int i = a + 2 ; i < 5 ; i++)
+                                        {
+                                            int ran = (int) (Math.random() * c);
+                                            for ( int j = a + 2; j < i ; j++){
+                                                if(result[j].equals(hobby_three[ran]))
+                                                {
+                                                    i--;
+                                                    ran_check = true;
+                                                    break;
+                                                }
                                             }
+                                            if( !ran_check)
+                                            {
+                                                result[i] = hobby_three[ran];
+                                            }
+                                            ran_check = false;
                                         }
-                                        if ( !ran_check) {
-                                            result[i] = hobby_one[ran];
-                                        }
-                                        ran_check = false;
+                                        count = 5;
                                     }
-                                    for ( int i = 2 ; i < 4; i++)
+                                    else if ( a < 2 )
                                     {
-                                        int ran = (int) (Math.random() * b);
-                                        for (int j = 2 ; j < i; j++) {
-                                            if (result[j].equals(hobby_two[ran])) {
-                                                i--;
-                                                ran_check = true;
-                                                break;
+                                        System.arraycopy(hobby_one,0,result,0,a);
+                                        for( int i = a  ; i < a + 2 ; i++)
+                                        {
+                                            int ran = (int) (Math.random() * b);
+                                            for ( int j = a ; j < i ; j++){
+                                                if(result[j].equals(hobby_two[ran]))
+                                                {
+                                                    i--;
+                                                    ran_check = true;
+                                                    break;
+                                                }
                                             }
+                                            if( !ran_check)
+                                            {
+                                                result[i] = hobby_two[ran];
+                                            }
+                                            ran_check = false;
                                         }
-                                        if ( !ran_check) {
-                                            result[i] = hobby_two[ran];
+                                        for( int i = a + 2 ; i < 5 ; i++)
+                                        {
+                                            int ran = (int) (Math.random() * c);
+                                            for ( int j = a + 2 ; j < i ; j++){
+                                                if(result[j].equals(hobby_three[ran]))
+                                                {
+                                                    i--;
+                                                    ran_check = true;
+                                                    break;
+                                                }
+                                            }
+                                            if( !ran_check)
+                                            {
+                                                result[i] = hobby_three[ran];
+                                            }
+                                            ran_check = false;
                                         }
-                                        ran_check = false;
+                                        count = 5;
                                     }
-                                    int ran = (int) (Math.random() * c);
-                                    System.arraycopy(hobby_three, ran, result, 4,1);
-                                    count = 5;
+                                    else if ( b < 2 && a == 2)
+                                    {
+                                        System.arraycopy(hobby_one,0,result,0,2);
+                                        System.arraycopy(hobby_two,0,result,2,b);
+                                        for( int i = b + 2 ; i < 5 ; i++)
+                                        {
+                                            int ran = (int) (Math.random() * c);
+                                            for ( int j = b+ 2; j < i ; j++){
+                                                if(result[j].equals(hobby_three[ran]))
+                                                {
+                                                    i--;
+                                                    ran_check = true;
+                                                    break;
+                                                }
+                                            }
+                                            if( !ran_check)
+                                            {
+                                                result[i] = hobby_three[ran];
+                                            }
+                                            ran_check = false;
+                                        }
+                                        count = 5;
+                                    }
+                                    else if ( b < 2) // a 가 3 이상
+                                    {
+                                        System.arraycopy(hobby_two,0,result,0,b);
+                                        for (int i = b; i < b + 3; i++) {
+                                            int ran = (int) (Math.random() * a);
+                                            for (int j = b; j < i; j++) {
+                                                if (result[j].equals(hobby_one[ran])) {
+                                                    i--;
+                                                    ran_check = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!ran_check) {
+                                                result[i] = hobby_one[ran];
+                                            }
+                                            ran_check = false;
+                                        }
+                                        for (int i = b + 3; i < 5; i++) {
+                                            int ran = (int) (Math.random() * c);
+                                            for (int j = b+3; j < i; j++) {
+                                                if (result[j].equals(hobby_three[ran])) {
+                                                    i--;
+                                                    ran_check = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!ran_check) {
+                                                result[i] = hobby_three[ran];
+                                            }
+                                            ran_check = false;
+                                        }
+                                        count = 5;
+                                    }
+                                    else{
+                                        for (int i = 0; i < 2; i++) {
+                                            int ran = (int) (Math.random() * a);
+                                            for (int j = 0; j < i; j++) {
+                                                if (result[j].equals(hobby_one[ran])) {
+                                                    i--;
+                                                    ran_check = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!ran_check) {
+                                                result[i] = hobby_one[ran];
+                                            }
+                                            ran_check = false;
+                                        }
+                                        for (int i = 2; i < 4; i++) {
+                                            int ran = (int) (Math.random() * b);
+                                            for (int j = 2; j < i; j++) {
+                                                if (result[j].equals(hobby_two[ran])) {
+                                                    i--;
+                                                    ran_check = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!ran_check) {
+                                                result[i] = hobby_two[ran];
+                                            }
+                                            ran_check = false;
+                                        }
+                                        int ran = (int) (Math.random() * c);
+                                        System.arraycopy(hobby_three, ran, result, 4, 1);
+                                        count = 5;
+                                    }
                                 }
                             }
 

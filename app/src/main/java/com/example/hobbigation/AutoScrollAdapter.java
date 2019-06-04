@@ -38,8 +38,8 @@ public class AutoScrollAdapter extends PagerAdapter {
                     ,"나도 할 수 있을까?",
                     "재밌다고 소문이 자자해요~!!",
                     "꼭 해봐야죠!",
-                    "다들 하나 봐요",
-                    "해보면 기분이 좋아질껄요??"};
+                    "다들 하나 봐요!",
+                    "해보면 기분이 좋아질 거예요!"};
 
     public AutoScrollAdapter(Context context, List<AutoScroll_Info> item) {
         this.context = context;
@@ -57,7 +57,7 @@ public class AutoScrollAdapter extends PagerAdapter {
         TextView top_tv = (TextView)page.findViewById(R.id.top_tv);
 
         int ran = (int) (Math.random() * top_tv_array.length);
-        top_tv.setText("\""+item.get(position).getName()+"\"" + "은(는) " + top_tv_array[ran] );
+        top_tv.setText("\'"+item.get(position).getName()+"\'" + "은(는) " + top_tv_array[ran] );
 
         container.addView(page);
 
@@ -70,37 +70,6 @@ public class AutoScrollAdapter extends PagerAdapter {
                 context.startActivity(intent);
             }
         });
-/*
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                myRef.child(category[position]).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String[] hobbies = new String[4];
-                        hobbies[0] =  dataSnapshot.child("실내_야외").child("실내").getValue().toString();
-                        hobbies[1] =  dataSnapshot.child("실내_야외").child("야외").getValue().toString();
-                        hobbies[2] =  dataSnapshot.child("참여_감상").child("참여").getValue().toString();
-                        hobbies[3] =  dataSnapshot.child("참여_감상").child("감상").getValue().toString();
-
-                        Intent intent = new Intent(mcontext, CategoryDetailActivity.class);
-                        intent.putExtra("category", category[position]);
-                        intent.putExtra("실내",hobbies[0]);
-                        intent.putExtra("야외",hobbies[1]);
-                        intent.putExtra("참여",hobbies[2]);
-                        intent.putExtra("감상",hobbies[3]);
-
-                        mcontext.startActivity(intent);
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        });
-
-        */
 
         return page;
     }

@@ -119,6 +119,53 @@ public class TabFragment1 extends Fragment {
         autoViewPager.setBorderAnimation(true);
         autoViewPager.startAutoScroll(); //Auto Scroll 시작
 
+        for ( int  a = 0 ; a < 7 ; a++)
+        {
+            for(int b = 0; b < 7 ; b++)
+            {
+                for (int c = 0; c < 7 ; c++)
+                {
+                    if( a + b + c <= 5)
+                        Log.d("1번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                    else if( a < 2 && b < 2)
+                        Log.d("2번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                    else if ( a < 2 && c < 3)
+                        Log.d("3번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                    else if( b < 2 && c < 3)
+                        Log.d("4번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                    else if( a == 0 && c== 3)
+                        Log.d("5번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                    else if( a == 1 && c==3)
+                        Log.d("6번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                    else if( b == 0 && c== 3)
+                        Log.d("7번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                    else if( b == 1 && c== 3)
+                        Log.d("8번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                    else if ( c < 1)
+                    {
+                        if ( a < 3)
+                            Log.d("9번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                        else
+                            Log.d("10번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                    }
+                    else
+                    {
+                        if ( a < 2 )
+                        {
+                            Log.d("11번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                        }
+                        else if ( b < 2)
+                        {
+                            Log.d("12번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                        }
+                        else
+                            Log.d("13번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                    }
+                }
+            }
+        }
+
+
 
         //세부 카테고리 스트링 보내기
         String[] category = {"문화_공연","음악","예술","책_글","운동_스포츠","만들기","음식","게임_오락","아웃도어","식물","휴식","봉사활동"};
