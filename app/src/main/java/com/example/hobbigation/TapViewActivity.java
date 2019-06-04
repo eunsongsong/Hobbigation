@@ -80,8 +80,10 @@ public class TapViewActivity extends AppCompatActivity {
             return;
         }
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
-            this.finish();
             toast.cancel();
+            Intent intent = new Intent(getApplicationContext(),BeforeSignin.class);
+            startActivity(intent);
+            //finish();
         }
     }
 

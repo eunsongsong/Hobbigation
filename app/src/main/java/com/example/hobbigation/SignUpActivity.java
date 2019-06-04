@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +38,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
-public class SignUpActivity extends AppCompatActivity  {
+public class SignUpActivity extends AppCompatActivity {
 
     public static int TIME_OUT = 1001;
 
@@ -45,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity  {
     ProgressDialog dialog;
 
     private EditText email_join, pwd_join, check_pwd;
-    private EditText e_name , e_age;
+    private EditText e_name, e_age;
 
     private TextView check_show;
     private Button sign_btn;
@@ -58,10 +59,11 @@ public class SignUpActivity extends AppCompatActivity  {
 
     private String email = "";
     private String password = "";
-    private String ename =  "";
+    private String ename = "";
     private String egender = "";
     private String eage = "";
-    long count = 0 ;
+    long count = 0;
+
 
     // Write a message to the database
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -76,10 +78,10 @@ public class SignUpActivity extends AppCompatActivity  {
         actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
 
         email_join = (EditText) findViewById(R.id.emailInput);
-        pwd_join =  (EditText)findViewById(R.id.passwordInput);
-        check_pwd =  (EditText)findViewById(R.id.passwordCheck);
+        pwd_join = (EditText) findViewById(R.id.passwordInput);
+        check_pwd = (EditText) findViewById(R.id.passwordCheck);
         e_name = (EditText) findViewById(R.id.name1);
-        e_age = (EditText)findViewById(R.id.age1);
+        e_age = (EditText) findViewById(R.id.age1);
 
         check_show = (TextView) findViewById(R.id.checkText);
 
@@ -123,13 +125,10 @@ public class SignUpActivity extends AppCompatActivity  {
                 String comp1 = pwd_join.getText().toString();
                 String comp2 = check_pwd.getText().toString();
 
-                if(comp1.equals(comp2))
-                {
+                if (comp1.equals(comp2)) {
                     check_show.setText("비밀번호가 일치합니다");
                     sign_btn.setEnabled(true);
-                }
-                else
-                {
+                } else {
                     check_show.setText("비밀번호가 일치하지않습니다");
                 }
             }
@@ -154,22 +153,21 @@ public class SignUpActivity extends AppCompatActivity  {
 
 
     @SuppressLint("HandlerLeak")
-    Handler mHandler = new Handler()
-    {
-        public void handleMessage(Message msg)
-        {
-            if (msg.what == TIME_OUT)
-            { // 타임아웃이 발생하면
+    Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            if (msg.what == TIME_OUT) { // 타임아웃이 발생하면
                 dialog.dismiss(); // ProgressDialog를 종료
             }
         }
     };
+
     private boolean isValidEmail() {
         if (email.isEmpty()) {
             // 이메일 공백
             return false;
         } else return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+
     // 비밀번호 유효성 검사
     private boolean isValidPasswd() {
         if (password.isEmpty()) {
@@ -177,8 +175,9 @@ public class SignUpActivity extends AppCompatActivity  {
             return false;
         } else return PASSWORD_PATTERN.matcher(password).matches();
     }
+
     // 회원가입
-    private void createUser(String email, String password) {
+    private void createUser(final String email, String password) {
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -188,27 +187,46 @@ public class SignUpActivity extends AppCompatActivity  {
                         if (task.isSuccessful()) {
                             // 회원가입 성공
                             mFirebaseUser = firebaseAuth.getCurrentUser();
-                            if ( mFirebaseUser!= null )
-                                 mFirebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(SignUpActivity.this,
-                                                "Verification email sent to " + mFirebaseUser.getEmail(),
-                                                Toast.LENGTH_SHORT).show();
-                                        dialog = ProgressDialog.show(SignUpActivity.this, "회원가입이 완료되었습니다!"
-                                                ,mFirebaseUser.getEmail()+"으로 인증메일이 전송되었습니다.",true);
-                                        mHandler.sendEmptyMessageDelayed(TIME_OUT, 3000);
-                                        FirebaseMessaging.getInstance().subscribeToTopic("news");
-                                        startActivity(new Intent(SignUpActivity.this,BeforeSignin.class));
+                            if (mFirebaseUser != null)
+                                mFirebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(SignUpActivity.this,
+                                                    "Verification email sent to " + mFirebaseUser.getEmail(),
+                                                    Toast.LENGTH_SHORT).show();
+                                            dialog = ProgressDialog.show(SignUpActivity.this, "회원가입이 완료되었습니다!"
+                                                    , mFirebaseUser.getEmail() + "으로 인증메일이 전송되었습니다.", true);
+                                            mHandler.sendEmptyMessageDelayed(TIME_OUT, 3000);
+                                            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                                        count++;
+                                                    }
+                                                    User user = new User(email, ename, egender, eage, "empty", "");
 
-                                    } else {                                             //메일 보내기 실패
-                                        Toast.makeText(SignUpActivity.this,
-                                                "Failed to send verification email.",
-                                                Toast.LENGTH_SHORT).show();
+                                                    StringTokenizer st = new StringTokenizer(email, "@");
+                                                    if (count >= 9) {
+                                                        myRef.child("user0" + (count + 1) + ":" + st.nextToken()).setValue(user);
+                                                    } else
+                                                        myRef.child("user00" + (count + 1) + ":" + st.nextToken()).setValue(user);
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                            FirebaseMessaging.getInstance().subscribeToTopic("news");
+                                            startActivity(new Intent(SignUpActivity.this, BeforeSignin.class));
+                                        } else {                                             //메일 보내기 실패
+                                            Toast.makeText(SignUpActivity.this,
+                                                    "Failed to send verification email.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
                         } else {
                             // 회원가입 실패
                             Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
@@ -234,29 +252,8 @@ public class SignUpActivity extends AppCompatActivity  {
 
         if(isValidEmail() && isValidPasswd()) {
             createUser(email, password);
+            }
 
-            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for ( DataSnapshot ds : dataSnapshot.getChildren()){
-                        count ++;
-                    }
-                    User user = new User(email,ename,egender,eage,"empty","");
-
-                    StringTokenizer st =  new StringTokenizer(email, "@");
-                    if (count >= 9 )
-                    {
-                        myRef.child("user0"+(count+1)+":"+st.nextToken()).setValue(user);
-                    }
-                    else
-                        myRef.child("user00"+(count+1)+":"+st.nextToken()).setValue(user);
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
     }
 
     public boolean onOptionsItemSelected(android.view.MenuItem item) {

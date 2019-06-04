@@ -257,7 +257,7 @@ public class SubActivity extends AppCompatActivity {
                 .setDefaults(Notification.DEFAULT_ALL) // 알림, 사운드 진동 설정
                 .setAutoCancel(true) // 알림 터치시 반응 후 삭제
                 .setSound(RingtoneManager
-                        .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setSmallIcon(R.mipmap.logo)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.logo))
                 .setBadgeIconType(R.mipmap.logo2)
