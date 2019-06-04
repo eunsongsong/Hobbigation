@@ -403,7 +403,7 @@ public class TabFragment4 extends Fragment {
                                     System.arraycopy(hobby_one,0,result,0,a);
 
                                     System.arraycopy(hobby_two,0,result,a,b);
-                                    count += a + b;
+                                    count = a + b;
                                 }
                                 else if ( a < 3 )
                                 {
@@ -443,6 +443,42 @@ public class TabFragment4 extends Fragment {
                                         }
                                         if ( !ran_check){
                                             result[i] = hobby_one[ran];
+                                        }
+                                        ran_check = false;
+                                    }
+                                    count = 5;
+                                }
+                                else
+                                {
+                                    for( int i = 0 ; i < 3 ; i++){
+                                        int ran = (int) (Math.random() * a);
+
+                                        for( int j = 0 ; j < i ; j++){
+                                            if (result[j].equals(hobby_one[ran]))
+                                            {
+                                                i--;
+                                                ran_check = true;
+                                                break;
+                                            }
+                                        }
+                                        if ( !ran_check){
+                                            result[i] = hobby_one[ran];
+                                        }
+                                        ran_check = false;
+                                    }
+                                    for( int i = 3 ; i < 5 ; i++){
+                                        int ran = (int) (Math.random() * b);
+
+                                        for( int j = 3 ; j < i ; j++){
+                                            if (result[j].equals(hobby_two[ran]))
+                                            {
+                                                i--;
+                                                ran_check = true;
+                                                break;
+                                            }
+                                        }
+                                        if ( !ran_check){
+                                            result[i] = hobby_two[ran];
                                         }
                                         ran_check = false;
                                     }
@@ -773,7 +809,7 @@ public class TabFragment4 extends Fragment {
                             final String[] final_related_hobby = new String[count];
                             final int final_count = count;
                             System.arraycopy(result, 0, final_related_hobby, 0 , count);
-
+                            Log.d("파이널", final_count+"");
                             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

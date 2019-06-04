@@ -52,9 +52,39 @@ public class RelatedlistAdapter extends RecyclerView.Adapter<RelatedlistAdapter.
         final RelatedlistInfo item = items.get(position);
         holder.related_txt.setText(item.getName());
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
+
         Glide.with(holder.itemView.getContext())
                 .load(item.getUrl())
                 .into(holder.related_img);
+
+        //이미지 누르면 API정보 보여주기
+        holder.related_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final Intent intent = new Intent(v.getContext(),SubActivity.class);
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            String target = ds.child("email").getValue().toString();
+                            if (mFirebaseUser != null) {
+                                if (target.equals(mFirebaseUser.getEmail())) {
+                                  //  PreferenceUtil.getInstance(v.getContext()).putStringExtra("like", ds.child("like").getValue().toString());
+                                    PreferenceUtil.getInstance(v.getContext()).putStringExtra("keyword",item.getName());
+                                    v.getContext().startActivity(intent);
+                                }
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
 
     }
 
