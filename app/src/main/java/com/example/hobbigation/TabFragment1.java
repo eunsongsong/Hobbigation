@@ -1,5 +1,6 @@
 package com.example.hobbigation;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 
@@ -54,7 +58,6 @@ public class TabFragment1 extends Fragment {
         autoViewPager = (AutoScrollViewPager)rootview.findViewById(R.id.autoViewPager);
         recyclerView = (RecyclerView) rootview.findViewById(R.id.frag_1_recycle);
         //Top10 이미지를 보여줌
-
 
         //카테고리 RecyclerView
         final LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
@@ -97,7 +100,7 @@ public class TabFragment1 extends Fragment {
         });
 
         ArrayList<AutoScroll_Info>  auto_items = new ArrayList<>(); //이미지 url를 저장하는 arraylist
-        AutoScroll_Info[] auto_item = new AutoScroll_Info[10];
+        final AutoScroll_Info[] auto_item = new AutoScroll_Info[10];
 
         StringTokenizer st_url = new StringTokenizer(PreferenceUtil.getInstance(getContext()).getStringExtra("total"),"#");
         StringTokenizer st_names = new StringTokenizer(PreferenceUtil.getInstance(getContext()).getStringExtra("names"),"#");
@@ -108,7 +111,6 @@ public class TabFragment1 extends Fragment {
         }
         for ( int k = 9 ; k >= 0 ; k--) {
             auto_items.add(auto_item[k]);
-
         }
 
         AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(getContext(), auto_items);

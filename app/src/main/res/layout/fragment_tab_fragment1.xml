@@ -13,7 +13,7 @@
         <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
             android:id="@+id/autoViewPager"
             android:layout_width="match_parent"
-            android:layout_height="300dp">
+            android:layout_height="460dp">
 
         </cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
 
@@ -21,25 +21,25 @@
             android:layout_width="match_parent"
             android:layout_height="76dp"
             android:id="@+id/frag_1_recycle"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="15dp"/>
-
 
         <Button
             android:id="@+id/recommend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_rectangle"
-            android:text="지금 바로 내 취미를 알아보세요"
-            android:textSize="22dp"
-            android:textStyle="bold"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
+            android:background="@drawable/round_rectangle"
             android:paddingLeft="10dp"
+            android:paddingTop="13dp"
             android:paddingRight="10dp"
             android:paddingBottom="13dp"
-            android:paddingTop="13dp"/>
+            android:text="지금 바로 내 취미를 알아보세요"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+
 
     </LinearLayout>
 
