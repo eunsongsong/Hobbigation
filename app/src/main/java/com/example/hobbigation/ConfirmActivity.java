@@ -296,47 +296,6 @@ public class ConfirmActivity extends AppCompatActivity {
 
                 }
 
-                // 취미 가중치는 매겨져있음
-                List<HobbyResultInfo> result_items =new ArrayList<>();
-                HobbyResultInfo[] item = new HobbyResultInfo[result_cnt];
-
-                //맥스 찾고 0으로 만들기 x 3번
-                int max = weight[0];
-                int k, ind = 0;
-
-                //최대 3개 결과 출력
-                for ( int i = 0 ; i < 5 ; i++)
-                {
-                    if ( i > result_cnt - 1 ) {
-                        if(result_cnt==0){
-                            String logo= "https://firebasestorage.googleapis.com/v0/b/habbigation-27e01.appspot.com/o/no.png?alt=media&token=568a6365-f948-4460-b712-ee89e672423b";
-                            HobbyResultInfo[] null_item = new HobbyResultInfo[1];
-                            null_item[0] = new HobbyResultInfo("죄송합니다. 결과가 없습니다. \n다시 한번 골라주세요!", logo);
-                            result_items.add(null_item[0]);
-                        }
-                        break; //결과가 1개 2개 이면 탈출
-                    }
-                    for ( k = 1; k < result_cnt; k++ ){
-                        if ( max  < weight[k]) {
-                            max = weight[k];
-                            ind = k;
-                        }
-                    }
-                    Log.d("가중치", weight[ind]+"ㅇㅇ"+hobby[ind]);
-                    Log.d("ddd",hobby[ind] + " 111" + url[ind]);
-                    item[i] = new HobbyResultInfo(hobby[ind],url[ind]);
-                    Log.d("아이템",item[i].getHobby_name() + "dasdsad" + item[i].getHobby_url());
-                    result_items.add(item[i]);
-
-                    weight[ind] = 0;
-                    ind = 0;
-                    max = weight[0];
-                }
-                //마감
-
-
-                HobbyResultAdapter hobbyResultAdapter = new HobbyResultAdapter(getApplicationContext(),result_items,R.layout.activity_confirm);
-                result_recycler_view.setAdapter(hobbyResultAdapter);
 
                 for ( int i = 0 ; i < 20 ; i++) {
                     if (!TextUtils.isEmpty(hobby[i]))
@@ -384,10 +343,10 @@ public class ConfirmActivity extends AppCompatActivity {
                         //Log.d("오고오고", con);
                         //Log.d("오고오고취미", ds.getKey());
                         //for(int m=0; m<comb_int.length-1; m=m+2)
-                            //Log.d("오고오태그뽑은거", tag_array[comb_int[m]]+tag_array[comb_int[m+1]] + "길이"+comb_int.length + " m값" + m);
+                        //Log.d("오고오태그뽑은거", tag_array[comb_int[m]]+tag_array[comb_int[m+1]] + "길이"+comb_int.length + " m값" + m);
 
-                        for (int m = 0; m < comb_int.length-1; m = m+2) {
-                            for(int k = gt_one_tag; k<tags_num; k++) {
+                        for (int m = 0; m < comb_int.length - 1; m = m + 2) {
+                            for (int k = gt_one_tag; k < tags_num; k++) {
                                 if (con.contains(tag_array[comb_int[m]]) && con.contains(tag_array[comb_int[m + 1]]) && con.contains(tag_array[k])) {
                                     for (int i = 0; i < hobbycnt; i++) {
                                         if (ds.getKey().equals(hobby_2[i])) {
@@ -413,29 +372,46 @@ public class ConfirmActivity extends AppCompatActivity {
                         }
                     }
 
+                    // 취미 가중치는 매겨져있음
+                    List<HobbyResultInfo> result_items = new ArrayList<>();
+                    HobbyResultInfo[] item = new HobbyResultInfo[result_cnt_2];
+
                     //맥스 찾고 0으로 만들기 x 3번
                     int max = weight_2[0];
                     int k, ind = 0;
 
                     //최대 3개 결과 출력
-                    for ( int i = 0 ; i < 10 ; i++)
-                    {
-                        if ( i > result_cnt_2 - 1 ) {
+                    for (int i = 0; i < 5; i++) {
+                        if (i > result_cnt_2 - 1) {
+                            if (result_cnt_2 == 0) {
+                                String logo = "https://firebasestorage.googleapis.com/v0/b/habbigation-27e01.appspot.com/o/no.png?alt=media&token=568a6365-f948-4460-b712-ee89e672423b";
+                                HobbyResultInfo[] null_item = new HobbyResultInfo[1];
+                                null_item[0] = new HobbyResultInfo("죄송합니다. 결과가 없습니다. \n다시 한번 골라주세요!", logo);
+                                result_items.add(null_item[0]);
+                            }
                             break; //결과가 1개 2개 이면 탈출
                         }
-                        for ( k = 1; k < result_cnt_2; k++ ){
-                            if ( max  < weight_2[k]) {
+                        for (k = 1; k < result_cnt_2; k++) {
+                            if (max < weight_2[k]) {
                                 max = weight_2[k];
                                 ind = k;
                             }
                         }
-                        Log.d("조합으로 뽑은 가중치", weight_2[ind]+"ㅇㅇ"+hobby_2[ind]);
-                        //Log.d("ddd",hobby_2[ind] + " 111" + url_2[ind]);
+                        Log.d("조합 가중치", weight_2[ind] + "ㅇㅇ" + hobby_2[ind]);
+                        Log.d("ddd", hobby_2[ind] + " 111" + url_2[ind]);
+                        item[i] = new HobbyResultInfo(hobby_2[ind], url_2[ind]);
+                        Log.d("조합 아이템", item[i].getHobby_name() + "dasdsad" + item[i].getHobby_url());
+                        result_items.add(item[i]);
 
                         weight_2[ind] = 0;
                         ind = 0;
                         max = weight_2[0];
                     }
+                    //마감
+
+
+                    HobbyResultAdapter hobbyResultAdapter = new HobbyResultAdapter(getApplicationContext(), result_items, R.layout.activity_confirm);
+                    result_recycler_view.setAdapter(hobbyResultAdapter);
 
                 }
             }

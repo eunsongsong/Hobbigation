@@ -17,7 +17,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
             android:id="@+id/zzimtext"
-            android:text="나의 찜 목록 ♥ "
+            android:text="나의 찜 목록 ❤ "
             android:textStyle="bold"
             android:textSize="24dp"/>
 
