@@ -124,7 +124,7 @@ public class TabFragment3 extends Fragment {
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), channelId);
 
-                    Intent notificationIntent = new Intent(getContext(), TabFragment3.class);
+                    Intent notificationIntent = new Intent(getContext(), BeforeSignin.class);
 
                     notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -137,7 +137,7 @@ public class TabFragment3 extends Fragment {
                             .setDefaults(Notification.DEFAULT_ALL) // 알림, 사운드 진동 설정
                             .setAutoCancel(true) // 알림 터치시 반응 후 삭제
                             .setSound(RingtoneManager
-                                    .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                             .setSmallIcon(R.mipmap.logo)
                             .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.logo))
                             .setBadgeIconType(R.mipmap.logo2)
