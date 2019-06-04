@@ -109,46 +109,15 @@ public class TabFragment3 extends Fragment {
                 if(isChecked){
                     PreferenceUtil.getInstance(getContext()).putBooleanExtra("PushSetting",true);  //true 입력
                     FirebaseMessaging.getInstance().subscribeToTopic("news");
+                    Intent intent = new Intent(getContext(), MyService.class);
+                    getActivity().startService(intent);
 
-                    //푸시 설정 되었다는 알림 보내기
-                    String channelId = "channel";
-                    String channelName = "Channel Name";
-
-                    NotificationManager notifManager = (NotificationManager) getActivity().getSystemService  (Context.NOTIFICATION_SERVICE);
-
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        int importance = NotificationManager.IMPORTANCE_HIGH;
-                        NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
-                        notifManager.createNotificationChannel(mChannel);
-                    }
-
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), channelId);
-
-                    Intent notificationIntent = new Intent(getContext(), BeforeSignin.class);
-
-                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                    int requestID = (int) System.currentTimeMillis();
-
-                    PendingIntent pendingIntent = PendingIntent.getActivity(getContext(),
-                            requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    builder.setContentTitle("푸시 알림 설정 완료") // required
-                            .setContentText("이제 푸시 알림을 받으실 수 있습니다!")  // required
-                            .setDefaults(Notification.DEFAULT_ALL) // 알림, 사운드 진동 설정
-                            .setAutoCancel(true) // 알림 터치시 반응 후 삭제
-                            .setSound(RingtoneManager
-                            .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                            .setSmallIcon(R.mipmap.logo)
-                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.logo))
-                            .setBadgeIconType(R.mipmap.logo2)
-                            .setContentIntent(pendingIntent);
-
-                    notifManager.notify(0, builder.build());
-                    //startActivity(new Intent(getContext(), TabFragment3.class));
                 }
                 else{
                     PreferenceUtil.getInstance(getContext()).putBooleanExtra("PushSetting",false);  //false 입력
                     FirebaseMessaging.getInstance().unsubscribeFromTopic("news");
+                    Intent intent = new Intent(getContext(),MyService.class);
+                    getActivity().stopService(intent);
                 }
             }
         });

@@ -119,7 +119,7 @@ public class BeforeSignin extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // NavUtils.navigateUpFromSameTask(this);
-                backPressCloseHandler.onBackPressed();
+                onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
