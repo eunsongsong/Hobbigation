@@ -347,20 +347,7 @@ public class TabFragment4 extends Fragment {
                                 Log.d(category_name[index_3], hobby_three[q]);
                             }
                             final int hobby_sum = a + b + c;
-                            //5개 이하 일때 처리
-                            Log.d("취미합 ", hobby_sum+"");
-                            System.arraycopy(hobby_two, 0, hobby_one, a, b);
-                            System.arraycopy(hobby_three, 0, hobby_one, a + b, c);
 
-                            //  if(hobby_sum <= 5) {
-                            for (int i = 0; i < hobby_sum; i++) {
-                                Log.d("하비이름 총합" + ";" + i, hobby_one[i]);
-                            }
-                            Arrays.sort(hobby_one, 0, hobby_sum);
-                            for (int i = 0; i < hobby_sum; i++) {
-                                Log.d("정렬 이후 하비이름 총합" + ";" + i, hobby_one[i]);
-                            }
-                            //   }
                             String[] result = new String[5];
                             int count = 0 ;
                             boolean ran_check = false;
