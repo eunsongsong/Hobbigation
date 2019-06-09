@@ -150,16 +150,20 @@ public class TabFragment1 extends Fragment {
                     }
                     else
                     {
-                        if ( a < 2 )
-                        {
-                            Log.d("11번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                        if ( a < 2 && b == 2) {
+                            Log.d("11번 ", "에이 " + a + " 비 " + b + " 씨 " + c);
                         }
-                        else if ( b < 2)
-                        {
-                            Log.d("12번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                        else if (a < 2) {
+                            Log.d("12번 ", "에이 " + a + " 비 " + b + " 씨 " + c);
                         }
-                        else
-                            Log.d("13번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
+                        else if ( b < 2 && a == 2)
+                        {
+                            Log.d("13번 ", "에이 " + a + " 비 " + b + " 씨 " + c);
+                        }
+                        else if (b < 2) {
+                            Log.d("14번 ", "에이 " + a + " 비 " + b + " 씨 " + c);
+                        } else
+                            Log.d("15번 ", "에이 " + a + " 비 " + b + " 씨 " + c);
                     }
                 }
             }

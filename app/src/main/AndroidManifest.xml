@@ -25,7 +25,6 @@
         <activity android:name=".ForgotPwActivity" />
         <activity android:name=".SubActivity" />
         <activity android:name=".TapViewActivity"/>
-        <activity android:name=".FavoriteActivity" />
         <activity android:name=".CategoryActivity" />
         <activity android:name=".RecommendationActivity" />
         <activity android:name=".SignInActivity" />

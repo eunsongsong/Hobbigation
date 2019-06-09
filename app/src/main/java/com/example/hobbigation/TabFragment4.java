@@ -920,6 +920,7 @@ public class TabFragment4 extends Fragment {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     List<RelatedlistInfo> relatedlistInfo_items =new ArrayList<>();
                                     RelatedlistInfo[] item = new RelatedlistInfo[5];
+                                    RelatedlistAdapter relatedlistAdapter = new RelatedlistAdapter(getContext(),relatedlistInfo_items,R.layout.fragment_tab_fragment4);
                                     Log.d("여기","1111");
                                     if(final_related_hobby.length == 0) //아무 취미가 없는경우
                                         return;
@@ -935,8 +936,9 @@ public class TabFragment4 extends Fragment {
                                             k++;
                                         }
                                     }
-                                    RelatedlistAdapter relatedlistAdapter = new RelatedlistAdapter(getContext(),relatedlistInfo_items,R.layout.fragment_tab_fragment4);
+                                    relatedlistAdapter.notifyDataSetChanged();
                                     relatedlist_recycleview.setAdapter(relatedlistAdapter);
+
                                 }
 
                                 @Override
