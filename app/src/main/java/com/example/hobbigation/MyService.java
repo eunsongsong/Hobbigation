@@ -1,6 +1,5 @@
 package com.example.hobbigation;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,8 +13,10 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
+/**
+ * 데모용 Android Service - 푸시 알림 발생
+ */
 public class MyService extends Service {
     NotificationManager Notifi_M;
     ServiceThread thread;
@@ -25,6 +26,7 @@ public class MyService extends Service {
         return null;
     }
 
+    //서비스 시작시 작업
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Notifi_M = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -35,22 +37,21 @@ public class MyService extends Service {
     }
 
     //서비스가 종료될 때 할 작업
-
     public void onDestroy() {
         thread.stopForever();
-        thread = null;//쓰레기 값을 만들어서 빠르게 회수하라고 null을 넣어줌.
+        thread = null;//쓰레기 값을 만들어서 빠르게 회수하기 위해 null을 넣어줌
     }
 
+    // 푸시 알림 보내기
     class myServiceHandler extends Handler {
-        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public void handleMessage(android.os.Message msg) {
-                //푸시 설정 되었다는 알림 보내기
                 String channelId = "channel";
                 String channelName = "Channel Name";
 
                 NotificationManager notifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
+                //채널 생성
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     int importance = NotificationManager.IMPORTANCE_HIGH;
                     NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
@@ -58,22 +59,18 @@ public class MyService extends Service {
                 }
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId);
-
                 Intent notificationIntent = new Intent(getApplicationContext(), BeforeSignin.class);
-
                 notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
                 int requestID = (int) System.currentTimeMillis();
 
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                         requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                builder.setContentTitle("하비게이션") // required
-                        .setContentText("취미 활동은 어떠셨나요?")  // required
+                builder.setContentTitle("하비게이션")
+                        .setContentText("취미 활동은 어떠셨나요?")
                         .setDefaults(Notification.DEFAULT_ALL) // 알림, 사운드 진동 설정
                         .setAutoCancel(true) // 알림 터치시 반응 후 삭제
-                        .setSound(RingtoneManager
-                                .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                        .setSmallIcon(R.mipmap.logo)
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .setSmallIcon(R.mipmap.logo) //아이콘 설정
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.logo))
                         .setBadgeIconType(R.mipmap.logo2)
                         .setContentIntent(pendingIntent);

@@ -7,11 +7,11 @@ import android.graphics.drawable.Drawable;
  */
 public class BlogListviewItem {
 
-    private Drawable iconDrawable;
-    private String titlestr;
-    private String descstr;
-    private String blogerstr;
-    private String datestr;
+    private Drawable iconDrawable;  //블로그 아이콘
+    private String titlestr;  //포스트 제목
+    private String descstr;  //포스트 내용
+    private String blogerstr;  //블로거명
+    private String datestr;  //포스트 작성 날짜
 
     public void setIcon(Drawable icon) {
         iconDrawable = icon;

@@ -15,8 +15,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-/* 비밀번호 변경 Activity - firebase의 sendPasswordResetEmail 사용,
-*  이메일을 전송받아서 링크를 누르면 비밀번호 재설정 창이 뜨고 새 비밀번호를 입력하면 변경 가능 */
+/**
+*  비밀번호 변경 Activity - firebase의 sendPasswordResetEmail 사용,
+*  이메일을 전송받아서 링크를 누르면 비밀번호 재설정 창이 뜨고 새 비밀번호를 입력하면 변경 가능
+*/
 public class ForgotPwActivity extends AppCompatActivity {
 
     EditText userEmail; //유저가 자신의 이메일 입력
@@ -30,9 +32,10 @@ public class ForgotPwActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_pw);
 
-        ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
+        //제목줄 객체 얻어오기
+        ActionBar actionBar = getSupportActionBar();
+        //액션바에 뒤로가기 버튼 나타내기
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         userEmail = findViewById(R.id.userEmail);
         userPass = findViewById(R.id.btnResetPw);
@@ -73,10 +76,10 @@ public class ForgotPwActivity extends AppCompatActivity {
         Toast.makeText(this, "Email을 입력해주세요.", Toast.LENGTH_SHORT).show();
     }
 
+    //액션바의 뒤로가기 버튼 터치시 액티비티 finish
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
         }

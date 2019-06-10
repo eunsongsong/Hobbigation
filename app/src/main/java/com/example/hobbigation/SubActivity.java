@@ -32,6 +32,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.StringTokenizer;
 
+/**
+ *  취미 정보 제공 화면
+ */
 public class SubActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
@@ -39,12 +42,12 @@ public class SubActivity extends AppCompatActivity {
 
     String keyword = "";
     TextView cate_name_v;
-    CheckBox like_c;
+    CheckBox like_c;  //찜하기를 위한 하트 모양 체크박스
     String final_like = "";
-    String[] volunteer;
-    boolean is_volunteer = false;
+    String[] volunteer;  //봉사활동 카테고리의 취미들
+    boolean is_volunteer = false;  //취미가 봉사활동 카테고리에 속하는지 체크
 
-    String like = "";
+    String like = "";  //유저의 찜 목록
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database= FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("사용자");
@@ -55,24 +58,23 @@ public class SubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-        ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
+        //제목줄 객체 얻어오기
+        ActionBar actionBar = getSupportActionBar();
+        //액션바에 뒤로가기 버튼 나타내기
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
+        //봉사활동 카테고리의 취미들 저장
         volunteer = new String[]{"보육원봉사활동","양로원봉사활동","유기동물봉사","재능기부활동"};
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
         cate_name_v = (TextView) findViewById(R.id.search_category_name);
         like_c = (CheckBox) findViewById(R.id.like_check);
-        //  like_c.setOnCheckedChangeListener(null);
         like = PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("like");
         keyword = PreferenceUtil.getInstance(getApplicationContext()).getStringExtra("keyword");
 
-        Log.d("찜하기",like);
-
         String tmp = like;
-        //like 있을 때만
+        //유저의 찜목록(like) 존재할 때
         if(!TextUtils.isEmpty(tmp)) {
             tmp = tmp.substring(0, like.length() - 1);
             String[] setlike = tmp.split("#");
@@ -84,22 +86,27 @@ public class SubActivity extends AppCompatActivity {
                 }
             }
         }
-        cate_name_v.setText(keyword);
+        cate_name_v.setText(keyword);  //상단에 취미이름 나타내기
+
+        //하트 체크박스 체크 또는 해제시 찜 목록 세팅
         like_c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
                 final boolean OnOff = like_c.isChecked();
 
+                //찜 체크시 해당 취미 이름 like에 추가
                 if(OnOff){
                     final_like = like+keyword+"#";
                     Log.d("Final_Like", final_like);
                 }
+                //찜 해제시 해당 취미 이름 like에서 삭제
                 else{
                     String del = keyword+"#";
                     final_like = like.replace(del, "");
                     Log.d("delete_Final_Like", final_like);
                 }
 
+                //찜 추가 또는 삭제한 찜 리스트를 유저 DB에 저장
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -114,6 +121,7 @@ public class SubActivity extends AppCompatActivity {
 
                                     myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("like").setValue(final_like);
                                     PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("like", final_like);
+
                                     //찜을 눌렀을 때 취미의 count 올리기
                                     if(isChecked) {
                                         myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -128,14 +136,11 @@ public class SubActivity extends AppCompatActivity {
                                                     }
                                                 }
                                             }
-
                                             @Override
                                             public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                             }
                                         });
-
-
                                     }
                                     //찜 취소했을 때 취미의 count 내리기
                                     else {
@@ -162,7 +167,6 @@ public class SubActivity extends AppCompatActivity {
                             }
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -174,11 +178,11 @@ public class SubActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.subpager);
         mTabLayout = (TabLayout) findViewById(R.id.subtab);
 
-
+        //블로그, 카페 탭 생성
         mTabLayout.addTab(mTabLayout.newTab().setText("블로그"));
         mTabLayout.addTab(mTabLayout.newTab().setText("카페"));
 
-        //지역 정보 보여주는 취미 구별
+        //봉사활동 취미인지 구별
         for(int i=0; i<volunteer.length; i++) {
             if(volunteer[i].equals(keyword)) {
                 is_volunteer = true;
@@ -187,9 +191,9 @@ public class SubActivity extends AppCompatActivity {
             else
                 is_volunteer = false;
         }
+        //봉사활동 취미가 아닐 경우 쇼핑 탭 생성
         if(!is_volunteer)
             mTabLayout.addTab(mTabLayout.newTab().setText("쇼핑"));
-
 
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -215,6 +219,7 @@ public class SubActivity extends AppCompatActivity {
         });
     }
 
+    //액션바의 뒤로가기 버튼 터치시 액티비티 finish
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

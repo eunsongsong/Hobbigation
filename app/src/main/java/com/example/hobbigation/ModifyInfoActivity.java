@@ -33,9 +33,9 @@ public class ModifyInfoActivity extends AppCompatActivity {
     private EditText modify_name, modify_age;
 
     //수정된 변수 (DB에 저장할 값)
-    private String egender = "";
-    private String ename =  "";
-    private String eage =  "";
+    private String egender = "";  //성별
+    private String ename =  ""; //이름
+    private String eage =  "";  //나이
 
     FirebaseAuth firebaseAuth;
     FirebaseUser mFirebaseUser;
@@ -47,8 +47,10 @@ public class ModifyInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_info);
 
-        ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
-        actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
+        //제목줄 객체 얻어오기
+        ActionBar actionBar = getSupportActionBar();
+        //액션바에 뒤로가기 버튼 나타내기
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         modipwbtn = (Button)findViewById(R.id.modipwbtn);
         male_check = (CheckBox) findViewById(R.id.modiTomale);
@@ -60,6 +62,7 @@ public class ModifyInfoActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.useAppLanguage();
 
+        //남자를 체크했을 경우 여자 체크박스는 false로
         male_check.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +71,7 @@ public class ModifyInfoActivity extends AppCompatActivity {
                 male_check.setChecked(true);
             }
         });
+        //여자를 체크했을 경우 남자 체크박스는 false로
         female_check.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,16 +128,19 @@ public class ModifyInfoActivity extends AppCompatActivity {
                             if (target.equals(mFirebaseUser.getEmail())) {
 
                                 //변경사항이 있을 때 - Null 아닌 부분만 DB에 저장
+                                //이름을 변경했을 때
                                 if (!(TextUtils.isEmpty(ename))) {
                                     StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
                                     myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("username").setValue(ename);
                                 }
+                                //나이를 변경했을 때
                                 if (!(TextUtils.isEmpty(eage))) {
                                     StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
                                     myRef.child(st_two.nextToken() + ":" + st.nextToken()).child("age").setValue(eage);
                                 }
+                                //성별을 변경했을 때
                                 if (mcheck||fcheck) {
                                     StringTokenizer st = new StringTokenizer(mFirebaseUser.getEmail(), "@");
                                     StringTokenizer st_two = new StringTokenizer(ds.getKey(), ":");
@@ -153,6 +160,7 @@ public class ModifyInfoActivity extends AppCompatActivity {
         }
     }
 
+    //액션바의 뒤로가기 버튼 터치시 액티비티 finish
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

@@ -32,23 +32,19 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * 취미 결과를 보여주는 화면
+ * 취미 추천 결과를 보여주는 화면
  */
 public class ConfirmActivity extends AppCompatActivity {
 
-    String[] tag_array;
-    int[] weight;
-    int[] sorted_weigh;
+    String[] tag_array;  //RecommendActivity에서 유저가 누른 이미지의 태그
+    int[] weight;  //태그의 가중치 (태그와 같은 인덱스)
+    int[] sorted_weigh; //정렬된 가중치 배열
 
-    int row;
-
-    int count = 0;
-
-    int minus;
-    int index = 0 ;
-    static int[] comb_int;
-    static int j=0;
-    static int comb_num;
+    int row;  //tag_array 와 weight의 배열 개수
+    int minus;  //tag_array 배열중 null인 개수
+    static int[] comb_int;  //조합 (0,1,0,2,1,2...와 같은 순서로 저장)
+    static int j=0;  //조합에서 사용 변수
+    static int comb_num;  //조합 개수 (조합이 한 쌍이 아니라 숫자 1개씩 저장되어 있으므로 x2)
     public RecyclerView result_recycler_view;
 
    //firebase database reference를 취미로 설정
@@ -59,9 +55,10 @@ public class ConfirmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
 
-        ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
+        //제목줄 객체 얻어오기
+        ActionBar actionBar = getSupportActionBar();
+        //액션바에 뒤로가기 버튼 나타내기
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         //취미결과를 RecyclerView로 보여줌
         result_recycler_view = (RecyclerView) findViewById(R.id.result_recycler);
@@ -82,7 +79,7 @@ public class ConfirmActivity extends AppCompatActivity {
 
         //wighcnt[]를 sorted_weigh에 복사
          sorted_weigh = weight.clone();
-        //sorted weigh 정렬
+        //sorted weigh 오름차순 정렬
         Arrays.sort(sorted_weigh);
 
 
@@ -110,7 +107,6 @@ public class ConfirmActivity extends AppCompatActivity {
             }
         }
 
-
         // 1보다 큰 가중치 태그 개수
         final int gt_one_tag = sorted_weigh.length - i - 1;
 
@@ -120,170 +116,23 @@ public class ConfirmActivity extends AppCompatActivity {
         myRef.child("이미지_태그").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int hobbycnt = (int)dataSnapshot.getChildrenCount();
-                String[] hobby = new String[hobbycnt];
-                String[] url = new String[hobbycnt];
-                int[] weight = new int[hobbycnt];
-
-                int result_cnt = 0;
-
-                //같은 취미가 있는 지 없는지 체크
-                boolean exist = false;
-                for ( DataSnapshot ds: dataSnapshot.getChildren())
-                {
-                    String con = ds.child("취미_태그").getValue().toString();
-                    for ( count = 4 ;count < tags_num ; count++)
-                    {
-                        if(con.contains(tag_array[0]) && con.contains(tag_array[1])
-                           && con.contains(tag_array[count]))
-                        {
-                            for(int i=0; i<hobbycnt; i++) {
-                                if (ds.getKey().equals(hobby[i])) {
-                                    weight[i] += 1;
-                                    exist = true;
-                                    break;
-                                }
-                            }
-                            if(!exist){
-                                    hobby[index] = ds.getKey();
-                                    result_cnt++;
-                                    url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
-                                    weight[index] += 1;
-                                    index++;
-                            }
-                            else
-                                exist = false;
-                        }
-                        if(con.contains(tag_array[0]) && con.contains(tag_array[2])
-                                && con.contains(tag_array[count]))
-                        {
-                            for(int i=0; i<hobbycnt; i++) {
-                                if (ds.getKey().equals(hobby[i])) {
-                                    weight[i] += 1;
-                                    exist = true;
-                                    break;
-                                }
-                            }
-                            if(!exist){
-                                hobby[index] = ds.getKey();
-                                weight[index] += 1;
-                                result_cnt++;
-                                url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
-                                index++;
-                            }
-                            else
-                                exist = false;
-                        }
-                        if(con.contains(tag_array[0]) && con.contains(tag_array[3])
-                                && con.contains(tag_array[count]))
-                        {
-                            for(int i=0; i<hobbycnt; i++) {
-                                if (ds.getKey().equals(hobby[i])) {
-                                    weight[i] += 1;
-                                    exist = true;
-                                    break;
-                                }
-                            }
-                            if(!exist){
-                                hobby[index] = ds.getKey();
-                                weight[index] += 1;
-                                result_cnt++;
-                                url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
-                                index++;
-                            }
-                            else
-                                exist = false;
-                        }
-                        if(con.contains(tag_array[1]) && con.contains(tag_array[2])
-                                && con.contains(tag_array[count]))
-                        {
-                            for(int i=0; i<hobbycnt; i++) {
-                                if (ds.getKey().equals(hobby[i])) {
-                                    weight[i] += 1;
-                                    exist = true;
-                                    break;
-                                }
-                            }
-                            if(!exist){
-                                hobby[index] = ds.getKey();
-                                weight[index] += 1;
-                                result_cnt++;
-                                url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
-                                index++;
-                            }
-                            else
-                                exist = false;
-                        }
-                        if(con.contains(tag_array[1]) && con.contains(tag_array[3])
-                                && con.contains(tag_array[count]))
-                        {
-                            for(int i=0; i<hobbycnt; i++) {
-                                if (ds.getKey().equals(hobby[i])) {
-                                    weight[i] += 1;
-                                    exist = true;
-                                    break;
-                                }
-                            }
-                            if(!exist){
-                                hobby[index] = ds.getKey();
-                                weight[index] += 1;
-                                result_cnt++;
-                                url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
-                                index++;
-                            }
-                            else
-                                exist = false;
-                        }
-                        if(con.contains(tag_array[2]) && con.contains(tag_array[3])
-                                && con.contains(tag_array[count]))
-                        {
-                            for(int i=0; i<hobbycnt; i++) {
-                                if (ds.getKey().equals(hobby[i])) {
-                                    weight[i] += 1;
-                                    exist = true;
-                                    break;
-                                }
-                            }
-                            if(!exist){
-                                hobby[index] = ds.getKey();
-                                weight[index] += 1;
-                                result_cnt++;
-                                url[index] = ds.child("url_태그").child("0").child("url").getValue().toString();
-                                index++;
-                            }
-                            else
-                                exist = false;
-                        }
-                    }
-                }
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        myRef.child("이미지_태그").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int hobbycnt = (int) dataSnapshot.getChildrenCount();
-                String[] hobby_2 = new String[hobbycnt];
-                String[] url_2 = new String[hobbycnt];
-                int[] weight_2 = new int[hobbycnt];
-
+                int hobbycnt = (int) dataSnapshot.getChildrenCount();  //전체 취미 개수
+                String[] hobby_2 = new String[hobbycnt]; //추천 결과 취미 이름
+                String[] url_2 = new String[hobbycnt];  //추천 결과 취미 이미지 url
+                int[] weight_2 = new int[hobbycnt];  //추천 결과 취미 가중치
+                int index;
 
                 if (true) {
                     j = 0;
                     int n = gt_one_tag;
                     comb_num = n * (n - 1);
                     comb_int = new int[comb_num];
-                    int[] arr = new int[n];
+                    int[] arr = new int[n];  //조합 생성을 위한 배열1
                     for (int i = 0; i < n; i++)
                         arr[i] = i;
-                    boolean[] visited = new boolean[n];
+                    boolean[] visited = new boolean[n]; //조합 생성을 위한 배열2
 
+                    //n개 중 2개 뽑기
                     combination(arr, visited, 0, n, 2);
 
                     boolean exist = false;
@@ -292,16 +141,20 @@ public class ConfirmActivity extends AppCompatActivity {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         String con = ds.child("취미_태그").getValue().toString();
 
+                        //취미 태그와 사용자가 선택한 가중치 높은 2개 태그 + 가중치 낮은 1개 태그 비교
                         for (int m = 0; m < comb_int.length - 1; m = m + 2) {
                             for (int k = gt_one_tag; k < tags_num; k++) {
+                                //취미 태그가 사용자 선택 태그를 포함하면 추천결과배열에 저장
                                 if (con.contains(tag_array[comb_int[m]]) && con.contains(tag_array[comb_int[m + 1]]) && con.contains(tag_array[k])) {
                                     for (int i = 0; i < hobbycnt; i++) {
+                                        //이미 저장된 취미가 다시 검색되면 가중치만 높임
                                         if (ds.getKey().equals(hobby_2[i])) {
                                             weight_2[i] += 1;
                                             exist = true;
                                             break;
                                         }
                                     }
+                                    //취미 이름과 이미지url, 가중치 저장
                                     if (!exist) {
                                         hobby_2[index] = ds.getKey();
                                         result_cnt_2++;
@@ -310,56 +163,47 @@ public class ConfirmActivity extends AppCompatActivity {
                                         index++;
                                     } else
                                         exist = false;
-                                    //Log.d("조합 레스고" + m, con + "### " + m);
-                                    //Log.d("취미가 무엇이니", ds.getKey() + index);
                                 }
-                                //Log.d("검색하는 세개 태그", tag_array[comb_int[m]]+ tag_array[comb_int[m + 1]]+tag_array[k]);
                             }
-
                         }
                     }
 
-                    // 취미 가중치는 매겨져있음
                     List<HobbyResultInfo> result_items = new ArrayList<>();
                     HobbyResultInfo[] item = new HobbyResultInfo[result_cnt_2];
 
-                    //맥스 찾고 0으로 만들기 x 3번
+                    //최댓값 찾기 x 5번
                     int max = weight_2[0];
                     int k, ind = 0;
 
-                    //최대 3개 결과 출력
+                    //최대 5개 결과 출력
                     for (int i = 0; i < 5; i++) {
                         if (i > result_cnt_2 - 1) {
+                            //결과가 아예 없으면 로고 이미지 띄우고 다시 선택 요구
                             if (result_cnt_2 == 0) {
                                 String logo = "https://firebasestorage.googleapis.com/v0/b/habbigation-27e01.appspot.com/o/no.png?alt=media&token=568a6365-f948-4460-b712-ee89e672423b";
                                 HobbyResultInfo[] null_item = new HobbyResultInfo[1];
                                 null_item[0] = new HobbyResultInfo("죄송합니다. 결과가 없습니다. \n다시 한번 골라주세요!", logo);
                                 result_items.add(null_item[0]);
                             }
-                            break; //결과가 1개 2개 이면 탈출
+                            break; //결과가 5개 미만이면 탈출
                         }
+                        //가중치 높은 추천결과 찾기
                         for (k = 1; k < result_cnt_2; k++) {
                             if (max < weight_2[k]) {
                                 max = weight_2[k];
                                 ind = k;
                             }
                         }
-                        Log.d("조합 가중치", weight_2[ind] + "ㅇㅇ" + hobby_2[ind]);
-                        Log.d("ddd", hobby_2[ind] + " 111" + url_2[ind]);
                         item[i] = new HobbyResultInfo(hobby_2[ind], url_2[ind]);
-                        Log.d("조합 아이템", item[i].getHobby_name() + "dasdsad" + item[i].getHobby_url());
                         result_items.add(item[i]);
 
                         weight_2[ind] = 0;
                         ind = 0;
                         max = weight_2[0];
                     }
-                    //마감
-
 
                     HobbyResultAdapter hobbyResultAdapter = new HobbyResultAdapter(getApplicationContext(), result_items, R.layout.activity_confirm);
                     result_recycler_view.setAdapter(hobbyResultAdapter);
-
                 }
             }
             @Override
@@ -375,14 +219,15 @@ public class ConfirmActivity extends AppCompatActivity {
         if(r == 0) {
             for(int i=0; i<n; i++) {
                 if (visited[i] == true) {
-                    //Log.d("이게 이거냐", arr[i]+"");
                     if (j>=comb_num) break;
+                    //조합 결과를 숫자 1개씩 저장
                     comb_int[j] = arr[i];
                     j++;
                 }
             }
             return;
         } else {
+            //r을 줄이면서 조합 찾기
             for(int i=start; i<n; i++) {
                 visited[i] = true;
                 combination(arr, visited, i + 1, n, r - 1);
@@ -391,7 +236,7 @@ public class ConfirmActivity extends AppCompatActivity {
         }
     }
 
-    //액션바의 뒤로가기 버튼
+    //액션바의 뒤로가기 버튼 터치시 액티비티 finish
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

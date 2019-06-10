@@ -1,11 +1,14 @@
 package com.example.hobbigation;
 
+/**
+ * 취미 쇼핑 검색 결과를 담는 item 클래스
+ */
 public class ShopListviewItem {
 
-    private String titlestr;
-    private String pricestr;
-    private String mallstr;
-    private String imgurl;
+    private String titlestr;  //제품명
+    private String pricestr;  //제품 가격
+    private String mallstr;  //상호명
+    private String imgurl;  //썸네일 이미지
 
     public void setTitle(String title) {
         titlestr = title;

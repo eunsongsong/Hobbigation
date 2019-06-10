@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * SharedPreference 를 쉽게 사용하기 위한 클래스
+ *  SharedPreferencse - 어플내에 파일 형태로 데이터를 저장하고 어플 삭제 전까지 보존
+ *  SharedPreferences 를 쉽게 사용하기 위한 클래스
  */
 public class PreferenceUtil {
 
@@ -28,12 +29,13 @@ public class PreferenceUtil {
         return preferencemodule;
     }
 
-
+    //Integer 값 저장
     public void putIntExtra(String key, int value) {
         editor.putInt(key, value);
         editor.commit();
     }
 
+    //String 값 저장
     public void putStringExtra(String key, String value) {
         editor.putString(key, value);
         editor.commit();
@@ -50,7 +52,6 @@ public class PreferenceUtil {
     }
 
 
-
     public int getIntExtra(String key) {
         return prefs.getInt(key, 0);
     }
@@ -59,16 +60,15 @@ public class PreferenceUtil {
         return prefs.getString(key, "");
     }
 
-
     public long getLongExtra(String key) {
         return prefs.getLong(key, 0);
     }
-
 
     public boolean getBooleanExtra(String key) {
         return prefs.getBoolean(key, false);
     }
 
+    // 저장했던 값 삭제
     public void removePreference(String key) {
         editor.remove(key).commit();
     }
