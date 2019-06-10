@@ -16,7 +16,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
+/**
+ * 취미 카테고리를 보여주는 화면
+ * 12개의 이미지 버튼이 있고 각각 카테고리를 나타내고 클릭시 실내 야외 참여 감상으로 나누어지는 화면으로 넘어감
+ */
 public class TabFragment2 extends Fragment implements View.OnClickListener {
 
     public ImageButton culture,music,art,book,sports,make,food
@@ -24,11 +27,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("취미").child("카테고리");
-
-    public static TabFragment2 newInstance() {
-        return new TabFragment2();
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +65,9 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
 
         return rootview;
     }
-    //카테고리 선택 함수 중복 코드 방지 myRef.child(category)
+
+    //선택 된 카테고리의 실내,야외,참여,감상 취미 이름을 배열에 저장하여 전달
+    // CategoryDetailActivity로 전환
     public void categorySelect(final String category)
     {
         myRef.child(category).addValueEventListener(new ValueEventListener() {
@@ -93,6 +93,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }
         });
     }
+
+    //각각의 이미지 버튼 클릭시 카테고리 이름을 categorySelect 함수에 전달
     @Override
     public void onClick(View view) {
 

@@ -26,7 +26,11 @@ import java.util.List;
 import java.util.StringTokenizer;
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 
-/* Tap1 - MainPage (인기취미, 취미카테고리 버튼, 취미 추천받기 버튼) */
+/**
+ *  Tap1 - MainPage (인기취미, 취미카테고리 버튼, 취미 추천받기 버튼으로 구성)
+ *
+ */
+
 public class TabFragment1 extends Fragment {
 
     private Button recommend_btn;
@@ -128,10 +132,12 @@ public class TabFragment1 extends Fragment {
                     hobby = dataSnapshot.child("실내_야외").child("실내").getValue().toString();
                     hobby += "," + dataSnapshot.child("실내_야외").child("야외").getValue().toString();
 
+                    //불필요한 표시 제거 ( 배열 형태로 받기 때문)
                     tmp = hobby.replace("]", "");
                     tmp= tmp.replace("[", "");
                     tmp = tmp.replace(" ", "");
 
+                    //한 카테고리에 있는 모든 취미 저장
                     PreferenceUtil.getInstance(getContext()).putStringExtra("detail" + finalI, tmp);
                 }
 

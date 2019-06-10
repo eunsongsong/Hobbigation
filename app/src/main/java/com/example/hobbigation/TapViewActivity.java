@@ -71,7 +71,8 @@ public class TapViewActivity extends AppCompatActivity {
             }
         });
     }
-
+    //뒤로가기 버튼이 눌렸을 경우
+    //2번연속으로 누르면 로그아웃
     @Override
     public void onBackPressed() {
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {

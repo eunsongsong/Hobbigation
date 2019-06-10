@@ -10,6 +10,10 @@ import android.widget.ImageView;
 
 import java.util.List;
 
+/**
+ * 가이드 액티비티 화면을 보여주는 adapter
+ * 2개의 화면으로 구성되고 가로로 swipe 할 수 있다.
+ */
 public class ViewPagerAdapter extends PagerAdapter {
 
     // LayoutInflater 서비스 사용을 위한 Context 참조 저장.
