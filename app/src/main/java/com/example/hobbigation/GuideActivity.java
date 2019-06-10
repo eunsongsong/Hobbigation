@@ -43,7 +43,6 @@ public class GuideActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),BeforeSignin.class));
     }
 
-    //
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

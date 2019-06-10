@@ -1,5 +1,9 @@
 package com.example.hobbigation;
 
+/**
+ * 사용자의 정보를 담는 클래스
+ * 이메일, 이름, 성별, 나이, 태그, 찜
+ */
 public class User {
 
     public String email = "";

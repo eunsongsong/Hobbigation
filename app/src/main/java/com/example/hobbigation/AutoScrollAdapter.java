@@ -23,14 +23,14 @@ import java.util.List;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
+/**
+ * Top10 인기 취미를 자동스크롤 형태로 보여주는 Adapter
+ */
 public class AutoScrollAdapter extends PagerAdapter {
 
     Context context;
     List<AutoScroll_Info> item;
-
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("취미").child("카테고리");
-
+    //인기 취미 권유 문장들
     String[] top_tv_array = new String[]
             {"어떠신가요..?"
                     ,"해보셨나요?",
@@ -53,18 +53,22 @@ public class AutoScrollAdapter extends PagerAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
         View page = inflater.inflate(R.layout.auto_viewpager,null);
         ImageView image_container = (ImageView) page.findViewById(R.id.image_container);
+
+        //url으로 이미지를 보여줄 수 있는 Glide 라이브러리를 이용하여 취미 이미지를 보여준다
         Glide.with(context).load(item.get(position).getUrl()).into(image_container);
         TextView top_tv = (TextView)page.findViewById(R.id.top_tv);
 
         int ran = (int) (Math.random() * top_tv_array.length);
+        //인기 취미이름을 권유메시지가 담긴 배열에서 랜덤으로 조합하여 보여준다.
         top_tv.setText("\'"+item.get(position).getName()+"\'" + "은(는) " + top_tv_array[ran] );
 
         container.addView(page);
 
+        //인기취미 이미지 클릭 시 취미정보제공화면으로 이동
         page.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "This page was clicked: " + position + "하나 더 "+ item.get(position).getName());
+                //취미이름을 SharedPreference에 저장하여 SubActivity에 전달한다.
                 PreferenceUtil.getInstance(v.getContext()).putStringExtra("keyword",item.get(position).getName());
                 Intent intent = new Intent(v.getContext(),SubActivity.class);
                 context.startActivity(intent);
@@ -76,7 +80,6 @@ public class AutoScrollAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-
         container.removeView((View)object);
 
     }

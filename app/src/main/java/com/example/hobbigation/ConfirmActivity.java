@@ -31,6 +31,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
+/**
+ * 취미 결과를 보여주는 화면
+ */
 public class ConfirmActivity extends AppCompatActivity {
 
     String[] tag_array;
@@ -48,7 +51,7 @@ public class ConfirmActivity extends AppCompatActivity {
     static int comb_num;
     public RecyclerView result_recycler_view;
 
-
+   //firebase database reference를 취미로 설정
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("취미");
     @Override
@@ -60,6 +63,7 @@ public class ConfirmActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
 
+        //취미결과를 RecyclerView로 보여줌
         result_recycler_view = (RecyclerView) findViewById(R.id.result_recycler);
 
         final LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
@@ -70,25 +74,11 @@ public class ConfirmActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //스트링 배열 가중치 (정렬안됨)
         //행 갯수 하나로 맞추기
-        Log.d("컨펌", "컨펌시작!");
 
         tag_array = intent.getStringArrayExtra("tag[]");
         weight = intent.getIntArrayExtra("weighcnt[]");
         row = intent.getIntExtra("row",0);
         minus = intent.getIntExtra("minus",0);
-
-        Log.d("로우로우로우 ", row+"");
-        Log.d("마이너스", minus+"");
-
-        //잘들어갔는지 확인
-        for (int i = 0 ; i < row ; i++)
-        {
-            if(!TextUtils.isEmpty(tag_array[i]))
-            Log.d("aaaa",tag_array[i] + "가중치" + weight[i]);
-            else
-                Log.d("없는것이다", "없는것이다!이건 빈공간이다 "+ i +" 번");
-
-        }
 
         //wighcnt[]를 sorted_weigh에 복사
          sorted_weigh = weight.clone();
@@ -121,16 +111,10 @@ public class ConfirmActivity extends AppCompatActivity {
         }
 
 
-        //이 값이 1보다 큰 가중치 태그 개수
-        Log.d("개수", sorted_weigh.length - i - 1 +"");
+        // 1보다 큰 가중치 태그 개수
         final int gt_one_tag = sorted_weigh.length - i - 1;
 
-        for (i = 0 ;  i < tag_array.length; i++) {
-            if ( !TextUtils.isEmpty(tag_array[i]))
-                Log.d("--소트된 태그", tag_array[i] + "가중치 " + weight[i]);
-        }
-        //정렬끝
-
+        //중복된 태그 수를 제외한 전체 태그 수
         final int tags_num= tag_array.length - minus;
 
         myRef.child("이미지_태그").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -169,9 +153,6 @@ public class ConfirmActivity extends AppCompatActivity {
                             }
                             else
                                 exist = false;
-
-                            Log.d("나와라얍 0번 1번" + count, con + "### " + count);
-                            Log.d("취미가 무엇이니", ds.getKey());
                         }
                         if(con.contains(tag_array[0]) && con.contains(tag_array[2])
                                 && con.contains(tag_array[count]))
@@ -192,9 +173,6 @@ public class ConfirmActivity extends AppCompatActivity {
                             }
                             else
                                 exist = false;
-
-                            Log.d("나와라얍 1번 2번" + count, con + "### " + count);
-                            Log.d("취미가 무엇이니", ds.getKey());
                         }
                         if(con.contains(tag_array[0]) && con.contains(tag_array[3])
                                 && con.contains(tag_array[count]))
@@ -215,10 +193,6 @@ public class ConfirmActivity extends AppCompatActivity {
                             }
                             else
                                 exist = false;
-
-
-                            Log.d("나와라얍 0번 2번" + count, con + "### " + count);
-                            Log.d("취미가 무엇이니", ds.getKey());
                         }
                         if(con.contains(tag_array[1]) && con.contains(tag_array[2])
                                 && con.contains(tag_array[count]))
@@ -239,10 +213,6 @@ public class ConfirmActivity extends AppCompatActivity {
                             }
                             else
                                 exist = false;
-
-
-                            Log.d("나와라얍 0번 2번" + count, con + "### " + count);
-                            Log.d("취미가 무엇이니", ds.getKey());
                         }
                         if(con.contains(tag_array[1]) && con.contains(tag_array[3])
                                 && con.contains(tag_array[count]))
@@ -263,10 +233,6 @@ public class ConfirmActivity extends AppCompatActivity {
                             }
                             else
                                 exist = false;
-
-
-                            Log.d("나와라얍 0번 2번" + count, con + "### " + count);
-                            Log.d("취미가 무엇이니", ds.getKey());
                         }
                         if(con.contains(tag_array[2]) && con.contains(tag_array[3])
                                 && con.contains(tag_array[count]))
@@ -287,23 +253,9 @@ public class ConfirmActivity extends AppCompatActivity {
                             }
                             else
                                 exist = false;
-
-
-                            Log.d("나와라얍 0번 2번" + count, con + "### " + count);
-                            Log.d("취미가 무엇이니", ds.getKey());
                         }
                     }
-
                 }
-
-
-                for ( int i = 0 ; i < 20 ; i++) {
-                    if (!TextUtils.isEmpty(hobby[i]))
-                        Log.d("a12312", hobby[i]);
-                    Log.d("tttt", weight[i] + "");
-
-                }
-
             }
 
 
@@ -321,7 +273,7 @@ public class ConfirmActivity extends AppCompatActivity {
                 String[] url_2 = new String[hobbycnt];
                 int[] weight_2 = new int[hobbycnt];
 
-                //ㅇㅇㅇㅇㅇㅇnC2로 결과 찾기
+
                 if (true) {
                     j = 0;
                     int n = gt_one_tag;
@@ -334,16 +286,11 @@ public class ConfirmActivity extends AppCompatActivity {
 
                     combination(arr, visited, 0, n, 2);
 
-                    //nC2로 결과 찾기
                     boolean exist = false;
                     index = 0;
                     int result_cnt_2 = 0;
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         String con = ds.child("취미_태그").getValue().toString();
-                        //Log.d("오고오고", con);
-                        //Log.d("오고오고취미", ds.getKey());
-                        //for(int m=0; m<comb_int.length-1; m=m+2)
-                        //Log.d("오고오태그뽑은거", tag_array[comb_int[m]]+tag_array[comb_int[m+1]] + "길이"+comb_int.length + " m값" + m);
 
                         for (int m = 0; m < comb_int.length - 1; m = m + 2) {
                             for (int k = gt_one_tag; k < tags_num; k++) {

@@ -1,10 +1,8 @@
 package com.example.hobbigation;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,11 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,11 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 
+/* Tap1 - MainPage (인기취미, 취미카테고리 버튼, 취미 추천받기 버튼) */
 public class TabFragment1 extends Fragment {
 
     private Button recommend_btn;
@@ -61,14 +55,14 @@ public class TabFragment1 extends Fragment {
 
         //카테고리 RecyclerView
         final LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
-        //가로 Swipe
+        //가로 Swipe 가능
         layoutManager.setOrientation(LinearLayout.HORIZONTAL);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new Main_Category_Decoration(15));
         recyclerView.setLayoutManager(layoutManager);
 
         final List<Main_CategoryItem> items =new ArrayList<>();
-
+        //취미 카테고리 버튼을 RecyclerView로 만들어줌
         Main_CategoryItem[] item=new Main_CategoryItem[12];
 
         item[0] = new Main_CategoryItem("문화/공연", getResources().getDrawable(R.drawable.show));
@@ -91,6 +85,7 @@ public class TabFragment1 extends Fragment {
         }
         recyclerView.setAdapter(new Main_CategoryAdapter(getContext(),items,R.layout.fragment_tab_fragment1));
 
+        //취미 추천받기 화면으로 넘어감
         recommend_btn = (Button) rootview.findViewById(R.id.recommend);
         recommend_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,9 +94,11 @@ public class TabFragment1 extends Fragment {
             }
         });
 
+        //Top 10 이미지를 보여줌
         ArrayList<AutoScroll_Info>  auto_items = new ArrayList<>(); //이미지 url를 저장하는 arraylist
         final AutoScroll_Info[] auto_item = new AutoScroll_Info[10];
 
+        //BeforSignIn에서 저장한 Top10 이미지와 이름을 가져오고 #으로 구분
         StringTokenizer st_url = new StringTokenizer(PreferenceUtil.getInstance(getContext()).getStringExtra("total"),"#");
         StringTokenizer st_names = new StringTokenizer(PreferenceUtil.getInstance(getContext()).getStringExtra("names"),"#");
 
@@ -109,6 +106,7 @@ public class TabFragment1 extends Fragment {
         {
             auto_item[j] = new AutoScroll_Info(st_names.nextToken(), st_url.nextToken());
         }
+        //10위부터 읽어 들어 오기 때문에 add를 뒤에서부터한다
         for ( int k = 9 ; k >= 0 ; k--) {
             auto_items.add(auto_item[k]);
         }
@@ -118,58 +116,6 @@ public class TabFragment1 extends Fragment {
         autoViewPager.setInterval(3500); // 페이지 넘어갈 시간 간격 설정;
         autoViewPager.setBorderAnimation(true);
         autoViewPager.startAutoScroll(); //Auto Scroll 시작
-
-        for ( int  a = 0 ; a < 7 ; a++)
-        {
-            for(int b = 0; b < 7 ; b++)
-            {
-                for (int c = 0; c < 7 ; c++)
-                {
-                    if( a + b + c <= 5)
-                        Log.d("1번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
-                    else if( a < 2 && b < 2)
-                        Log.d("2번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
-                    else if ( a < 2 && c < 3)
-                        Log.d("3번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
-                    else if( b < 2 && c < 3)
-                        Log.d("4번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
-                    else if( a == 0 && c== 3)
-                        Log.d("5번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
-                    else if( a == 1 && c==3)
-                        Log.d("6번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
-                    else if( b == 0 && c== 3)
-                        Log.d("7번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
-                    else if( b == 1 && c== 3)
-                        Log.d("8번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
-                    else if ( c < 1)
-                    {
-                        if ( a < 3)
-                            Log.d("9번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
-                        else
-                            Log.d("10번 ", "에이 "+ a+ " 비 "+b+" 씨 "+c);
-                    }
-                    else
-                    {
-                        if ( a < 2 && b == 2) {
-                            Log.d("11번 ", "에이 " + a + " 비 " + b + " 씨 " + c);
-                        }
-                        else if (a < 2) {
-                            Log.d("12번 ", "에이 " + a + " 비 " + b + " 씨 " + c);
-                        }
-                        else if ( b < 2 && a == 2)
-                        {
-                            Log.d("13번 ", "에이 " + a + " 비 " + b + " 씨 " + c);
-                        }
-                        else if (b < 2) {
-                            Log.d("14번 ", "에이 " + a + " 비 " + b + " 씨 " + c);
-                        } else
-                            Log.d("15번 ", "에이 " + a + " 비 " + b + " 씨 " + c);
-                    }
-                }
-            }
-        }
-
-
 
         //세부 카테고리 스트링 보내기
         String[] category = {"문화_공연","음악","예술","책_글","운동_스포츠","만들기","음식","게임_오락","아웃도어","식물","휴식","봉사활동"};
@@ -185,7 +131,6 @@ public class TabFragment1 extends Fragment {
                     tmp = hobby.replace("]", "");
                     tmp= tmp.replace("[", "");
                     tmp = tmp.replace(" ", "");
-                    Log.d("----dddd"+finalI, tmp);
 
                     PreferenceUtil.getInstance(getContext()).putStringExtra("detail" + finalI, tmp);
                 }
@@ -201,6 +146,7 @@ public class TabFragment1 extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
+        //회원이 찜 해놓은 취미를 DB에서 읽어서 취미이름들을 저장
         myRef3.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

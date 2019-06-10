@@ -1,7 +1,5 @@
 package com.example.hobbigation;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,7 +8,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-
+/**
+ * TabLayount을 보여주는 Activity
+ * 4개의 Tab으로 구성
+ */
 public class TapViewActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
@@ -26,16 +27,17 @@ public class TapViewActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
         actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
-        //
 
         // Initializing the TabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
+        //Tab icon 설정
         Drawable drawable1 = getResources().getDrawable(R.drawable.selector_click_tab);
         Drawable drawable2 = getResources().getDrawable(R.drawable.selector_click_tab2);
         Drawable drawable3 = getResources().getDrawable(R.drawable.selector_click_tab3);
         Drawable drawable4 = getResources().getDrawable(R.drawable.selector_click_tab4);
 
+        //Tab을 add하여 탭을 추가
         tabLayout.addTab(tabLayout.newTab().setIcon(drawable1));
         tabLayout.addTab(tabLayout.newTab().setIcon(drawable2));
         tabLayout.addTab(tabLayout.newTab().setIcon(drawable3));
@@ -55,7 +57,6 @@ public class TapViewActivity extends AppCompatActivity {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
                 viewPager.setCurrentItem(tab.getPosition(), true);
             }
 
@@ -82,15 +83,12 @@ public class TapViewActivity extends AppCompatActivity {
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
             toast.cancel();
             finish();
-           // Intent intent = new Intent(this, BeforeSignin.class);
-           // startActivity(intent);
         }
     }
 
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // NavUtils.navigateUpFromSameTask(this);
                 onBackPressed();
                 return true;
         }

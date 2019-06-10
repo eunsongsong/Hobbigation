@@ -39,7 +39,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".GuideActivity" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".SignUpActivity" />
 
         <service android:name=".MyFirebaseMessagingService">

@@ -14,6 +14,10 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ * 대칭키 암호를 사용하여 자동 로그인시 SharedPreference에 저장되는
+ * 아이디,비번을 암호화하여 저장하고 다시 복호화한다.
+ */
 public class AESCipher {
 
     public static byte[] ivBytes = { 0x03, 0x0D, 0x3E, 0x0A, 0x5C, 0x10, 0x62, 0x07, 0x40, 0x30, 0x2A, 0x0B, 0x04, 0x01, 0x02, 0x05 };

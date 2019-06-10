@@ -32,7 +32,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
     DatabaseReference myRef = database.getReference("취미").child("이미지_태그");
 
     String url ="lll";
-    int count = 0 ;
     String[] indoor;
     String[] outdoor;
     String[] see;
@@ -114,9 +113,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
                 }
             });
-
-
-
 
         recyclerView_out=(RecyclerView)findViewById(R.id.recycler_outdoor);
         final LinearLayoutManager layoutManager_out=new LinearLayoutManager(getApplicationContext());
@@ -202,7 +198,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
         layoutManager_see.setOrientation(LinearLayout.HORIZONTAL);
         recyclerView_see.setHasFixedSize(true);
         recyclerView_see.setLayoutManager(layoutManager_see);
-
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

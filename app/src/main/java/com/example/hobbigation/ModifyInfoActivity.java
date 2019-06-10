@@ -22,6 +22,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.StringTokenizer;
 
+/**
+ * 회원정보 수정 화면
+ */
+
 public class ModifyInfoActivity extends AppCompatActivity {
 
     private Button modipwbtn, saveChangebtn;

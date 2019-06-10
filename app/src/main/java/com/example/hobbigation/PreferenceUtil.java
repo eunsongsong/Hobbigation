@@ -3,6 +3,9 @@ package com.example.hobbigation;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+/**
+ * SharedPreference 를 쉽게 사용하기 위한 클래스
+ */
 public class PreferenceUtil {
 
     //프리퍼런스 KEY값

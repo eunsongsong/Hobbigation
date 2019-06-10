@@ -15,7 +15,7 @@ public class CafeItemAdapter extends RecyclerView.Adapter<com.example.hobbigatio
         Context context;
         List<CafeItemInfo> items;
         int item_layout;
-        String[] volunteer = new String[]{"보육원봉사활동","양로원봉사활동","유기동물봉사","재능기부활동"};
+
         String keyword = PreferenceUtil.getInstance(context).getStringExtra("keyword");
 
     public CafeItemAdapter(Context context, List<CafeItemInfo> items, int item_layout) {
