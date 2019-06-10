@@ -2,6 +2,9 @@ package com.example.hobbigation;
 
 import android.graphics.drawable.Drawable;
 
+/**
+ * TabFragment1 에 보여지는 12개의 카테고리 이름과 이미지를 담는 클래스이다.
+ */
 public class Main_CategoryItem {
     private String name;
     private Drawable drawable;

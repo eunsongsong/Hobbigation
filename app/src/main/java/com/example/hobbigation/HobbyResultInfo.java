@@ -1,5 +1,9 @@
 package com.example.hobbigation;
 
+/**
+ * 취미 결과 정보를 담는 아이템 Information Class
+ * 이름과 url로 구성됨
+ */
 public class HobbyResultInfo {
     private String hobby_name;
     private String hobby_url;

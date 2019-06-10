@@ -5,6 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+/**
+ * TabFragment1에서 RecyclerView 구성된 카테고리 아이템을
+ * 원모양으로 만들어 주는 클래스
+ */
 public class Main_Category_Decoration extends RecyclerView.ItemDecoration{
     private final int divWidth;
 
