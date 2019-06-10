@@ -26,6 +26,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 import java.util.StringTokenizer;
 
+/**
+ * 찜 목록을 리사이클러뷰로 보여주기 위한 Adapter (Tab4에서)
+ */
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder> {
     Context context;
     List<WishlistInfo> items;
@@ -54,13 +57,15 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
+        //찜목록의 취미 이름 나타내기
         holder.wish_txt.setText(item.getName());
 
+        //찜목록의 취미 이미지 보여주기
         Glide.with(holder.itemView.getContext())
                 .load(item.getUrl())
                 .into(holder.wish_img);
 
-        //이미지 누르면 API정보 보여주기
+        //이미지 누르면 취미 정보(검색 API) 보여주기
         holder.wish_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -91,9 +96,11 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                //Dialog 띄워서 삭제 확인
                 AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
                 alert.setTitle("'"+item.getName()+"' 이(가) 찜 목록에서 삭제됩니다.");
                 alert.setMessage("정말 찜을 취소하실 건가요?");
+                //예를 누르면 아이템 삭제 진행
                 alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -104,6 +111,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                                 firebaseAuth = FirebaseAuth.getInstance();
                                 final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
+                                //유저 DB - like 에서 해당 취미 삭제
                                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -122,7 +130,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                                             }
                                         }
                                     }
-
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -130,19 +137,16 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                                 });
                             }
                         });
-                alert.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                //아니오를 누르면 변화 없음
+                alert.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
                 });
                 alert.show();
-
             }
-
         });
-
-
     }
 
     @Override

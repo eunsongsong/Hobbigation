@@ -20,14 +20,16 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 네이버 카페 검색 결과를 xml로 받아 파싱하는 클래스
+ * 파싱한 결과를 리사이클러뷰에 담아 보여준다.
+ */
 public class Sub_CafeTab extends Fragment {
 
-    String keyword = "";
+    String keyword = "";  //검색할 단어
     String strcafe = "";
     String[] cafearr;
     public RecyclerView cafelist_recyclerview;
-    public Button more_link;
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_sub_cafe, container, false);
@@ -40,17 +42,17 @@ public class Sub_CafeTab extends Fragment {
         cafelist_recyclerview.setHasFixedSize(true);
         cafelist_recyclerview.setLayoutManager(layoutManager);
 
-
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    //검색결과를 스트링으로 받음
                     strcafe = getNaverCafeSearch(keyword);
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
+                            //특수문자 변환
                             strcafe = strcafe.replace("&quot;", "\"");
                             strcafe = strcafe.replace("&gt;", ">");
                             strcafe = strcafe.replace("&lt;", "<");
@@ -58,6 +60,7 @@ public class Sub_CafeTab extends Fragment {
                             strcafe = strcafe.replace("&nbsp;", " ");
                             int idx = strcafe.indexOf("Result");
                             String str3 = strcafe.substring(idx + 10);
+                            //제목, 내용, 링크, 카페명, 카페링크 스트링을 배열에 담기
                             cafearr = str3.split("%%%@");
 
                             List<CafeItemInfo> cafe_item =new ArrayList<>();
@@ -115,58 +118,46 @@ public class Sub_CafeTab extends Fragment {
                     case XmlPullParser.START_TAG:
                         tag = xpp.getName(); //태그 이름 얻어오기
 
-                        if (tag.equals("item")) ; //첫번째 검색 결과
+                        if (tag.equals("item")) ;
                         else if (tag.equals("title")) {
-
-                            //sb.append("제목 : ");
+                            //제목 :
                             xpp.next();
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("%%%@");
 
                         } else if (tag.equals("description")) {
-
-                            //sb.append("내용 : ");
+                            //내용 :
                             xpp.next();
-
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("%%%@");
 
                         } else if (tag.equals("link")) {
-
-                            //sb.append("링크 : ");
+                            //링크 :
                             xpp.next();
-
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("%%%@");
 
                         } else if (tag.equals("cafename")) {
-
-                            //sb.append("카페명 : ");
+                            //카페명 :
                             xpp.next();
-
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("%%%@");
 
                         } else if (tag.equals("cafeurl")) {
-
-                            //sb.append("카페링크 : ");
+                            //카페링크 :
                             xpp.next();
-
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("%%%@");
                         }
-
                         break;
                 }
-
                 eventType = xpp.next();
-
             }
 
         } catch (Exception e) {
             return e.toString();
         }
-
+        //결과를 스트링으로 반환
         return sb.toString();
     }
 }

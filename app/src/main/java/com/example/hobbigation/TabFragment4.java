@@ -11,9 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +24,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
+/**
+ * Tab4 - 찜 목록 및 연관된 취미
+ * 유저의 찜한 취미 목록과 찜 목록에 기반한 연관 취미가 보여진다.
+ * 연관 취미는 찜한 취미들의 카테고리, 필터에 가중치를 매겨 랜덤으로 5개 보여짐
+ */
 public class TabFragment4 extends Fragment {
 
     public RecyclerView wishlist_recycleview;
@@ -43,38 +46,32 @@ public class TabFragment4 extends Fragment {
 
         ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.fragment_tab_fragment4,container,false);
 
+        // 찜 목록 리사이클러뷰 설정
         wishlist_recycleview = (RecyclerView) rootview.findViewById(R.id.wishlist);
         final LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayout.HORIZONTAL);
         wishlist_recycleview.setHasFixedSize(true);
         wishlist_recycleview.setLayoutManager(layoutManager);
 
+        // 연관 취미 리사이클러뷰 설정
         relatedlist_recycleview = (RecyclerView) rootview.findViewById(R.id.related_hobby);
-
         final LinearLayoutManager layoutManager_related=new LinearLayoutManager(getContext());
         layoutManager_related.setOrientation(LinearLayout.HORIZONTAL);
         relatedlist_recycleview.setHasFixedSize(true);
         relatedlist_recycleview.setLayoutManager(layoutManager_related);
 
         final String like = PreferenceUtil.getInstance(getContext()).getStringExtra("like");
-        boolean is_empty_like;
+        boolean is_empty_like; // 찜 목록이 비어있는지 확인
         if (TextUtils.isEmpty(like))
-        {
             is_empty_like = true;
-        }
         else
             is_empty_like = false;
-        Log.d("like 0530", like);
+        //유저의 찜 목록을 배열에 저장
         final String[] like_array = like.split("#");
-        for ( int i = 0 ; i < like_array.length ; i++)
-            Log.d("ddd",like_array[i]);
-
+        //찜 목록 가나다순 정렬
         Arrays.sort(like_array);
-        Log.d("cnt ",like_array.length+"");
-        for ( int i = 0 ; i < like_array.length ; i++) {
-            if(like_array[i].contains("일기"))
-                Log.d("ddd", like_array[i]);
-        }
+
+        /* 유저의 찜한 취미 목록 */
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -82,13 +79,13 @@ public class TabFragment4 extends Fragment {
                 WishlistInfo[] item = new WishlistInfo[like_array.length];
 
                 int a = 0;
-
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
-
+                    //찜 목록을 모두 찾으면 중지 (찜 목록 길이를 벗어남)
                     if (a > like_array.length - 1){
                         break;
                     }
 
+                    //찜한 취미와 DB의 취미가 같으면 그 취미의 url 가져오기
                     if (like_array[a].equals(ds.getKey())) {
                         item[a] = new WishlistInfo(like_array[a], ds.child("url_태그").child("0").child("url").getValue().toString());
                         wish_items.add(item[a]);
@@ -105,6 +102,7 @@ public class TabFragment4 extends Fragment {
             }
         });
 
+        /* 연관된 취미 */
         final int[][] related = new int[2][2];
         final int[] category_num = new int[12];
         final String[] category_name = new String[]{"게임_오락","만들기","문화_공연","봉사활동","식물"

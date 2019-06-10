@@ -1,9 +1,12 @@
 package com.example.hobbigation;
 
+/**
+ * 유저의 찜 목록를 담는 item 클래스
+ */
 public class WishlistInfo {
 
-    private String name = "";
-    private String url = "";
+    private String name = "";  //취미 이름
+    private String url = "";  //취미 이미지
     public String getUrl() {
         return url;
     }

@@ -197,6 +197,7 @@ public class SubActivity extends AppCompatActivity {
 
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        //페이지어답터 설정
         final SubTabPagerAdapter adapter = new SubTabPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
         mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
@@ -223,7 +224,6 @@ public class SubActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
         }

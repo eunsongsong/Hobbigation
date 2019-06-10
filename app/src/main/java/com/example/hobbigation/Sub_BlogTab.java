@@ -19,9 +19,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+/**
+ * 네이버 블로그 검색 결과를 xml로 받아 파싱하는 클래스
+ * 파싱한 결과를 리스트뷰에 담아 보여준다.
+ */
 public class Sub_BlogTab extends Fragment {
 
-    String keyword = "";
+    String keyword = "";  //검색할 단어
     String strblog = "";
     String[] blogarr;
 
@@ -34,7 +38,7 @@ public class Sub_BlogTab extends Fragment {
             @Override
             public void run() {
                 try {
-
+                    //검색결과를 스트링으로 받음
                     strblog = getNaverBlogSearch(keyword);
 
                     getActivity().runOnUiThread(new Runnable() {
@@ -44,10 +48,12 @@ public class Sub_BlogTab extends Fragment {
                             blogListviewAdapter adapter1;
                             int i = 0;
 
+                            //리스트뷰 어답터 설정
                             adapter1 = new blogListviewAdapter();
                             listview1 = (ListView) rootview.findViewById(R.id.bloglist);
                             listview1.setAdapter(adapter1);
 
+                            //특수문자 변환
                             strblog = strblog.replace("&quot;", "\"");
                             strblog = strblog.replace("&gt;", ">");
                             strblog = strblog.replace("&lt;", "<");
@@ -55,16 +61,20 @@ public class Sub_BlogTab extends Fragment {
                             strblog = strblog.replace("&nbsp;", " ");
                             int idx = strblog.indexOf("Result");
                             String str1 = strblog.substring(idx + 10);
+                            //제목, 내용, 링크, 블로거명, 작성날짜 스트링을 배열에 담기
                             blogarr = str1.split("%%%@");
 
                             for (i = 0; i < blogarr.length; i = i + 5) {
+                                //tmp에 작성날짜 담기
                                 String tmp = blogarr[i + 4];
+                                //날짜형식으로 변경 (ex. 20190613 -> 2019.06.13)
                                 tmp = tmp.substring(0, 4) + "." + tmp.substring(4, 6) + "." + tmp.substring(6, 8);
                                 blogarr[i + 4] = tmp;
                                 adapter1.addItem(ContextCompat.getDrawable(getContext(), R.drawable.blog)
                                         , blogarr[i], blogarr[i + 2], blogarr[i + 3], blogarr[i + 4]);
                             }
 
+                            //포스트 링크로 이동하는 intent 생성
                             listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 final Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse(blogarr[1]));
                                 final Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse(blogarr[6]));
@@ -77,6 +87,7 @@ public class Sub_BlogTab extends Fragment {
                                 final Intent intent9 = new Intent(Intent.ACTION_VIEW, Uri.parse(blogarr[41]));
                                 final Intent intent10 = new Intent(Intent.ACTION_VIEW, Uri.parse(blogarr[46]));
 
+                                //아이템 클릭시 해당 포스트 링크로 이동
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     if (position == 0)
@@ -145,58 +156,45 @@ public class Sub_BlogTab extends Fragment {
                     case XmlPullParser.START_TAG:
                         tag = xpp.getName(); //태그 이름 얻어오기
 
-                        if (tag.equals("item")) ; //첫번째 검색 결과
+                        if (tag.equals("item")) ;
                         else if (tag.equals("title")) {
-
-                            //sb.append("제목 : ");
+                            //제목 :
                             xpp.next();
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("%%%@");
 
                         } else if (tag.equals("description")) {
-
-                            //sb.append("내용 : ");
+                            //내용 :
                             xpp.next();
-
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("%%%@");
 
                         } else if (tag.equals("link")) {
-
-                            //sb.append("링크 : ");
+                            //링크 :
                             xpp.next();
-
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("%%%@");
 
                         } else if (tag.equals("bloggername")) {
-
-                            //sb.append("블로거명 : ");
+                            //블로거명 :
                             xpp.next();
-
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("%%%@");
 
                         } else if (tag.equals("postdate")) {
-
-                            //sb.append("작성날짜 : ");
+                            //작성날짜 :
                             xpp.next();
-
                             sb.append(xpp.getText().replaceAll("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>", ""));
                             sb.append("%%%@");
                         }
-
                         break;
                 }
-
                 eventType = xpp.next();
-
             }
-
         } catch (Exception e) {
             return e.toString();
         }
-
+        //결과를 스트링으로 반환
         return sb.toString();
     }
 }
