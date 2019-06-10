@@ -36,6 +36,9 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+/**
+ * 로그인 액티비티
+ */
 public class SignInActivity extends AppCompatActivity  {
 
     public static int TIME_OUT = 1001;
@@ -62,9 +65,10 @@ public class SignInActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_sign_in);
 
         ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
-        actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
+        actionBar.setDisplayHomeAsUpEnabled(true);  //액션바에 뒤로가기 버튼 나타내기
 
-        boolean autologin = PreferenceUtil.getInstance(this).getBooleanExtra("AutoLogin");  //출력
+        //자동로그인 체크여부를 체크
+        boolean autologin = PreferenceUtil.getInstance(this).getBooleanExtra("AutoLogin");
 
         forgot_pw_btn = (Button) findViewById(R.id.forgotPw_btn);
         remember =(CheckBox) findViewById(R.id.rememberlogin);
@@ -98,26 +102,34 @@ public class SignInActivity extends AppCompatActivity  {
             }
         }
     };
+
+    /**
+     * sign in 버튼 클릭시 실행
+     */
     public void sign_In(View v) {
 
+        //로그인 되어있는 경우 로그아웃
         if(mFirebaseUser != null)
             FirebaseAuth.getInstance().signOut();
 
         email = email_login.getText().toString();
         password = pwd_login.getText().toString();
 
+        //이메일 입력 칸이 빈칸인 경우 알림
         if(TextUtils.isEmpty(email)){
             Toast.makeText(this, "email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
+        //비밀번호 입력 칸이 빈칸인 경우 알림
         if(TextUtils.isEmpty(password)){
             Toast.makeText(this, "password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        //로그인 성공 여부를 firebase를 통해서 확인
+        //이메일 인증을 한경우에만 로그인
         if(isValidEmail() && isValidPasswd()) {
-         //   loginUser(email, password);
-                // 로그인 성공
+
             firebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -133,10 +145,12 @@ public class SignInActivity extends AppCompatActivity  {
                                         email_login.setText(null);
                                         pwd_login.setText(null);
 
+                                        //다이얼로그 로딩화면
                                         dialog = ProgressDialog.show(SignInActivity.this, "로그인중입니다."
                                                 , "잠시만 기다려주세요");
                                         mHandler.sendEmptyMessageDelayed(TIME_OUT, 2000);
 
+                                        //자동로그인 체크 되어있는 경우 AESCipher을 이용하여 로그인시 이메일과 비밀번호를 암호화하여 SharedPreference에 저장
                                         if(remember.isChecked()) {
                                             PreferenceUtil.getInstance(getApplicationContext()).putBooleanExtra("AutoLogin", true);
                                             try {
@@ -158,6 +172,7 @@ public class SignInActivity extends AppCompatActivity  {
                                                 e.printStackTrace();
                                             }
                                         }
+                                        //자동 로그인 취소 된 경우 이메일과 비밀번호를 SharedPreference에서 삭제 시킴
                                         else {
                                             PreferenceUtil.getInstance(getApplicationContext()).putBooleanExtra("AutoLogin", false);
                                             PreferenceUtil.getInstance(getApplicationContext()).removePreference("LoginID");
@@ -183,6 +198,7 @@ public class SignInActivity extends AppCompatActivity  {
     }
 
     private void load() {
+        //자동로그인 체크된 상태로 이 액티비티로 오면 SharedPreference에 저장된 이메일과 비밀번호를 복호한다.
         try {
             email_login.setText(AESCipher.AES_Decode(PreferenceUtil.getInstance(this).getStringExtra("LoginID")));
             pwd_login.setText(AESCipher.AES_Decode(PreferenceUtil.getInstance(this).getStringExtra("LoginPW")));
@@ -232,7 +248,6 @@ public class SignInActivity extends AppCompatActivity  {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
         }

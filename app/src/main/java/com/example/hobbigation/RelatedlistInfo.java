@@ -1,5 +1,8 @@
 package com.example.hobbigation;
 
+/**
+ * 연관 취미 이름과 url을 담는 클래스
+ */
 public class RelatedlistInfo {
     private String name = "";
     private String url = "";

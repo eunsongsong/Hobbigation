@@ -38,6 +38,9 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
+/**
+ * 회원가입 화면
+ */
 public class SignUpActivity extends AppCompatActivity {
 
     public static int TIME_OUT = 1001;
@@ -92,6 +95,8 @@ public class SignUpActivity extends AppCompatActivity {
         male_check = (CheckBox) findViewById(R.id.male);
         female_check = (CheckBox) findViewById(R.id.female);
 
+
+        //남성 여부 체크
         male_check.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +106,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        //여성 여부 체크
         female_check.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +116,8 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        //비밀번호 일치 여부 확인
+        //일치하면 회원가입 버튼 활성화
         check_pwd.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -134,6 +142,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        //회원가입 하면 유저를 등록
         sign_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +169,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         }
     };
-
+    // 이메일 유효성 검사
     private boolean isValidEmail() {
         if (email.isEmpty()) {
             // 이메일 공백
@@ -177,6 +186,8 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     // 회원가입
+    //firebase에 이메일 인증 방식 사용
+    //등록된 이메일이 아니면 firebase authentication에 등록되고 인증 메일 발송
     private void createUser(final String email, String password) {
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -198,12 +209,15 @@ public class SignUpActivity extends AppCompatActivity {
                                             dialog = ProgressDialog.show(SignUpActivity.this, "회원가입이 완료되었습니다!"
                                                     , mFirebaseUser.getEmail() + "으로 인증메일이 전송되었습니다.", true);
                                             mHandler.sendEmptyMessageDelayed(TIME_OUT, 3000);
+
+                                            //디비에 유저 등록
                                             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                                         count++;
                                                     }
+                                                    //유저정보를 디비에 넣는다.
                                                     User user = new User(email, ename, egender, eage, "empty", "");
 
                                                     StringTokenizer st = new StringTokenizer(email, "@");
@@ -218,6 +232,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                                                 }
                                             });
+                                            //Default로 푸시알림 설정
+
                                             FirebaseMessaging.getInstance().subscribeToTopic("news");
                                             startActivity(new Intent(SignUpActivity.this, BeforeSignin.class));
                                         } else {                                             //메일 보내기 실패
@@ -235,21 +251,25 @@ public class SignUpActivity extends AppCompatActivity {
                 });
     }
 
+    //회원 등록 함수
     public void registerUser(){
         email = email_join.getText().toString();
         password = pwd_join.getText().toString();
         ename =  e_name.getText().toString();
         eage = e_age.getText().toString();
 
+        //이메일 입력 칸이 빈칸인 경우 알림
         if(TextUtils.isEmpty(email)){
             Toast.makeText(this, "Email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
+        //비밀번호 입력 칸이 빈칸인 경우 알림
         if(TextUtils.isEmpty(password)){
             Toast.makeText(this, "Password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        //유저 등록 함수 실행
         if(isValidEmail() && isValidPasswd()) {
             createUser(email, password);
             }
@@ -259,7 +279,6 @@ public class SignUpActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
         }

@@ -32,6 +32,13 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
+/**
+ * 취미 추천 이미지를 36개를 보여주는 화면이다.
+ * 12개의 카테고리가 있고 카테고리별로 랜덤으로 1개 씩 이미지를 보여준다. ( 1 세트)
+ * 3개의 세트로 구성되어 나타난다.
+ * 사용자가 이미지를 선택할 때 마다 사용자의 tag 정보가 바뀐다.
+ * 사용자가 이미지를 5개 이상 눌렀을 때에만 결과 확인이 가능하다.
+ */
 public class RecommendationActivity extends AppCompatActivity {
 
     String test = "";
@@ -55,7 +62,6 @@ public class RecommendationActivity extends AppCompatActivity {
 
     String temp2 = "";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,46 +83,40 @@ public class RecommendationActivity extends AppCompatActivity {
         final List<RecommnedInfo> items = new ArrayList<>();
         String[] detail = new String[12];
 
+        //detail 배열에 한 카테고리 별로 취미를 담는다.
+        //예외처리를 하여 A,B,C,,, 형태로 만들어 준다.
         for (int i = 0; i < 12; i++) {
             detail[i] = PreferenceUtil.getInstance(this).getStringExtra("detail" + i);
             if (detail[i].startsWith(","))
                 detail[i] = detail[i].substring(1);
             else if (detail[i].endsWith(","))
                 detail[i] = detail[i].substring(0, detail[i].length() - 1);
-            Log.d("----받은거", detail[i]);
         }
 
         //받은 세부 카테고리 배열에서 중복 값 제거 + 정렬
         String[] dupculture = detail[0].split(",");
         Object culture[] = removeDuplicateArray(dupculture);
 
-
         String[] dupmusic = detail[1].split(",");
         Object music[] = removeDuplicateArray(dupmusic);
-
 
         String[] dupart = detail[2].split(",");
         Object art[] = removeDuplicateArray(dupart);
 
-
         String[] dupbook = detail[3].split(",");
         Object book[] = removeDuplicateArray(dupbook);
-
 
         String[] dupsports = detail[4].split(",");
         Object sports[] = removeDuplicateArray(dupsports);
 
-
         String[] dupmake = detail[5].split(",");
         Object make[] = removeDuplicateArray(dupmake);
-
 
         String[] dupfood = detail[6].split(",");
         Object food[] = removeDuplicateArray(dupfood);
 
-
         String[] dupgame = detail[7].split(",");
-        final Object game[] = removeDuplicateArray(dupgame);
+        Object game[] = removeDuplicateArray(dupgame);
 
         String[] dupoutdoor = detail[8].split(",");
         Object outdoor[] = removeDuplicateArray(dupoutdoor);
@@ -127,10 +127,10 @@ public class RecommendationActivity extends AppCompatActivity {
         String[] duprest = detail[10].split(",");
         Object rest[] = removeDuplicateArray(duprest);
 
-
         String[] dupvol = detail[11].split(",");
         Object vol[] = removeDuplicateArray(dupvol);
 
+        //각 카테고리 별로 순서를 섞어 준다.
         Collections.shuffle(Arrays.asList(culture));
         Collections.shuffle(Arrays.asList(music));
         Collections.shuffle(Arrays.asList(art));
@@ -144,6 +144,7 @@ public class RecommendationActivity extends AppCompatActivity {
         Collections.shuffle(Arrays.asList(rest));
         Collections.shuffle(Arrays.asList(vol));
 
+        //섞은 것에서 0번 1번 2번 만 가져온다 -> 3개씩만 뽑는다.
         final String[][] total = {{culture[0].toString(), music[0].toString(), art[0].toString(), book[0].toString(),
                 sports[0].toString(), make[0].toString(), food[0].toString(), game[0].toString(), outdoor[0].toString(),
                 plant[0].toString(), rest[0].toString(), vol[0].toString()},
@@ -159,6 +160,7 @@ public class RecommendationActivity extends AppCompatActivity {
 
         };
 
+        // DB에서 읽을 때의 편의성을 위해서 가나다 순으로 정렬
         Arrays.sort(total[0]);
         Arrays.sort(total[1]);
         Arrays.sort(total[2]);
@@ -170,6 +172,9 @@ public class RecommendationActivity extends AppCompatActivity {
 
                 RecommnedInfo[] item = new RecommnedInfo[18];
 
+                //12개씩 3번 불러온다.
+                //랜덤을 쓰는 이유는 하나의 취미에 여러이미지 중 하나씩 가져온다.
+                //각 취미이미지의 태그를 가져온다.
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     for (int k = 0; k < 3; k++) {
                         for (int i = 0; i < 12; i++) {
@@ -184,19 +189,16 @@ public class RecommendationActivity extends AppCompatActivity {
                         }
                     }
                 }
-
-
-
+                //DB에서 취미를 한번 스캔하여 읽을수 있기 때문에
+                // #나 %를 붙여 연결하여 저장하고 다시 StringTokenizer를 이용하여 나눈다.
                 StringTokenizer st = new StringTokenizer(test, "#");
                 StringTokenizer st_two = new StringTokenizer(test_two, "%");
                 StringTokenizer st_three = new StringTokenizer(temp2, "#");
 
-
+                //RecyclerView Item에 담는다.
                 for (int i = 0; i < 18; i++) {
-
                     item[i] = new RecommnedInfo(st.nextToken(), st.nextToken(), st_two.nextToken(), st_two.nextToken()
                     ,st_three.nextToken(), st_three.nextToken());
-
                     items.add(item[i]);
                 }
                 recyclerView.setAdapter(new RecyclerAdapter(getApplicationContext(), items, R.layout.activity_recommendation));
@@ -214,7 +216,9 @@ public class RecommendationActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
             }
-
+            //사용자의 tag정보에 %로 연결되서 저장되고
+            // % 갯수를 보고 사용자가 이미지를 몇 번 체크 하는 지 센다
+            // 5번이 넘으면 결과 확인 버튼 활성화
             @SuppressLint("NewApi")
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -257,7 +261,11 @@ public class RecommendationActivity extends AppCompatActivity {
             }
         });
 
-
+        //결과 확인 버튼 리스너
+        //선택된 이미지들의 태그를 같은태그가 있는지 체크를 하고 있으면
+        //가중치를 메긴다.
+        //정수배열과 스트링 배열에 저장
+        //저장된 정보를 ConfirmActivity로 전달
         confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -272,49 +280,44 @@ public class RecommendationActivity extends AppCompatActivity {
 
                                 if (mFirebaseUser.getEmail().equals(ds.child("email").getValue().toString())) {
                                     String target = ds.child("tag").getValue().toString();
-                                    Log.d("c_Target", target);
-                                    // "꼬치#먹방#음식#길거리음식#맛집%헬스#런닝머신#실내#운동#달리기#걷기#건강%"
-                                    //# 4개 태그 5개 % 2개 #6개 태그 7개
+
                                     int row = 0;
                                     target = target.replace("%", "#");
-                                    Log.d("r_Target", target);
                                     StringTokenizer shop = new StringTokenizer(target, "#");
                                     row = shop.countTokens();
 
+                                    //태그 담을 배열 생성
                                     String[] tag = new String[row];
+                                    //태그의 가중치 배열 생성
                                     int[] weighcnt = new int[row];
 
                                     //같은 태그가 있는 지 없는지 체크
                                     boolean exist = false;
 
+                                    //태그하나당 가중치가 1이며
+                                    //중복된것이있으면 해당 태그 가중치를 1->2식으로 바꾼다
                                     for (int i = 0; i < row - minus; i++) {
                                         String insert = shop.nextToken();
                                         for (int j = 0; j < i; j++) {
                                             if (insert.equals(tag[j])) {
                                                 weighcnt[j] += 1;
-                                                Log.d("겹치는 태그 있을 때 tag[" + j + "]", tag[j]);
-                                                Log.d("겹치는거 태그 있을 때 weighcnt[" + j + "]", weighcnt[j] + "");
                                                 exist = true;
                                             }
                                         }
                                         if (!exist) {
                                             tag[i] = insert;
-                                            Log.d("tag[" + i + "]", tag[i]);
                                             weighcnt[i] += 1;
-                                            Log.d("weighcnt[" + i + "]", weighcnt[i] + "");
                                         } else {
                                             exist = false;
                                             i--;
                                             minus++;
                                         }
                                     }
-                                    // show_tag.setText(target);
-                                    //요것이 최종 태그다.
-                                    Log.d("Target", target);
 
+                                    //결과확인 페이지에 태그 배열을 전달
                                     PreferenceUtil.getInstance(getApplicationContext()).putStringExtra("tag", target);
                                     Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
-                                    //태그 가중치 배열
+                                    //태그 가중치 배열 전달
                                     intent.putExtra("tag[]", tag);
                                     intent.putExtra("weighcnt[]", weighcnt);
                                     intent.putExtra("row", row);
@@ -337,7 +340,7 @@ public class RecommendationActivity extends AppCompatActivity {
         });
 
     }
-
+    //입력으로 들어온 스트링 배열에서 중복을 제거하고 Object로 반환
     public Object[] removeDuplicateArray(String[] array) {
         Object[] removeArray = null;
         TreeSet ts = new TreeSet();
@@ -348,6 +351,7 @@ public class RecommendationActivity extends AppCompatActivity {
         return removeArray;
     }
 
+    //액션바의 뒤로가기 버튼 터치시 액티비티 finish
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

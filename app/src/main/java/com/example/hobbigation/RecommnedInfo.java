@@ -1,7 +1,9 @@
 package com.example.hobbigation;
 
-import java.util.StringTokenizer;
-
+/**
+ * 이미지를 왼쪽 오른쪽이 한 아이템이다.
+ * 각각 태그가 들어 있다.
+ */
 public class RecommnedInfo {
     private String url;
     private String url_two;

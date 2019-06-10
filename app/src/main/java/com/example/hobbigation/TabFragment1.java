@@ -117,7 +117,7 @@ public class TabFragment1 extends Fragment {
         autoViewPager.setBorderAnimation(true);
         autoViewPager.startAutoScroll(); //Auto Scroll 시작
 
-        //세부 카테고리 스트링 보내기
+        //세부 카테고리 스트링 보내기 ( 실내  야외 만으로 한 카테고리의 취미가 다 포함됨)
         String[] category = {"문화_공연","음악","예술","책_글","운동_스포츠","만들기","음식","게임_오락","아웃도어","식물","휴식","봉사활동"};
         for(int i=0; i<12; i++) {
             final int finalI = i;

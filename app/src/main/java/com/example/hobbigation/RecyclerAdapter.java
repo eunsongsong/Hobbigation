@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+/**
+ * 추천 이미지를 보여주는 RecyclerView Adpater
+ */
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
     Context context;
     List<RecommnedInfo> items;
@@ -37,8 +40,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     String tag_sum = "";
     String deletestr = "";
-
-    int touch = 0;
 
     FirebaseDatabase database_two = FirebaseDatabase.getInstance();
     DatabaseReference myRef_two = database_two.getReference("사용자");
@@ -63,12 +64,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
+        //이미지를 체크하고 각각 이미지 체크박스를 터치여부를 체크하여 반영
+        //RecyclerView가  스크롤을 내리거나 올리면 계속해서 아이템을 재사용하기 때문에 터치여부를 item에 저장하여 동기화 시킨다.
         holder.post1.setOnCheckedChangeListener(null);
         holder.post1.setChecked(item.isSelected());
 
         holder.post2.setOnCheckedChangeListener(null);
         holder.post2.setChecked(item.isSelected_two());
 
+
+        //각각 이미지를 Glide 라이브러리를 이용해 보여줌
             Glide.with(holder.itemView.getContext())
                     .load(item.getUrl())
                     .into(holder.image_post);
@@ -78,6 +83,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     .into(holder.image_post_two);
 
         //왼쪽 체크박스에 대한 이벤트 처리
+        //체크할때 마다 사용자의 태그가 변경
         holder.post1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -86,18 +92,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 if ( isChecked)
                 {
                     tag_sum += item.getTag() + "%";
-                    Log.d("TAG_SUM",tag_sum);
-                    Log.d("취미이름", item.getHobby_name());
                 }
                 //isChecked = false 일때 태그 삭제
                 else
                 {
                     deletestr = item.getTag()+"%";
                     tag_sum = tag_sum.replace(deletestr, "");
-                    Log.d("delete - TAG_SUM",tag_sum);
                 }
 
                 //DB에 업데이트
+                //사용자 태그에 업데이트
+                //사용자 노드 예시 user001:rnjsdnfka
+                //따라서 사용자의 이메일 정보를 받아  StringTokenizer를 이용하여 회원 정보 업데이트
                 myRef_two.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -122,6 +128,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         });
 
         //오른쪽 체크박스에 대한 이벤트 처리
+        //왼쪽 체크박스와 동일하다
         holder.post2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -130,15 +137,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 if ( isChecked)
                 {
                     tag_sum += item.getTag_two() + "%";
-                    Log.d("TAG_SUM",tag_sum);
-                    Log.d("취미이름", item.getHobby_name_two());
                 }
                 //isChecked = false 일때 태그 삭제
                 else
                 {
                     deletestr = item.getTag_two()+"%";
                     tag_sum = tag_sum.replace(deletestr, "");
-                    Log.d("delete - TAG_SUM",tag_sum);
                 }
 
                 //DB에 업데이트
