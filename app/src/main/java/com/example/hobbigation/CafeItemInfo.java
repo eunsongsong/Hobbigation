@@ -1,11 +1,15 @@
 package com.example.hobbigation;
 
+/**
+ * 취미 카페 검색 결과를 담는 item 클래스
+ */
+
 public class CafeItemInfo {
-        private String title;
-        private String desc;
-        private String url;
-        private String cafename;
-        private String cafeurl;
+        private String title;  //포스트 제목
+        private String desc;  //포스트 내용
+        private String url;  //포스트 url
+        private String cafename;  //카페명
+        private String cafeurl;  //카페url
 
     public CafeItemInfo(String title, String desc, String url, String cafename, String cafeurl) {
         this.title = title;

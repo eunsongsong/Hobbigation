@@ -3,7 +3,7 @@ package com.example.hobbigation;
 import android.graphics.drawable.Drawable;
 
 /**
- * 취미 블록검색 결과를 담는 item 클래스
+ * 취미 블로그 검색 결과를 담는 item 클래스
  */
 public class BlogListviewItem {
 

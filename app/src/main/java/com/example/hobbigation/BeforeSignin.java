@@ -42,8 +42,10 @@ public class BeforeSignin extends AppCompatActivity {
         sign_in_btn = (Button) findViewById(R.id.b_signin);
         sign_up_btn = (Button) findViewById(R.id.b_signup);
 
-        ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
-        actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
+        //제목줄 객체 얻어오기
+        ActionBar actionBar = getSupportActionBar();
+        //액션바에 뒤로가기 버튼 나타내기
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         firebaseAuth = FirebaseAuth.getInstance();
         //FriebaseAush 인스턴스를 가져와 항상 로그아웃 시킨다.
@@ -124,7 +126,7 @@ public class BeforeSignin extends AppCompatActivity {
 
     }
 
-
+    //액션바의 뒤로가기 버튼 2번 터치시 종료
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
