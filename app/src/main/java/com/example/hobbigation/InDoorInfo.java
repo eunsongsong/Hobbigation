@@ -1,6 +1,9 @@
 package com.example.hobbigation;
 
 
+/**
+ *   카테고리 실내 필터 결과를 담는 item 클래스
+ */
 public class InDoorInfo {
     private String name = "";
     private String url = "";

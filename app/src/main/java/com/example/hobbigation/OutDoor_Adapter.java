@@ -26,6 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+/**
+ * 취미 카테고리 중 야외 결과만 보여주는 adapter
+ */
+
 public class OutDoor_Adapter extends RecyclerView.Adapter<OutDoor_Adapter.ViewHolder> {
     Context context;
     List<OutDoorInfo> items;
@@ -52,8 +56,11 @@ public class OutDoor_Adapter extends RecyclerView.Adapter<OutDoor_Adapter.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final OutDoorInfo item=items.get(position);
+
+        //해당 카테고리에서 야외 취미인 이름
         holder.outdoor_tv.setText(item.getName());
 
+        //해당 카테고리에서 실내 취미 url
         Glide.with(holder.itemView.getContext())
                 .load(item.getUrl())
                 .into(holder.outdoor_img);
@@ -62,6 +69,8 @@ public class OutDoor_Adapter extends RecyclerView.Adapter<OutDoor_Adapter.ViewHo
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
 
+        //야외 취미 클릭시 찜한 취미인지 알기 위해 회원의 찜한 내용을 SharedPreference에 저장
+        // 취미 이름을 SubActivity로 전달하기 위해 SharedPreference에 저장
         holder.outdoor_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {

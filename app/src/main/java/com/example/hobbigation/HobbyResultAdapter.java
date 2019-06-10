@@ -16,6 +16,9 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+/**
+ * 취미결과를 보여주는 adapter (RecyclerView로 나타내기 위해서 사용)
+ */
 public class HobbyResultAdapter extends RecyclerView.Adapter<HobbyResultAdapter.ViewHolder> {
     Context context;
     List<HobbyResultInfo> items;
@@ -38,14 +41,15 @@ public class HobbyResultAdapter extends RecyclerView.Adapter<HobbyResultAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final HobbyResultInfo item = items.get(position);
 
-        Log.d("asdasd",item.getHobby_name());
+        //취미 결과 이름 보여줌
         holder.hobby_result_tv.setText(item.getHobby_name());
 
-
+        //취미 결과 이미지를 보여줌
         Glide.with(holder.itemView.getContext())
                 .load(item.getHobby_url())
                 .into(holder.hobby_result_img);
 
+        //취미 결과에서 정보제공하기위해서 아이템 클릭시 취미이름을 SubActivity로 보냄
         holder.hobby_result_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

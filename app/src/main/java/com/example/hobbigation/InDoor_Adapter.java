@@ -23,7 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-;
+/**
+ * 취미 카테고리 중 실내 결과만 보여주는 adapter
+ */
 
 public class InDoor_Adapter extends RecyclerView.Adapter<InDoor_Adapter.ViewHolder> {
     Context context;
@@ -51,7 +53,11 @@ public class InDoor_Adapter extends RecyclerView.Adapter<InDoor_Adapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final InDoorInfo item=items.get(position);
+
+        //해당 카테고리에서 실내 취미인 이름
         holder.indoor_tv.setText(item.getName());
+
+        //해당 카테고리에서 실내 취미 url
         Glide.with(holder.itemView.getContext())
                 .load(item.getUrl())
                 .into(holder.indoor_img);
@@ -65,6 +71,9 @@ public class InDoor_Adapter extends RecyclerView.Adapter<InDoor_Adapter.ViewHold
             public void onClick(final View v) {
                 final Intent intent = new Intent(v.getContext(),SubActivity.class);
 
+
+                //실내 취미 클릭시 찜한 취미인지 알기 위해 회원의 찜한 내용을 SharedPreference에 저장
+                // 취미 이름을 SubActivity로 전달하기 위해 SharedPreference에 저장
                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                    @Override
                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

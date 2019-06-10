@@ -1,5 +1,8 @@
 package com.example.hobbigation;
 
+/**
+ *   카테고리 참여 필터 결과를 담는 item 클래스
+ */
 public class PartInfo {
     private String name = "";
     private String url = "";

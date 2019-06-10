@@ -46,7 +46,6 @@ public class GuideActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // NavUtils.navigateUpFromSameTask(this);
                 backPressCloseHandler.onBackPressed();
                 return true;
         }
@@ -56,7 +55,6 @@ public class GuideActivity extends AppCompatActivity {
     //뒤로가기 버튼 클릭시 호출
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
     }
 

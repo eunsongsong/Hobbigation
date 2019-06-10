@@ -19,6 +19,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+/**
+ * TabFragment1에서 카테고리 12개를 보여주는 adapter
+ */
 public class Main_CategoryAdapter extends RecyclerView.Adapter<Main_CategoryAdapter.ViewHolder>{
     Context context;
     List<Main_CategoryItem> items;
@@ -47,8 +50,11 @@ public class Main_CategoryAdapter extends RecyclerView.Adapter<Main_CategoryAdap
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Main_CategoryItem item=items.get(position);
 
+        //카테고리 아이템 이미지 설정
         holder.cate_img.setImageDrawable(item.getDrawable());
 
+        //아이템 클릭시 실내,야외,참여,감상별로 해당 카테고리의 취미들을 가져와서
+        //CategoryDetailActivity 로 전달하여 취미들을 보여준다.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
