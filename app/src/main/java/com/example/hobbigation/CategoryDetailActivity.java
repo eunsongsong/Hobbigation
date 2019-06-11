@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 카테고리가 선택되고 해당 카테고리의 취미들을 실내 야외 참여 감상으로 나누어서 보여주는 화면
+ * 4개의 RecyclerView가 있다.
+ */
 public class CategoryDetailActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView_in;
@@ -45,29 +49,34 @@ public class CategoryDetailActivity extends AppCompatActivity {
         cate_tv = (TextView)findViewById(R.id.category_tv);
 
         ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
-        actionBar.setDisplayHomeAsUpEnabled(true);   //업버튼 <- 만들기
+        actionBar.setDisplayHomeAsUpEnabled(true);    //액션바에 뒤로가기 버튼 나타내기
 
+        //어떤 카테고리가 선택되었는 지 intent로 받아온다.
         final Intent intent = getIntent();
         String category = intent.getStringExtra("category");
 
+        //카테고리의 실내 취미들을 A B C D 형태로 담는다.
         temp = intent.getStringExtra("실내").replace("[","");
         temp = temp.replace("]","");
         temp = temp.replace(" ","");
         indoor = temp.split(",");
         Arrays.sort(indoor);
 
+        //카테고리의 야외 취미들을 A B C D 형태로 담는다.
         temp = intent.getStringExtra("야외").replace("[","");
         temp = temp.replace("]","");
         temp = temp.replace(" ","");
         outdoor = temp.split(",");
         Arrays.sort(outdoor);
 
+        //카테고리의 감상 취미들을 A B C D 형태로 담는다.
         temp = intent.getStringExtra("감상").replace("[","");
         temp = temp.replace("]","");
         temp = temp.replace(" ","");
         see = temp.split(",");
         Arrays.sort(see);
 
+        //카테고리의 참여 취미들을 A B C D 형태로 담는다.
         temp = intent.getStringExtra("참여").replace("[","");
         temp = temp.replace("]","");
         temp = temp.replace(" ","");
@@ -76,19 +85,22 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
         cate_tv.setText(category);
 
+        //실내 RecyclerView
         recyclerView_in=(RecyclerView)findViewById(R.id.recycler_indoor);
         final LinearLayoutManager layoutManager_in=new LinearLayoutManager(getApplicationContext());
         layoutManager_in.setOrientation(LinearLayout.HORIZONTAL);
         recyclerView_in.setHasFixedSize(true);
         recyclerView_in.setLayoutManager(layoutManager_in);
 
+        //실내 취미의 이름과 url를 DB에서 가져와 RecyclerView 아이템에 담는다.
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                      List<InDoorInfo> items_in =new ArrayList<>();
-                    InDoorInfo[] item = new InDoorInfo[indoor.length]; // 9
+                    InDoorInfo[] item = new InDoorInfo[indoor.length];
 
                     int a = 0;
+
                         for(DataSnapshot ds : dataSnapshot.getChildren()) {
 
                             if (a > indoor.length - 1)
@@ -114,13 +126,14 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 }
             });
 
+        //야외 RecyclerView
         recyclerView_out=(RecyclerView)findViewById(R.id.recycler_outdoor);
         final LinearLayoutManager layoutManager_out=new LinearLayoutManager(getApplicationContext());
         layoutManager_out.setOrientation(LinearLayout.HORIZONTAL);
         recyclerView_out.setHasFixedSize(true);
         recyclerView_out.setLayoutManager(layoutManager_out);
 
-
+        //야외 취미의 이름과 url를 DB에서 가져와 RecyclerView 아이템에 담는다.
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -138,7 +151,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
                     String c = ds.getKey().trim();
 
                     if (b.equals(c)) {
-
                         item[a] = new OutDoorInfo(b, ds.child("url_태그").child("0").child("url").getValue().toString());
                         items_out.add(item[a]);
                         a++;
@@ -153,6 +165,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
             }
         });
 
+        //참여 RecyclerView
         recyclerView_part=(RecyclerView)findViewById(R.id.recycler_part);
         final LinearLayoutManager layoutManager_part=new LinearLayoutManager(getApplicationContext());
         layoutManager_part.setOrientation(LinearLayout.HORIZONTAL);
@@ -160,7 +173,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
         recyclerView_part.setLayoutManager(layoutManager_part);
 
 
-
+        //참여 취미의 이름과 url를 DB에서 가져와 RecyclerView 아이템에 담는다.
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -193,12 +206,14 @@ public class CategoryDetailActivity extends AppCompatActivity {
             }
         });
 
+        //감상 RecyclerView
         recyclerView_see=(RecyclerView)findViewById(R.id.recycler_see);
         final LinearLayoutManager layoutManager_see=new LinearLayoutManager(getApplicationContext());
         layoutManager_see.setOrientation(LinearLayout.HORIZONTAL);
         recyclerView_see.setHasFixedSize(true);
         recyclerView_see.setLayoutManager(layoutManager_see);
 
+        //감상 취미의 이름과 url를 DB에서 가져와 RecyclerView 아이템에 담는다.
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -231,11 +246,10 @@ public class CategoryDetailActivity extends AppCompatActivity {
         });
 
     }
-
+    //액션바의 뒤로가기 버튼 터치시 액티비티 finish
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
         }

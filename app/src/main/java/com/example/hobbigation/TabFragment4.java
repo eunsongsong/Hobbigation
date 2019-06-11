@@ -232,7 +232,7 @@ public class TabFragment4 extends Fragment {
                             }
 
                             //첫번째 카테고리 취미들을 찜을 제외한 취미들만 가져온다
-                            //hobby_one 배열에 저장장
+                            //hobby_one 배열에 저장
                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                if ( ds.getKey().equals(category_name[index])) {
                                     for (int k = 0; k < (int) ds.child("실내_야외").child(finalResult).getChildrenCount(); k++) {
@@ -309,8 +309,7 @@ public class TabFragment4 extends Fragment {
                                     }
                                 }
                             }
-
-                            //카테고리별로 나온 취미들을 가나다순으로 정렬 디비에서 읽기 편하기 위해서
+                            //디비에서 읽기 편하기 위해서 카테고리별로 나온 취미들을 가나다순으로 정렬
                             Arrays.sort(hobby_one, 0, a);
                             Arrays.sort(hobby_two,0, b);
                             Arrays.sort(hobby_three,0,c);
@@ -321,7 +320,7 @@ public class TabFragment4 extends Fragment {
                             //결과를 5개만 보여준다.
                             String[] result = new String[5];
 
-                            //카테고리가 한 개 인경우 5개까지 뽑는다.
+                            //카테고리가 한 개 인경우 최대 5개까지 뽑는다.
 
                             int count = 0 ;
                             boolean ran_check = false;
@@ -358,8 +357,8 @@ public class TabFragment4 extends Fragment {
                                 }
                             }
                             //카테고리가 2개 인경우 hobby_one, hobby_two 배열에서 나누어 뽑는다.
-                            //한쪽이 매우 적은 경우
-                            //
+                            //한쪽이 매우 적을 경우에 대비하여 예외 처리
+                            //최대한 hobby_one에서 많이 뽑는다. (사용자가 많이 선택하여 가중치가 높은 카테고리)
                             else if (category_cnt == 2)
                             {
                                 if ( a + b <= 5 )
@@ -449,7 +448,14 @@ public class TabFragment4 extends Fragment {
                                     count = 5;
                                 }
                             }
-                            else //카테 고리 3개 인경우
+
+                            //카테 고리 3개 인경우
+                            //hobby_one 2개
+                            //hobby_two 2개
+                            //hobby_three 1개
+                            //이런식으로 뽑는 것을 목표로하고 어느 한 곳에서 개수가 2개나 1개가 안되는 경우 예외처리
+                            //가장 많이 뽑는 우선순위는 hobby_one > hobby_two > hobby_three
+                            else
                             {
                                 // a + b + c 가 5가 안되는 경우
                                 if ( hobby_sum <= 5)
@@ -725,7 +731,7 @@ public class TabFragment4 extends Fragment {
                                         count = 5;
                                     }
                                 }
-                                else //마지막 날
+                                else
                                 {
                                     if ( a < 2 && b == 2 )
                                     {
@@ -881,12 +887,16 @@ public class TabFragment4 extends Fragment {
                                 }
                             }
 
+                            //결과로 나온 연관 취미들을 DB에서 비교하기 쉽게 가나다순으로 정렬
                             Arrays.sort(result,0, count);
 
+                            //count는 연관취미 결과 개수
                             final String[] final_related_hobby = new String[count];
                             final int final_count = count;
+
                             System.arraycopy(result, 0, final_related_hobby, 0 , count);
 
+                            //결과로 나온 연관 취미의 이름과 url을 RecyclerView Item에 담는다.
                             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -896,7 +906,7 @@ public class TabFragment4 extends Fragment {
 
                                     if(final_related_hobby.length == 0) //아무 취미가 없는경우
                                         return;
-              
+
                                     int k = 0;
 
                                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
