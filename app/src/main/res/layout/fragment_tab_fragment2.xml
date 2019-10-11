@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-     android:layout_height="match_parent"
-        android:layout_width="match_parent">
-<FrameLayout
-    android:layout_width="match_parent"
+
+<FrameLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TabFragment2"
-    android:id="@+id/container123123">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/favorite"
@@ -503,4 +496,3 @@
     </RelativeLayout>
 
 </FrameLayout>
-</LinearLayout>
